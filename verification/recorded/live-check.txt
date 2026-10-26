@@ -1,0 +1,57 @@
+SQ-19 Task 10 step 5 — live installation check
+Run 2026-09-18 by the author, Claude Code v2.1.276, plugin installed at commit bc4c8ff
+(user scope, marketplace added from the local checkout).
+
+RESULT: all six sub-steps pass. No README fallback needed.
+
+1. Does Claude Code load the plugin from this layout?  YES.
+   /plugin marketplace add <local checkout>  -> "Successfully added marketplace: research-harness"
+   /plugin install research-harness@research-harness -> "Installed research-harness. Plugin is now active."
+   /reload-plugins -> 11 plugins, 55 skills, 43 hooks.
+   The skill list shows research-harness:canvas and research-harness:canvas-review.
+   accept is absent from the model's list, which is correct: disable-model-invocation.
+   Installed as a copy in the plugin cache at gitCommitSha bc4c8ff, not a symlink,
+   so a change in the checkout needs a reinstall to take effect.
+
+2. Silence in a repo with no research/canvas.md?  YES.
+   The plugin's own repo is such a repo and injects nothing.
+
+3. SessionStart injection?  YES. Quoted verbatim by the model in that session:
+     research-harness · paper project "livecheck" · profile is-qualitative · mode seed
+     Elements: 1 open (+1 open) · 2 empty · ... · 9 empty
+     Empty: 2, 3, 4, 5, 6, 7, 8, 9 · Open (proposals only): 1
+     Dependency violations: none · Stale acceptances: none · Ledger: empty
+     Decisions not yet seen: none
+     Rules for research/canvas.md: ...
+
+4. Does $ARGUMENTS reach the ! line of the accept skill?  YES — the open question of this check.
+   /research-harness:accept 1.1 promoted the statement and reported
+   entry #1, text 92393e83, seal 6af08639c3e48cbe.
+   The ! prompt-prefix fallback is NOT needed; the README's Use section stands as written.
+   Cross-check: the text hash equals the one computed on another machine path,
+   the seal does not, which is the intended key-per-project behaviour.
+
+5. Does the guard deny an [accepted] write by the model?  YES.
+   First attempt: the model declined on its own, citing the injected rules, without
+   attempting a write — so the guard was not exercised. Asked to run into it deliberately,
+   the Edit tool call was refused:
+     "Only the researcher may write [accepted] (question 1.2). Propose the change as
+      [proposed] alongside the existing statement, or let the researcher make it with
+      /research-harness:accept."
+   Blocked, not warned: 1.2 was unchanged afterwards. The refusal names the question,
+   derived from the write position rather than from the presence of the string.
+
+6. Does the acceptance verify afterwards?  YES.
+   research-harness review on the project: "verified: 1 sealed entry", no unlogged
+   acceptances, no stale acceptances.
+
+TWO FINDINGS, neither blocking, both recorded on the board:
+a) The guard makes plugin development awkward once installed. Two legitimate
+   read-only developer commands were refused during this check: a leading
+   CLAUDE_PLUGIN_ROOT=... assignment before the CLI (the SQ-27 environment rule,
+   which cannot tell a harmless variable from RESEARCH_HARNESS_STATE_DIR), and a
+   single command line mixing a read of the canvas with `node -e`. Both refusals
+   are correct by the stated rules and both named the way out.
+b) The status line reads "1 open (+1 open)" when an element's status is open and it
+   carries one proposal. The first word is the status, the second a count; the
+   stutter only occurs in that one case.

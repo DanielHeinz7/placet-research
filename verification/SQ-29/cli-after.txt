@@ -1,0 +1,62 @@
+SQ-29 cli class -- positional CLI inference (harnessInvocation) and its fall-through.
+Driven through hooks/guard-promotion.js with a PreToolUse payload; every ALLOWed command
+was then run with /bin/bash in the throwaway project and the canvas re-read.
+
+ID | class | ALLOW/DENY | effect | description
+A1 | cli | DENY | - | control: runner then the CLI then accept
+A2 | cli | DENY | - | control: the CLI in word 0
+A3 | cli | DENY | - | control: a runner flag before the CLI is skipped
+A4 | cli | DENY | - | control: `--` between the CLI and its subcommand
+A5 | cli | DENY | - | control: xargs with a value-taking option then the CLI
+A6 | cli | DENY | - | control: the CLI asked to log a DECISION
+A7 | cli | DENY | - | control: the runner word assembled from a recorded assignment
+A8 | cli | DENY | - | control: leading env assignment before the recognised direct form
+B1 | cli | DENY | - | env launches the runner and the CLI
+B2 | cli | DENY | - | command launches the runner and the CLI
+B3 | cli | DENY | - | exec launches the runner and the CLI
+B4 | cli | DENY | - | nice launches the runner and the CLI
+B5 | cli | DENY | - | sh -c carries the whole invocation as one quoted word
+B6 | cli | DENY | - | eval carries the whole invocation as one quoted word
+B7 | cli | DENY | - | find -exec runs the invocation
+B8 | cli | DENY | - | xargs with the runner in the command slot (the xargs branch never recurses into RUNNERS)
+B9 | cli | DENY | - | xargs -- then the runner
+B10 | cli | ALLOW | bytes 3157->3159 | LOST-COMMITTED ["e1/1.2 [stated] Speaking frequency is well documented; whether a"] | NEW-COMMITTED ["e1/1.2 [accepted] Speaking frequency is well documented; whether a"] | STATUS 1:stated,2:open,3:stated,4:empty,5:stated,6:empty,7:empty,8:empty,9:empty => 1:accepted,2:open,3:stated,4:empty,5:stated,6:empty,7:empty,8:empty,9:empty | review[unmarked=0 untagged=4 stale=1 unlogged=2 problems=0] | shell-exit=0 | the runner word is assembled at runtime, so the command name is opaque
+B11 | cli | DENY | - | a copy of the CLI under a name that is not in CLI_NAMES
+B12 | cli | DENY | - | a symlink to the CLI under another name
+B13 | cli | DENY | - | node -e requires the CLI and calls main
+B14 | cli | DENY | - | node --eval requires the CLI and calls main
+B15 | cli | DENY | - | boundary: the env bypass in a command that also names the state
+N1 | cli | ALLOW | file unchanged | shell-exit=254 | SQ-32: cd into the checkout then npm test
+N2 | cli | ALLOW | file unchanged | shell-exit=128 | SQ-32: git log with a research/ pathspec
+N3 | cli | ALLOW | file unchanged | shell-exit=0 | SQ-32: mkdir under a directory whose name is research-harness
+N4 | cli | ALLOW | file unchanged | shell-exit=128 | SQ-32: git -C a checkout named research-harness
+N5 | cli | ALLOW | file unchanged | shell-exit=1 | SQ-32: cat a file inside a directory named research-harness
+N6 | cli | ALLOW | file unchanged | shell-exit=0 | reading the canvas stays allowed
+N7 | cli | DENY | - | the guard still refuses a write to the canvas
+N8 | cli | DENY | - | the guard still refuses removing the canvas
+
+--- deny reasons ---
+A1 reason: Accepting a statement is the researcher's act, so `research-harness accept` cannot be run from the shell — under any name, quoting, or variable. Leave
+A2 reason: Accepting a statement is the researcher's act, so `research-harness accept` cannot be run from the shell — under any name, quoting, or variable. Leave
+A3 reason: Accepting a statement is the researcher's act, so `research-harness accept` cannot be run from the shell — under any name, quoting, or variable. Leave
+A4 reason: Accepting a statement is the researcher's act, so `research-harness accept` cannot be run from the shell — under any name, quoting, or variable. Leave
+A5 reason: Accepting a statement is the researcher's act, so `research-harness accept` cannot be run from the shell — under any name, quoting, or variable. Leave
+A6 reason: A DECISION entry is the researcher's act, so `research-harness log DECISION` cannot be run from the shell — nor `log` with a kind the guard cannot rea
+A7 reason: Accepting a statement is the researcher's act, so `research-harness accept` cannot be run from the shell — under any name, quoting, or variable. Leave
+A8 reason: Accepting a statement is the researcher's act, so `research-harness accept` cannot be run from the shell — under any name, quoting, or variable. Leave
+B1 reason: Accepting a statement is the researcher's act, so `research-harness accept` cannot be run from the shell — under any name, quoting, or variable. Leave
+B2 reason: Accepting a statement is the researcher's act, so `research-harness accept` cannot be run from the shell — under any name, quoting, or variable. Leave
+B3 reason: Accepting a statement is the researcher's act, so `research-harness accept` cannot be run from the shell — under any name, quoting, or variable. Leave
+B4 reason: Accepting a statement is the researcher's act, so `research-harness accept` cannot be run from the shell — under any name, quoting, or variable. Leave
+B5 reason: Accepting a statement is the researcher's act, so `research-harness accept` cannot be run from the shell — under any name, quoting, or variable. Leave
+B6 reason: Accepting a statement is the researcher's act, so `research-harness accept` cannot be run from the shell — under any name, quoting, or variable. Leave
+B7 reason: Accepting a statement is the researcher's act, so `research-harness accept` cannot be run from the shell — under any name, quoting, or variable. Leave
+B8 reason: Accepting a statement is the researcher's act, so `research-harness accept` cannot be run from the shell — under any name, quoting, or variable. Leave
+B9 reason: Accepting a statement is the researcher's act, so `research-harness accept` cannot be run from the shell — under any name, quoting, or variable. Leave
+B11 reason: Accepting a statement is the researcher's act, so `research-harness accept` cannot be run from the shell — under any name, quoting, or variable. Leave
+B12 reason: Accepting a statement is the researcher's act, so `research-harness accept` cannot be run from the shell — under any name, quoting, or variable. Leave
+B13 reason: Accepting a statement is the researcher's act, so `research-harness accept` cannot be run from the shell — under any name, quoting, or variable. Leave
+B14 reason: Accepting a statement is the researcher's act, so `research-harness accept` cannot be run from the shell — under any name, quoting, or variable. Leave
+B15 reason: Accepting a statement is the researcher's act, so `research-harness accept` cannot be run from the shell — under any name, quoting, or variable. Leave
+N7 reason: Only read-only shell access to the research state is allowed, and it redirects into the research state. Reads that pass: cat, grep, sed -n, git diff/l
+N8 reason: Only read-only shell access to the research state is allowed, and `rm` is not a read-only command. Reads that pass: cat, grep, sed -n, git diff/log/sh

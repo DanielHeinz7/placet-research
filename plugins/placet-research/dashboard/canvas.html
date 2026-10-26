@@ -1,0 +1,2010 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Research harness — canvas</title>
+<style>
+  /* The session view as a galley proof. What the authors said or decided is set
+     in one column; what an agent proposes waits in the margin as a red query,
+     tied to its slot by a leader line, until a person accepts it.
+     Paper, ink and hairlines carry the page; red marks queries and the one next
+     decision; blue marks links and focus. Fonts ship with the plugin
+     (dashboard/fonts, SIL OFL 1.1); no hosted font service. */
+  @font-face {
+    font-family: "Source Serif 4";
+    src: url("fonts/source-serif-4-latin-wght-normal.woff2") format("woff2");
+    font-weight: 200 900;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Source Serif 4";
+    src: url("fonts/source-serif-4-latin-wght-italic.woff2") format("woff2");
+    font-weight: 200 900;
+    font-style: italic;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Hanken Grotesk";
+    src: url("fonts/hanken-grotesk-latin-wght-normal.woff2") format("woff2");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+  }
+  :root {
+    color-scheme: light;
+    --paper: #ffffff;
+    --panel: #f5f5f7;
+    --ink: #1a1a1a;
+    --ink-2: #474747;
+    --ink-3: #4e4e55;
+    --line: #dadadd;
+    --edge: #85858c;
+    --red: #d2232a;
+    --red-ink: #ffffff;
+    --red-tint: #fdf0f0;
+    --red-hover: #b81d23;
+    --blue: #0b5cad;
+    --blue-tint: #e7f0f9;
+    --backdrop: rgba(26, 26, 26, 0.45);
+    --sans: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    /* The column grows with the window: 18px at 1440, larger on a projector. */
+    --t-col: clamp(1.0625rem, 0.5rem + 0.7vw, 1.75rem);
+    --t-body: clamp(1rem, 0.45rem + 0.65vw, 1.5rem);
+    --t-label: clamp(0.875rem, 0.35rem + 0.5vw, 1.25rem);
+    --t-head: clamp(1.25rem, 0.7rem + 0.9vw, 2rem);
+    --t-title: clamp(1.625rem, 0.8rem + 1.6vw, 3rem);
+    --margin: clamp(18rem, 12rem + 5vw, 26rem);
+    --sidw: 3.25rem;
+    --gap: clamp(0.75rem, 0.4rem + 0.5vw, 1.25rem);
+    --page: clamp(1rem, 0.4rem + 2vw, 2.25rem);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --paper: #141416;
+      --panel: #1d1d20;
+      --ink: #ececee;
+      --ink-2: #c9c9ce;
+      --ink-3: #b3b3ba;
+      --line: #36363c;
+      --edge: #84848c;
+      --red: #ff7176;
+      --red-ink: #141416;
+      --red-tint: #2b1b1d;
+      --red-hover: #ff8e92;
+      --blue: #74b6ff;
+      --blue-tint: #1a2a3d;
+      --backdrop: rgba(0, 0, 0, 0.65);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-padding-top: 1rem; }
+  body {
+    margin: 0;
+    font-family: var(--sans);
+    font-size: var(--t-body);
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--paper);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4, p, ol, ul, blockquote, figure { margin: 0; padding: 0; }
+  ol, ul { list-style: none; }
+  h1, h2, h3, h4 { font-family: var(--sans); line-height: 1.2; text-wrap: balance; }
+  button, input, textarea { font-family: inherit; font-size: inherit; color: inherit; }
+  svg.i { width: 1.05em; height: 1.05em; flex: none; display: block; }
+  a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  a:hover { text-decoration-thickness: 2px; }
+  ::selection { background: var(--blue-tint); color: var(--ink); }
+  textarea, input { caret-color: var(--red); }
+  :focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; border-radius: 3px; }
+  :focus-visible { scroll-margin: 6rem; }
+  [tabindex="-1"]:focus { outline: none; }
+  [tabindex="-1"]:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+  }
+  .load-message { padding: 1.5rem; }
+  .print-only { display: none; }
+
+  /* -- Controls ------------------------------------------------------- */
+  .action-btn, .ghost-btn, .present-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.4em;
+    min-height: 44px; padding: 0 0.9em;
+    border: 1px solid var(--edge); border-radius: 6px;
+    background: var(--paper); color: var(--ink);
+    font-size: var(--t-label); font-weight: 600; line-height: 1.1;
+    cursor: pointer; text-decoration: none;
+  }
+  .action-btn:hover, .ghost-btn:hover, .present-btn:hover { background: var(--panel); }
+  .action-btn-primary { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+  .action-btn-primary:hover { background: var(--ink-2); border-color: var(--ink-2); }
+  .action-btn[disabled] { color: var(--ink-3); border-color: var(--line); background: var(--panel); cursor: not-allowed; }
+  .ghost-btn[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+  /* -- Notices -------------------------------------------------------- */
+  #notice {
+    position: sticky; top: 0; z-index: 60;
+    background: var(--ink); color: var(--paper);
+    padding: 0.6rem var(--page); gap: 1rem; align-items: center; justify-content: space-between;
+  }
+  #notice[hidden] { display: none; }
+  #notice:not([hidden]) { display: flex; }
+  .notice-icon { font-size: 1rem; }
+  #notice button { background: transparent; color: var(--paper); border: 1px solid var(--paper); border-radius: 6px; padding: 0.25rem 0.8rem; font-weight: 600; font-size: var(--t-label); cursor: pointer; min-height: 32px; }
+  #notice button:focus-visible { outline-color: var(--paper); }
+  .notices-banner { margin: 0.75rem var(--page) 0; padding: 0.75rem 1rem; border: 1px solid var(--red); border-radius: 6px; background: var(--red-tint); color: var(--ink); }
+  .notices-banner p { margin: 0.15rem 0; font-size: var(--t-label); }
+  .notices-banner .seq-link { color: inherit; }
+  .skip-link { position: absolute; left: 0.75rem; top: -4rem; z-index: 70; background: var(--ink); color: var(--paper); padding: 0.6rem 1rem; border-radius: 6px; font-weight: 600; text-decoration: none; }
+  .skip-link:focus { top: 0.75rem; }
+
+  /* -- Top bar and field chips ------------------------------------------ */
+  #app { display: block; }
+  #topbar {
+    display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0.25rem 1.5rem;
+    padding: 0.5rem var(--page) 0;
+    background: var(--paper); border-bottom: 1px solid var(--line);
+  }
+  #brand { display: flex; align-items: center; gap: 0.6rem; align-self: center; font-weight: 700; font-size: var(--t-label); color: var(--ink); padding-bottom: 0.4rem; }
+  .brand-mark { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; width: 22px; height: 22px; }
+  .brand-mark i { display: block; background: var(--ink); }
+  .brand-mark i:nth-child(2) { background: var(--red); }
+  .brand-sep { color: var(--ink-3); font-weight: 400; }
+  #view-tabs { display: flex; flex-wrap: wrap; gap: 0.25rem; max-width: 100%; }
+  .segment {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    min-height: 44px; padding: 0 0.9rem;
+    color: var(--ink-2); font-size: var(--t-body); font-weight: 500; text-decoration: none; white-space: nowrap;
+    border-bottom: 3px solid transparent; margin-bottom: -1px;
+  }
+  .segment:hover { color: var(--ink); background: var(--panel); }
+  .segment.active { color: var(--ink); font-weight: 700; border-bottom-color: var(--blue); }
+  .segment .count { background: var(--line); color: var(--ink); border-radius: 999px; font-size: var(--t-label); font-weight: 700; padding: 0 0.5rem; line-height: 1.5; font-variant-numeric: tabular-nums; }
+  .present-btn { margin-left: auto; align-self: center; margin-bottom: 0.4rem; }
+
+  #fieldnav { display: flex; align-items: center; gap: 0.5rem 0.75rem; padding: 0.6rem var(--page); border-bottom: 1px solid var(--line); background: var(--paper); }
+  #fieldnav[hidden] { display: none; }
+  .fields-label { font-size: var(--t-label); color: var(--ink-3); }
+  .chips { flex: 1; min-width: 0; display: flex; flex-wrap: wrap; gap: 0.375rem; }
+  .chips li { display: flex; flex: calc(1 + var(--n, 0)) 1 3.25rem; min-width: 3rem; }
+  .chip {
+    container-type: inline-size;
+    flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.3rem;
+    min-height: 2.75rem; padding: 0 0.3rem; min-width: 0;
+    border: 1px solid var(--edge); border-radius: 6px;
+    background: var(--paper); color: var(--ink); text-decoration: none;
+    font-size: var(--t-label); font-weight: 600;
+  }
+  .chip:hover { background: var(--panel); }
+  .chip.empty { border-style: dashed; border-color: var(--ink); }
+  .chip[aria-current="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+  .chip-num { font-variant-numeric: tabular-nums; font-family: var(--sans); }
+  .chip-name { display: none; min-width: 0; overflow: hidden; font-weight: 500; line-height: 1.1; text-align: left; white-space: nowrap; text-overflow: ellipsis; }
+  /* The name shows as soon as it has room for a few letters; wide windows
+     give every chip that room, narrow ones keep the number alone. */
+  @container (min-width: 4.5rem) { .chip-name { display: block; } }
+  @media (min-width: 65rem) { .chips li { flex-basis: 6rem; min-width: 5rem; } }
+  .chip .mark { width: 0.8em; height: 0.8em; }
+  .chip.accent { box-shadow: inset 0 -3px 0 var(--ink); }
+
+  #body-shell { min-width: 0; }
+  #stage { display: block; padding: 0 var(--page) 3rem; min-width: 0; }
+  .view { display: none; }
+  .view.active { display: block; }
+  .page-section { margin-bottom: 2rem; }
+  .view-head { padding-top: 1.75rem; max-width: 64ch; }
+  .view-head h1, .poster-title { font-size: var(--t-title); font-weight: 700; letter-spacing: -0.01em; }
+  .view-sub { color: var(--ink-2); font-size: var(--t-body); margin-top: 0.35rem; max-width: 64ch; }
+
+  /* -- The proof: set column and margin ---------------------------------- */
+  .sheet { font-family: var(--serif); font-size: var(--t-col); margin-inline: auto; max-width: calc(var(--sidw) + 64ch); }
+  .poster-head { padding-top: 1.75rem; font-family: var(--sans); font-size: var(--t-body); }
+  .poster-eyebrow { color: var(--ink-3); font-size: var(--t-label); margin-top: 0.25rem; }
+  .poster-orientation { margin-top: 0.5rem; }
+  .proof { position: relative; margin-top: 0.5rem; }
+  .column { max-width: calc(var(--sidw) + 64ch); }
+  .lane-head { display: none; font-family: var(--sans); font-size: var(--t-label); color: var(--ink-2); }
+  .lane-head b { color: var(--ink); }
+  .lane-jump { display: block; margin-top: 0.4rem; text-align: left; }
+  .group-label { font-family: var(--sans); font-size: var(--t-label); color: var(--ink-3); padding-top: 1.75rem; }
+  .group-label span { margin-left: 0.5rem; }
+  .field { padding-top: 1.5rem; }
+  .field-title {
+    display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.1rem 0.7rem;
+    font-size: var(--t-head); font-weight: 650; letter-spacing: -0.005em;
+    padding-bottom: 0.3rem; border-bottom: 1px solid var(--ink);
+  }
+  .field-title .fnum { font-variant-numeric: tabular-nums; min-width: 1ch; }
+  .field-sub { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.1rem 1rem; font-family: var(--sans); font-size: var(--t-label); color: var(--ink-2); padding-top: 0.35rem; }
+  .field-sub .fq { flex: 1 1 auto; }
+  .field-link { background: none; border: 0; padding: 0; min-height: 24px; font: inherit; color: var(--blue); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+  .field-link:hover { text-decoration-thickness: 2px; }
+  .st { display: grid; grid-template-columns: var(--sidw) minmax(0, 1fr); column-gap: 0.5rem; padding-top: 0.9rem; }
+  .sid { font-family: var(--sans); font-size: var(--t-label); color: var(--ink-3); font-variant-numeric: tabular-nums; padding-top: 0.2rem; text-align: right; text-decoration: none; }
+  a.sid:hover { text-decoration: underline; color: var(--ink); }
+  .st:target .stext, .st:target .askline { background: var(--blue-tint); }
+  .status { display: flex; flex-wrap: wrap; align-items: center; gap: 0.1rem 0.5rem; font-family: var(--sans); font-size: var(--t-label); line-height: 1.2; margin-bottom: 0.2rem; }
+  .status-label { display: inline-flex; align-items: baseline; gap: 0.5rem; }
+  .status-word { font-weight: 700; }
+  .status-owner { font-weight: 400; color: var(--ink-3); }
+  .status-owner::before { content: "\00b7\00a0"; }
+  .stext { font-size: 1em; line-height: 1.45; max-width: 64ch; }
+  .st-tentative .stext { font-style: italic; }
+  .setnote { margin-top: 0.5rem; padding-top: 0.45rem; border-top: 1px solid var(--edge); font-family: var(--sans); font-size: var(--t-body); color: var(--ink-2); line-height: 1.4; }
+  .setnote b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .setnote q { font-family: var(--serif); font-size: 1em; color: var(--ink); quotes: "\201C" "\201D"; }
+  .newmark { margin-left: auto; font-weight: 600; color: var(--ink); border: 1px solid var(--ink); border-radius: 999px; padding: 0 0.6em; white-space: nowrap; }
+  .quiet { display: grid; grid-template-columns: var(--sidw) minmax(0, 1fr); column-gap: 0.5rem; padding-top: 0.75rem; font-family: var(--sans); font-size: var(--t-body); color: var(--ink-3); }
+  .quiet .sid { padding-top: 0; }
+  .askline { font-family: var(--sans); font-size: var(--t-body); color: var(--ink-2); }
+  .slots { margin-left: calc(var(--sidw) + 0.5rem); }
+  .slotpair { margin-top: 0.35rem; }
+  .slot {
+    position: relative; min-height: 2.5rem; display: flex; align-items: flex-end;
+    padding-bottom: 0.4rem; border-bottom: 1.5px dashed var(--red);
+    font-family: var(--sans); font-size: var(--t-label); color: var(--ink-3);
+  }
+  .slot .anchor { position: absolute; right: -4px; bottom: -6px; width: 9px; height: 9px; border-radius: 50%; background: var(--red); }
+  .slot.lit { border-bottom-style: solid; color: var(--ink); background: var(--red-tint); }
+  .slot.lit .anchor { transform: scale(1.5); }
+
+  /* A query: the agent's proposal, in the margin until a person accepts it. */
+  .query {
+    position: relative;
+    margin-top: 0.6rem;
+    font-family: var(--sans);
+    background: var(--paper); border: 1px solid var(--red); border-radius: 6px;
+    padding: 0.7rem 0.85rem 0.85rem;
+  }
+  .query .status { color: var(--red); }
+  .query .status-owner { color: var(--ink-3); }
+  .query .for { color: var(--ink-3); font-weight: 400; }
+  .query.lit, .query:focus-within { background: var(--red-tint); outline: 2px solid var(--red); outline-offset: 0; }
+  .qtext { font-size: var(--t-body); line-height: 1.4; }
+  .qacts { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.7rem; }
+  .qacts .action-btn { min-height: 44px; font-size: var(--t-label); padding: 0 0.7em; }
+  .query .action-btn-primary { background: var(--paper); border-color: var(--red); color: var(--red); }
+  .query .action-btn-primary:hover { background: var(--red-tint); }
+  .query.next .action-btn-primary { background: var(--red); color: var(--red-ink); }
+  .query.next .action-btn-primary:hover { background: var(--red-hover); border-color: var(--red-hover); }
+  .leaders { display: none; position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+  .leader { fill: none; stroke: var(--red); stroke-width: 1.25; opacity: 0.85; transition: stroke-width 0.15s ease-out; }
+  .leader.lit { stroke-width: 2.5; opacity: 1; }
+  .leader-dot { fill: var(--red); }
+
+  /* Wide enough for column and margin side by side: queries sit in the margin,
+     each tied to its slot by a leader line. */
+  @media (min-width: 1100px) {
+    #chrome { position: sticky; top: 0; z-index: 30; }
+    html { scroll-padding-top: 8rem; }
+    .sheet { max-width: calc(var(--sidw) + 64ch + var(--margin) + 3rem); }
+    .proof { padding-right: calc(var(--margin) + 3rem); }
+    .poster-head { padding-right: calc(var(--margin) + 3rem); }
+    .lane-head { display: block; position: absolute; top: 1.75rem; right: 0; width: var(--margin); }
+    .query { position: absolute; right: 0; width: var(--margin); margin-top: 0; }
+    .leaders { display: block; }
+  }
+  /* Narrow: each query sits directly under its slot and the leader becomes a rule. */
+  @media (max-width: 1099.98px) {
+    .query { margin-top: 0.5rem; padding-left: 1rem; }
+    .query::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--red); }
+    .slot { min-height: 2rem; }
+    .slot .anchor { display: none; }
+  }
+
+  /* -- Element view, field prose ------------------------------------------ */
+  .field-view { max-width: 64ch; margin-inline: auto; }
+  .element-nav { display: flex; justify-content: space-between; gap: 0.75rem; padding-top: 1.25rem; }
+  .field-head { padding-top: 1rem; }
+  .field-question { font-size: var(--t-head); font-weight: 700; }
+  .field-question-lg { font-size: var(--t-title); }
+  .field-eyebrow { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.4rem; font-size: var(--t-label); color: var(--ink-2); }
+  .num-badge { display: inline-grid; place-items: center; min-width: 1.6em; height: 1.6em; padding: 0 0.3em; border: 1px solid var(--ink); border-radius: 4px; font-weight: 700; font-size: var(--t-label); font-variant-numeric: tabular-nums; color: var(--ink); background: var(--paper); line-height: 1; }
+  .field-body-full { padding-top: 1rem; font-family: var(--serif); font-size: var(--t-col); }
+  .field-para { margin: 0.9rem 0 0; max-width: 64ch; line-height: 1.45; }
+  .field-para .status-label { display: flex; font-family: var(--sans); font-size: var(--t-label); margin-bottom: 0.15rem; }
+  .field-gap { color: var(--ink-3); }
+  .field-gap-question { font-family: var(--sans); font-size: var(--t-body); }
+  .field-gap-note { font-family: var(--sans); font-style: italic; font-size: var(--t-label); }
+  .stmt-draft, .stmt-tentative { font-style: italic; }
+  .stmt-actions { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; font-family: var(--sans); }
+  .src-ref { font-family: var(--sans); font-size: var(--t-label); line-height: 1; vertical-align: baseline; margin-left: 0.3em; color: var(--ink-3); }
+  .src-ref a { display: inline-flex; align-items: center; min-width: 24px; min-height: 24px; color: var(--blue); }
+  .source-key-wrap { margin-top: 1.25rem; padding-top: 0.6rem; border-top: 1px solid var(--line); }
+  .source-key { padding-left: 1.4rem; list-style: decimal; font-family: var(--sans); font-size: var(--t-label); color: var(--ink-2); display: flex; flex-direction: column; gap: 0.2rem; }
+  .source-key a { display: inline-flex; align-items: center; justify-content: center; min-width: 24px; min-height: 24px; }
+  .field-totalk-full { margin-top: 1.5rem; }
+  .field-discussion-title { color: var(--ink); font-weight: 700; }
+  .totalk-list, .agenda-findings { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.4rem; font-size: var(--t-body); }
+  .totalk-item { padding-top: 0.5rem; border-top: 1px solid var(--line); }
+  .entry-by { display: block; color: var(--ink-3); font-size: var(--t-label); }
+  .entry-note { display: block; color: var(--ink-2); font-size: var(--t-label); margin-top: 0.1rem; }
+  .comment-form { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--line); max-width: 64ch; }
+  .comment-form label { display: block; margin-top: 0.75rem; font-weight: 600; font-size: var(--t-label); }
+  .comment-form textarea, .comment-form input[type="text"], .dlg textarea, .dlg input[type="text"] {
+    display: block; width: 100%; margin-top: 0.35rem; padding: 0.6rem 0.75rem;
+    border: 1px solid var(--edge); border-radius: 6px; background: var(--paper); color: var(--ink); font-size: var(--t-body);
+  }
+  .comment-form .action-btn { margin-top: 0.75rem; }
+  .comment-error, .dlg-error { color: var(--red); font-weight: 700; font-size: var(--t-label); margin-top: 0.5rem; }
+  .comment-error:empty, .dlg-error:empty { display: none; }
+  textarea[aria-invalid="true"], input[aria-invalid="true"] { border-color: var(--red); border-width: 2px; }
+  .empty-note { color: var(--ink-2); font-style: italic; font-size: var(--t-label); margin-top: 0.75rem; }
+
+  /* -- To talk about, History ---------------------------------------------- */
+  .agenda-list, .agenda-gap-fields, .agenda-gap-list, .history-list { display: flex; flex-direction: column; margin-top: 1rem; max-width: 64ch; }
+  .agenda-item-open { display: block; width: 100%; text-align: left; background: none; border: 0; border-top: 1px solid var(--line); padding: 0.9rem 0; cursor: pointer; }
+  .agenda-item-open:hover { background: var(--panel); }
+  .agenda-item-head { display: flex; align-items: center; gap: 0.6rem; font-weight: 700; font-size: var(--t-head); }
+  .agenda-findings { padding-left: 2.4rem; font-weight: 400; }
+  .agenda-gaps { margin-top: 1.5rem; max-width: 64ch; border-top: 1px solid var(--ink); }
+  .agenda-gaps > summary, .agenda-gap-field > summary, .cmp-more summary { min-height: 44px; display: flex; align-items: center; gap: 0.6rem; cursor: pointer; font-weight: 600; }
+  .agenda-gap-count { color: var(--ink-2); font-weight: 400; font-size: var(--t-label); }
+  .agenda-gap-field { border-top: 1px solid var(--line); }
+  .agenda-gap-list { margin: 0 0 0.5rem 2.2rem; }
+  .agenda-gap-item { display: block; text-align: left; width: 100%; min-height: 44px; background: none; border: 0; padding: 0.4rem 0; color: var(--blue); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; font-size: var(--t-body); }
+  .by-filter { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+  .history-card { padding: 0.9rem 0; border-top: 1px solid var(--line); }
+  .history-meta { font-size: var(--t-label); color: var(--ink-3); margin-bottom: 0.25rem; }
+  .history-body { font-size: var(--t-body); }
+  .seal-flag { font-size: var(--t-label); color: var(--red); font-weight: 600; margin-bottom: 0.25rem; }
+  .session-divider { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0.9rem 0 0.3rem; border-top: 1px solid var(--ink); font-weight: 700; font-size: var(--t-label); }
+  .merge-line { padding: 0.5rem 0; color: var(--ink-2); font-size: var(--t-label); }
+  .seq-link { min-width: 24px; min-height: 24px; padding: 0; background: none; border: 0; font: inherit; color: var(--blue); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+  .status-label-authors .status-word, .status-label-model .status-word { font-family: var(--sans); }
+  .agenda-item-open .status-label, .history-body .status-label, .totalk-item .status-label { margin-right: 0.5rem; font-size: var(--t-label); }
+
+  /* -- Framings -------------------------------------------------------------- */
+  .cmp-grid { display: grid; grid-template-columns: repeat(var(--k, 3), minmax(15rem, 1fr)); gap: 0.5rem 1.5rem; margin-top: 1rem; }
+  .cmp-head-box { height: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: 0.25rem; border-bottom: 2px solid var(--ink); padding-bottom: 0.75rem; }
+  .cmp-name { font-size: var(--t-head); font-weight: 700; }
+  .cmp-lens { color: var(--ink-2); font-size: var(--t-label); margin-bottom: 0.4rem; }
+  .cmp-head .action-btn { margin-top: auto; }
+  .cmp-row-label { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin-top: 1rem; font-size: var(--t-body); font-weight: 700; }
+  .cmp-row-caption { font-weight: 400; color: var(--ink-2); }
+  .field-card { display: flex; flex-direction: column; gap: 0.4rem; padding: 0.75rem 0; border-top: 1px solid var(--line); }
+  .field-lead { font-family: var(--serif); font-size: var(--t-col); line-height: 1.4; }
+  .field-lead .status-label, .cmp-more .status-label { display: flex; font-family: var(--sans); font-size: var(--t-label); }
+  .cmp-diff { border-top: 2px solid var(--ink); }
+  .cmp-same .field-lead { color: var(--ink-2); }
+  .diff-tag { align-self: flex-start; font-size: var(--t-label); font-weight: 700; border: 1px solid var(--ink); border-radius: 999px; padding: 0 0.6em; }
+  .cmp-more { font-size: var(--t-label); }
+  .cmp-more .field-para { font-size: var(--t-body); }
+  .choose-note { margin-top: 1rem; padding: 0.6rem 0.8rem; border: 1px solid var(--edge); border-radius: 6px; color: var(--ink); font-size: var(--t-label); max-width: 64ch; }
+
+  /* -- Dialog (accept, choose) ------------------------------------------------- */
+  dialog.dlg { width: min(38rem, calc(100vw - 2rem)); max-height: calc(100vh - 2rem); padding: 1.4rem 1.6rem; border: 1px solid var(--ink); border-radius: 8px; background: var(--paper); color: var(--ink); overflow-y: auto; }
+  dialog.dlg::backdrop { background: var(--backdrop); }
+  .dlg h2 { font-size: var(--t-head); font-weight: 700; }
+  .dlg-sub { margin-top: 0.3rem; color: var(--ink-2); font-size: var(--t-body); }
+  .dlg-quote { margin: 0.9rem 0 0; padding: 0.5rem 0.8rem; border-left: 1px solid var(--ink); background: var(--panel); font-family: var(--serif); font-size: var(--t-body); }
+  .dlg label { display: block; margin-top: 1rem; font-size: var(--t-label); font-weight: 600; }
+  .dlg-hint { font-weight: 400; color: var(--ink-2); }
+  .dlg-checks { margin-top: 1rem; padding: 0.6rem 0.9rem; border: 1px solid var(--edge); border-radius: 6px; }
+  .dlg-checks h3 { font-size: var(--t-label); font-weight: 700; }
+  .dlg-checks ul { margin-top: 0.4rem; display: flex; flex-direction: column; gap: 0.25rem; font-size: var(--t-body); }
+  .dlg-checks .seq { font-variant-numeric: tabular-nums; font-weight: 700; margin-right: 0.4rem; }
+  .dlg-checks p { margin-top: 0.5rem; font-size: var(--t-label); color: var(--ink-2); }
+  .dlg-actions { margin-top: 1.2rem; display: flex; justify-content: flex-end; gap: 0.5rem; }
+
+  /* -- Present: one field at projector scale ---------------------------------------- */
+  #present {
+    position: fixed; inset: 0; z-index: 50; overflow: auto;
+    background: var(--paper); color: var(--ink);
+    --t-col: clamp(1.5rem, 0.9rem + 1.5vw, 3rem);
+    --t-body: clamp(1.25rem, 0.8rem + 1vw, 2.25rem);
+    --t-label: clamp(1.0625rem, 0.7rem + 0.7vw, 1.75rem);
+    --t-head: clamp(2rem, 1rem + 2.4vw, 4.25rem);
+    --margin: clamp(22rem, 12rem + 12vw, 40rem);
+    --sidw: 0rem;
+    padding: 0 var(--page) 3rem;
+  }
+  #present[hidden] { display: none; }
+  .present-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; padding: 1rem 0; font-size: var(--t-label); color: var(--ink-2); border-bottom: 1px solid var(--line); }
+  .present-bar .count { font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .present-bar .hint { margin-left: auto; }
+  #present .st { grid-template-columns: 4.5rem minmax(0, 1fr); }
+  #present .slots, #present .quiet { margin-left: 5rem; }
+  #present .quiet { grid-template-columns: 4.5rem minmax(0, 1fr); margin-left: 0; }
+  #present .field-title { border-bottom-width: 2px; }
+  @media (max-width: 1099.98px) { #present .st { grid-template-columns: 3.25rem minmax(0, 1fr); } }
+
+  /* -- Motion: one authored moment. The accepted text moves into the column and
+        the leader line retracts. Instant under prefers-reduced-motion. -------------- */
+  ::view-transition-group(sq-moved) { animation-duration: 0.45s; animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+  ::view-transition-old(sq-leader) { animation: sq-retract 0.3s cubic-bezier(0.4, 0, 1, 1) both; }
+  ::view-transition-new(sq-leader) { display: none; }
+  @keyframes sq-retract { to { clip-path: inset(0 0 0 100%); opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) {
+    ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+    .leader { transition: none; }
+  }
+
+  @media (max-width: 899.98px) {
+    #fieldnav { flex-wrap: wrap; }
+    .cmp-grid { grid-template-columns: repeat(var(--k, 3), minmax(0, 1fr)); }
+    .cmp-row-label, .element-nav { flex-wrap: wrap; }
+  }
+  @media (max-width: 600px) {
+    .cmp-grid { grid-template-columns: minmax(0, 1fr); }
+    .cmp-context { position: static; width: auto; height: auto; margin: 0; overflow: visible; clip: auto; white-space: normal; font-size: var(--t-label); font-weight: 700; }
+    .fields-label { display: none; }
+    .present-btn { margin-left: 0; }
+    .st, .quiet { grid-template-columns: 2.6rem minmax(0, 1fr); column-gap: 0.4rem; }
+    .slots { margin-left: 3rem; }
+  }
+
+  /* The proof prints as one column with its queries in line. */
+  footer { padding: 0.6rem var(--page) 1rem; font-size: var(--t-label); color: var(--ink-2); }
+  @media print {
+    #notice, #topbar, #fieldnav, #present, .action-btn, .comment-form, .stmt-actions, .qacts, .leaders, .lane-head,
+    .element-nav, .field-link, .skip-link, .poster-orientation { display: none !important; }
+    .print-only { display: block !important; }
+    :root { color-scheme: light; --paper: #fff; --ink: #1a1a1a; --ink-2: #474747; --ink-3: #4e4e55; --line: #dadadd; --edge: #85858c; --red: #d2232a; --t-col: 12px; --t-body: 12px; --t-label: 11px; --t-head: 15px; --t-title: 20px; }
+    .view { display: block !important; }
+    .sheet { max-width: none; }
+    .proof { padding-right: 0 !important; column-count: 2; column-gap: 1.2rem; }
+    .field { break-inside: avoid-column; }
+    .query { position: static !important; width: auto !important; break-inside: avoid; }
+    .slot .anchor, .query::before { display: none; }
+    #chrome { display: none !important; }
+    /* The poster is one A4 landscape page: three columns, type set for paper
+       (about 8 pt), the slot lines dropped because the query follows its
+       statement in the flow. A canvas fuller than the showcase fixture runs on
+       to a second page rather than set smaller. */
+    #poster { --t-col: 11px; --t-body: 10px; --t-label: 9.5px; --t-head: 13px; --t-title: 18px; --sidw: 2.2rem; }
+    #poster .poster-head { padding-top: 0; }
+    #poster .proof { column-count: 3; column-gap: 1.1rem; margin-top: 0.4rem; min-height: 0 !important; }
+    #poster .group-label { padding-top: 0.5rem; break-after: avoid; }
+    #poster .field { padding-top: 0.6rem; }
+    #poster .st, #poster .quiet { padding-top: 0.3rem; }
+    #poster .field-sub { padding-top: 0.15rem; }
+    #poster .slot { display: none; }
+    #poster .slotpair { margin-top: 0.2rem; }
+    #poster .query { margin-top: 0.2rem; padding: 0.3rem 0.5rem; }
+  }
+  @page { size: A4; margin: 2cm; }
+  @page poster { size: A4 landscape; margin: 1.2cm; }
+  @media print { .page-section { break-before: page; } #poster { page: poster; break-before: auto; } }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-decided" viewBox="0 0 16 16"><rect x="1" y="1" width="14" height="14" rx="3" fill="currentColor"/><path d="M4.5 8.3l2.4 2.4 4.7-5" fill="none" style="stroke:var(--paper)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-said" viewBox="0 0 16 16"><path d="M2.5 2.5h11a1 1 0 011 1v6.2a1 1 0 01-1 1H7.2L4 14v-3.3H2.5a1 1 0 01-1-1V3.5a1 1 0 011-1z" style="fill:var(--paper)" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M4.6 5.6h6.8M4.6 7.9h4.4" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></symbol>
+    <symbol id="i-draft" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" style="fill:var(--paper)" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.8a6.2 6.2 0 010 12.4z" fill="currentColor"/></symbol>
+    <symbol id="i-suggest" viewBox="0 0 16 16"><path d="M8 1.2l6.8 6.8L8 14.8 1.2 8z" style="fill:var(--paper)" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M6.6 6.4a1.5 1.5 0 112.1 1.4c-.5.3-.7.6-.7 1.1" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="8" cy="11.1" r=".8" fill="currentColor"/></symbol>
+  </defs>
+</svg>
+<a href="#stage" class="skip-link">Skip to content</a>
+<div id="notice" role="alert" hidden>
+  <span class="notice-icon" aria-hidden="true">&#9888;</span>
+  <span id="notice-text"></span>
+  <button type="button" id="notice-dismiss">Dismiss</button>
+</div>
+<div id="app">
+  <p class="load-message">Loading…</p>
+</div>
+<div id="present" role="region" aria-label="Presenting" hidden></div>
+<dialog id="dlg" class="dlg" aria-labelledby="dlg-title"></dialog>
+<script>
+(function () {
+  'use strict';
+
+  // The maintainer's 2026-09-30 direction (SQ-110 comment c_mun9rkzh_c1fd1c, point 1):
+  // each of the nine fields is headed by a plain human question; the canvas
+  // term goes underneath, small. The wording lives in hooks/lib/agenda.js and
+  // arrives with every state, so the tab and the CLI's Markdown export cannot
+  // drift apart; an element number outside 1-9 falls back to its own title.
+  var HUMAN_QUESTIONS = {};
+  var ROW_LABELS = [
+    { from: 1, to: 3, label: 'Motivation' },
+    { from: 4, to: 6, label: 'Method' },
+    { from: 7, to: 9, label: 'Contribution' }
+  ];
+
+  // One vocabulary for visible status labels in every reading view.
+  var STATUS_WORD = { accepted: 'Decided', stated: 'Said by the authors', tentative: 'Draft', proposed: 'Suggestion' };
+
+  var qs = new URLSearchParams(location.search);
+  var fixturePath = qs.get('fixture');
+  var fixtureMode = !!fixturePath;
+
+  // The filter narrows entry lists, never counts, statuses or the shared
+  // agenda. Its state lives only in the fragment and survives code redemption.
+  var UNKNOWN = 'unknown';
+  function nameOf(d) { return d.by || UNKNOWN; }
+  function readByFilter() {
+    return new URLSearchParams(location.hash.slice(1)).get('by');
+  }
+  var byFilter = readByFilter();
+  // A statement number is addressable as `#st-3.1`; the fragment survives the
+  // code redemption and a filter change next to `by=`.
+  var STATEMENT_HASH = /(?:^|[#&])(st-[\w.]+)/;
+  function writeByFilter() {
+    var parts = [];
+    if (byFilter !== null) parts.push('by=' + encodeURIComponent(byFilter));
+    var linked = STATEMENT_HASH.exec(location.hash);
+    if (linked) parts.push(linked[1]);
+    history.replaceState(null, '', location.pathname + location.search + (parts.length ? '#' + parts.join('&') : ''));
+  }
+  function setByFilter(name) {
+    byFilter = name;
+    writeByFilter();
+    render();
+    // Replacing the entry lists also replaces the clicked button. Keep
+    // keyboard focus on the active filter instead of dropping it to the page.
+    var active = app.querySelector('.by-filter button[aria-pressed="true"]');
+    if (active) active.focus();
+  }
+  function passesFilter(d) { return byFilter === null || nameOf(d) === byFilter; }
+  function namesIn(decisions) {
+    var names = [];
+    var unknown = false;
+    decisions.forEach(function (d) {
+      if (!d.by) unknown = true;
+      else if (names.indexOf(d.by) < 0) names.push(d.by);
+    });
+    return unknown && names.indexOf(UNKNOWN) < 0 ? names.concat([UNKNOWN]) : names;
+  }
+  function renderEntryBy(d) {
+    return '<span class="entry-by">' + (d.by ? 'By ' + esc(d.by) : UNKNOWN) + '</span>';
+  }
+
+  // The URL carries a single-use code, not the write token. The view trades
+  // the code for the token once and keeps the token in this variable only:
+  // never in storage, never back in the URL.
+  var token = null;
+  var sessionCode = null;
+  if (!fixtureMode) {
+    var m = /(?:^|[#&])c=([0-9a-f]+)/.exec(location.hash);
+    sessionCode = m ? m[1] : null;
+    writeByFilter();
+  }
+  var LINK_USED = 'This session link was already used. Stop `serve` and start it again.';
+
+  var state = null;
+  var activeView = 'poster';
+  // The change mark: statements whose text or status differs from the view's
+  // previous state read. It lasts until the next read; there is no toast.
+  var previousSigs = null;
+  var changedNow = {};
+  // Present mode: the number of the field on the projector, or null.
+  var presentField = null;
+  var presentNode = document.getElementById('present');
+  var app = document.getElementById('app');
+  var noticeBox = document.getElementById('notice');
+  var noticeText = document.getElementById('notice-text');
+  document.getElementById('notice-dismiss').addEventListener('click', function () { noticeBox.hidden = true; });
+
+  function showNotice(msg) {
+    noticeText.textContent = msg;
+    noticeBox.hidden = false;
+  }
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function titleize(slug) {
+    return String(slug || '').split(/[-_]+/).filter(Boolean).map(function (w) {
+      return w.charAt(0).toUpperCase() + w.slice(1);
+    }).join(' ');
+  }
+
+  // Point 2: frontmatter.title when the researcher gave one, else the
+  // project slug titleized as before.
+  function paperTitle(s) {
+    var t = s.frontmatter && s.frontmatter.title;
+    if (t && String(t).trim()) return String(t).trim();
+    return titleize(s.project || (s.frontmatter && s.frontmatter.project) || '') || 'Untitled project';
+  }
+
+  // Point 3: "the citekey in the source list" becomes "Gerlach & Cenfetelli
+  // 2020" — a citekey of the `author-author-year` or `author-etal-year`
+  // shape a researcher's own bibliography tool would produce. A citekey
+  // outside that shape (no trailing 4-digit year) is shown as written,
+  // because guessing at an unfamiliar convention is worse than the raw key.
+  function formatCitekey(key) {
+    var parts = String(key).split('-').filter(Boolean);
+    var year = parts[parts.length - 1];
+    if (!/^\d{4}$/.test(year)) return key;
+    var authors = parts.slice(0, -1);
+    if (!authors.length) return key;
+    var names = authors[authors.length - 1] === 'etal'
+      ? titleize(authors[0]) + ' et al.'
+      : authors.map(titleize).join(' & ');
+    return names + ' ' + year;
+  }
+
+  // Extracts the page reference from a statement's `src:` tag so the view
+  // never shows the raw tag text (point 4: "no src: text"). Falls back to
+  // the whole tag value when no "p. …" portion is present, and handles the
+  // `unverified` tag from the sparse fixture. `full` is what the source-key
+  // list shows: "Gerlach & Cenfetelli 2020, p. 1706", not the citekey.
+  function pageRef(statement) {
+    var tag = (statement.tags || [])[0];
+    if (!tag) return null;
+    if (tag === 'unverified') return { label: 'unverified', full: 'No source found; unverified.' };
+    if (tag.indexOf('src:') === 0) {
+      var value = tag.slice(4).trim();
+      var split = /^([\w-]+)\s+(p\.\s*\S.*)$/.exec(value);
+      if (split) {
+        return { label: split[2].trim(), full: formatCitekey(split[1]) + ', ' + split[2].trim() };
+      }
+      var match = /p\.\s*\S.*$/.exec(value);
+      return { label: match ? match[0].trim() : value, full: value };
+    }
+    return { label: tag, full: tag };
+  }
+
+  // A log entry body is the entry's text followed by optional labelled lines
+  // that hooks/lib/decisions.js writes as `**By:** …`, `**Why:** …`,
+  // `**Explained:** …`, `**Rejected:** …`, `**Open at acceptance:** #a, #b` and
+  // `**Supersedes:** #n`. Split those off first, so the main text ends at its
+  // own trailing "[marker, src: …]" annotation (the same free-text convention
+  // canvas.md uses for statements). That annotation becomes a visible status label and the
+  // page reference is kept, quietly, the way a statement's source appears. Text
+  // on the lines after a labelled line belongs to that label. The label
+  // pattern is the library's (FIELD_RE in hooks/lib/decisions.js), and like the
+  // library the page never reads an entry's first line as a label: that line
+  // is the researcher's text, whatever it looks like.
+  var ENTRY_LABEL = /^\*\*(By|Why|Explained|Rejected|Open at acceptance|Supersedes):\*\* ?(.*)$/;
+  function parseFindingBody(raw) {
+    var main = [];
+    var notes = [];
+    String(raw == null ? '' : raw).split('\n').forEach(function (line, i) {
+      var label = i ? ENTRY_LABEL.exec(line) : null;
+      if (label) notes.push({ label: label[1], text: label[2].trim() });
+      else if (notes.length) notes[notes.length - 1].text = (notes[notes.length - 1].text + ' ' + line.trim()).trim();
+      else main.push(line);
+    });
+    var text = main.join('\n').trim();
+    var m = /\s*\[([^\]]*)\]\s*$/.exec(text);
+    if (!m) return { text: text, pageRef: null, notes: notes };
+    var pageMatch = /p\.\s*\S.*$/.exec(m[1]);
+    return { text: text.slice(0, m.index).trim(), marker: m[1].split(',')[0].trim(), pageRef: pageMatch ? pageMatch[0].trim() : null, notes: notes };
+  }
+
+  // One rendering of a log entry body for every reading view: the main text
+  // with its page as a superscript, then each labelled line as a quiet second
+  // line ("Why: …") in the muted colour. No raw markers, no asterisks.
+  function renderEntryBody(raw) {
+    var parsed = parseFindingBody(raw);
+    return renderStatus(parsed.marker) + esc(parsed.text)
+      + (parsed.pageRef ? ' <sup class="src-ref">' + esc(parsed.pageRef) + '</sup>' : '')
+      + parsed.notes.filter(function (n) { return n.label !== 'By'; }).map(function (n) {
+        return '<span class="entry-note">' + esc(n.label) + ': '
+          + (n.label === 'Open at acceptance' ? seqLinks(n.text) : esc(n.text)) + '</span>';
+      }).join('');
+  }
+
+  // "#4, #7" as links that open the History entry with that number.
+  function seqLinks(text) {
+    return esc(text).replace(/#(\d+)/g, function (all, n) {
+      return '<button type="button" class="seq-link" data-view-target="log" data-scroll-to="entry-' + n + '">#' + n + '</button>';
+    });
+  }
+
+  // The open field most others depend on, transitively, per SQ-83's recon:
+  // combine open/closed status with the profile's dependency graph and pick
+  // the open field with the largest transitive dependent set.
+  function computeAccent(elements, graph) {
+    if (!graph) return null;
+    var reverse = {};
+    Object.keys(graph).forEach(function (n) { reverse[n] = reverse[n] || []; });
+    Object.keys(graph).forEach(function (n) {
+      graph[n].forEach(function (dep) {
+        reverse[dep] = reverse[dep] || [];
+        reverse[dep].push(Number(n));
+      });
+    });
+    function transitiveDependents(n) {
+      var seen = new Set();
+      var stack = (reverse[n] || []).slice();
+      while (stack.length) {
+        var cur = stack.pop();
+        if (seen.has(cur)) continue;
+        seen.add(cur);
+        (reverse[cur] || []).forEach(function (x) { if (!seen.has(x)) stack.push(x); });
+      }
+      return seen.size;
+    }
+    var best = null;
+    var bestCount = 0;
+    elements.forEach(function (e) {
+      if (e.status.status === 'accepted') return;
+      var c = transitiveDependents(e.number);
+      if (c > bestCount) { bestCount = c; best = e.number; }
+    });
+    return best;
+  }
+
+  function findingsFor(decisions, number) {
+    return decisions.filter(function (d) {
+      if (d.kind !== 'DISCOVERY') return false;
+      var found = /^(\d+)/.exec(d.ref || '');
+      return found && Number(found[1]) === number;
+    });
+  }
+
+  // Point 2: the poster card's headline is "the first statement that is not
+  // a suggestion" — the paper's own voice, not a Claude paraphrase, even
+  // when the very first statement in document order happens to be
+  // `[proposed]` (element 1's 1.1 in the exemplar). If a field has nothing
+  // but suggestions, the lead falls back to the first statement there is,
+  // flagged so the card can still render it as a quiet idea rather than a
+  // false headline.
+  function leadStatementFor(e) {
+    var fallback = null;
+    for (var qi = 0; qi < e.questions.length; qi += 1) {
+      var q = e.questions[qi];
+      for (var si = 0; si < q.statements.length; si += 1) {
+        var st = q.statements[si];
+        if (!fallback) fallback = { statement: st, question: q };
+        if (st.marker !== 'proposed') return { statement: st, question: q };
+      }
+    }
+    return fallback ? { statement: fallback.statement, question: fallback.question } : null;
+  }
+
+  // Point 3: a DISCOVERY/History entry's `ref` is "5 Research Setting" (the
+  // canvas element number and its category); the reading views show the
+  // human question that element answers instead.
+  function refToQuestion(ref) {
+    var m = /^(\d+)/.exec(ref || '');
+    var n = m && Number(m[1]);
+    return (n && HUMAN_QUESTIONS[n]) || ref;
+  }
+
+  // Every reading view uses the same visible word and ownership treatment.
+  // Unknown or unmarked prose carries no inferred author/model attribution.
+  function renderStatus(marker) {
+    var word = Object.hasOwn(STATUS_WORD, marker) ? STATUS_WORD[marker] : null;
+    if (!word) return '';
+    var authors = marker === 'accepted' || marker === 'stated';
+    return '<span class="status-label status-label-' + (authors ? 'authors' : 'model') + '">'
+      + '<span class="status-word">' + esc(word) + '</span>'
+      + '<span class="status-owner">' + (authors ? 'Authors' : 'Model proposal') + '</span></span>';
+  }
+
+  // `full` adds accept/mark-as-said actions, never changes status visibility.
+  function renderStatement(s, opts) {
+    var cls = ['stmt'];
+    if (s.marker) cls.push('stmt-' + s.marker);
+    var inner = renderStatus(s.marker) + esc(s.text);
+
+    var refHtml = '';
+    if (opts.footnotes) {
+      var ref = pageRef(s);
+      if (ref) {
+        opts.footnotes.push(ref);
+        var idx = opts.footnotes.length;
+        refHtml = opts.linked
+          ? ' <sup class="src-ref"><a href="#src-' + opts.elementNumber + '-' + idx + '" id="srcref-' + opts.elementNumber + '-' + idx + '">' + esc(ref.label) + '</a></sup>'
+          : ' <sup class="src-ref">' + esc(ref.label) + '</sup>';
+      }
+    }
+
+    var actionsHtml = '';
+    if (opts.full && !fixtureMode) {
+      var actions = [];
+      if (['proposed', 'tentative', 'stated'].indexOf(s.marker) !== -1) {
+        actions.push('<button type="button" class="action-btn action-btn-primary" data-action="accept" data-question="' + esc(opts.questionId) + '" data-hash="' + esc(s.hash) + '">Accept&hellip;</button>');
+      }
+      if (['proposed', 'tentative'].indexOf(s.marker) !== -1) {
+        actions.push('<button type="button" class="action-btn action-btn-outline" data-action="stated" data-question="' + esc(opts.questionId) + '" data-hash="' + esc(s.hash) + '">Mark as said</button>');
+      }
+      if (actions.length) actionsHtml = '<span class="stmt-actions">' + actions.join('') + '</span>';
+    }
+
+    return '<span class="' + cls.join(' ') + '">' + inner + '</span>' + refHtml + actionsHtml;
+  }
+
+  // The full field view's prose renderer: one paragraph per statement, so a
+  // suggestion's quiet idea note (point 5) never glues onto an authors'
+  // sentence the way the old single-paragraph-per-question layout did. The
+  // question id (1.1 … 9.3) is kept as the paragraph's own `id`, an anchor a
+  // reader can still link to, but not as visible text (point 3); an empty
+  // question shows itself plus "Not answered yet", never a dashed error
+  // look.
+  function renderFieldBody(e, opts) {
+    var footnotes = opts.linked ? [] : null;
+    var paras = e.questions.map(function (q) {
+      if (!q.statements.length) {
+        return '<p class="field-para field-gap" id="q-' + esc(q.id) + '" data-qid="' + esc(q.id) + '">'
+          + '<span class="field-gap-question">' + esc(q.text) + '</span> '
+          + '<span class="field-gap-note">Not answered yet.</span></p>';
+      }
+      return q.statements.map(function (s, i) {
+        var body = renderStatement(s, {
+          full: opts.linked,
+          linked: opts.linked,
+          footnotes: footnotes,
+          elementNumber: e.number,
+          questionId: q.id
+        });
+        return '<p class="field-para" id="q-' + esc(q.id) + (i ? '-' + i : '') + '" data-qid="' + esc(q.id) + '">' + body + '</p>';
+      }).join('');
+    }).join('');
+    return { html: paras, footnotes: footnotes || [] };
+  }
+
+  // Point 1: the field is headed by the plain human question, in large
+  // type; the canvas term sits under it, small — kept here because this is
+  // the element view, the one place point 3 still allows it.
+  function fieldHeader(e, big) {
+    return '<' + (big ? 'h1 tabindex="-1"' : 'span') + ' class="field-question' + (big ? ' field-question-lg' : '') + '">'
+      + esc(HUMAN_QUESTIONS[e.number] || e.title) + '</' + (big ? 'h1' : 'span') + '>'
+      + '<span class="field-eyebrow"><span class="num-badge" aria-hidden="true">' + e.number + '</span>'
+      + '<span class="field-term">' + esc(e.title) + '</span></span>';
+  }
+
+  // The paper's title is the poster's large heading and appears nowhere else
+  // in the chrome; the bar carries the brand, the views and Present, and the
+  // field chips sit under it on every view.
+  function renderTopbar(s) {
+    var talk = s.agenda.fields.reduce(function (sum, f) { return sum + f.findings.length; }, 0);
+    return '<div id="chrome"><header id="topbar">'
+      + '<div id="brand"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>'
+      + '<span class="brand-text">Research harness <span class="brand-sep">/</span> Canvas</span></div>'
+      + '<nav id="view-tabs" aria-label="Views">'
+      + tabButton('poster', 'Poster')
+      + (variantsOf(s).length ? tabButton('compare', 'Framings') : '')
+      + tabButton('agenda', 'To talk about', talk)
+      + tabButton('log', 'History')
+      + '</nav>'
+      + '<button type="button" class="present-btn" data-action="present">Present<span class="sr-only"> one field on the projector</span></button>'
+      + '</header>'
+      + renderFieldNav(s)
+      + '</div>';
+  }
+
+  function tabButton(view, label, count) {
+    return '<a class="segment" href="?view=' + view + '" data-view-target="' + view + '">' + esc(label)
+      + (count ? '<span class="count">' + count + '</span>' : '') + '</a>';
+  }
+
+  // One chip per field: its number, its name (shown when the chip is wide
+  // enough, always in the tooltip and the accessible name), and a width that
+  // grows with the field's statement count. An empty field is dashed.
+  function renderFieldNav(s) {
+    var accent = s.profileError ? null : computeAccent(s.elements, s.graph || null);
+    var chips = s.elements.map(function (e) {
+      var count = 0;
+      var asks = 0;
+      e.questions.forEach(function (q) {
+        q.statements.forEach(function (st) {
+          count += 1;
+          if (st.marker === 'proposed') asks += 1;
+        });
+      });
+      var spoken = [e.number + ' ' + e.title, count ? count + (count === 1 ? ' statement' : ' statements') : 'empty'];
+      if (asks) spoken.push(asks + (asks === 1 ? ' suggestion' : ' suggestions') + ' waiting');
+      if (accent === e.number) spoken.push('most other fields depend on this one');
+      var cls = 'chip' + (count ? '' : ' empty') + (accent === e.number ? ' accent' : '');
+      return '<li style="--n:' + count + '"><a class="' + cls + '" href="?view=poster#field-' + e.number + '" data-view-target="poster" data-scroll-to="field-' + e.number
+        + '" data-chip="' + e.number + '" title="' + esc(e.title) + '" aria-label="' + esc(spoken.join(', ')) + '">'
+        + '<span class="chip-num">' + e.number + '</span><span class="chip-name">' + esc(e.title) + '</span>'
+        + (asks ? '<svg class="i mark" aria-hidden="true"><use href="#i-suggest"/></svg>' : '')
+        + '</a></li>';
+    }).join('');
+    return '<nav id="fieldnav" aria-label="Fields"><span class="fields-label">Fields</span><ol class="chips">' + chips + '</ol></nav>';
+  }
+
+  // -- The galley proof ---------------------------------------------------
+  var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  function longDate(iso) {
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso || ''));
+    return m ? Number(m[3]) + ' ' + MONTHS[Number(m[2]) - 1] + ' ' + m[1] : String(iso || '');
+  }
+
+  var STATUS_ICON = { accepted: 'i-decided', stated: 'i-said', tentative: 'i-draft', proposed: 'i-suggest' };
+  function statusIcon(marker) {
+    return Object.hasOwn(STATUS_ICON, marker) ? '<svg class="i" aria-hidden="true"><use href="#' + STATUS_ICON[marker] + '"/></svg>' : '';
+  }
+
+  // A statement is numbered by its question: 3.1, then 3.1b, 3.1c for further
+  // statements of the same question. The number is its address (`#st-3.1`).
+  function statementNumber(q, index) { return q.id + (index ? String.fromCharCode(97 + index) : ''); }
+
+  // The researcher's accept of a question, from the log: date, name, sentence.
+  function acceptRecord(q) {
+    var found = null;
+    state.decisions.forEach(function (d) { if (d.kind === 'DECISION' && d.ref === q.id + ' accepted') found = d; });
+    return found;
+  }
+
+  function statementSigs(s) {
+    var out = {};
+    s.elements.forEach(function (e) {
+      e.questions.forEach(function (q) {
+        q.statements.forEach(function (st, i) { out[statementNumber(q, i)] = st.marker + '|' + st.text; });
+      });
+    });
+    return out;
+  }
+
+  // What changed since the previous state read. Nothing is marked on the first read.
+  function noteChanges(s) {
+    var now = statementSigs(s);
+    changedNow = {};
+    if (previousSigs) {
+      Object.keys(now).forEach(function (n) { if (previousSigs[n] !== now[n]) changedNow[n] = true; });
+    }
+    previousSigs = now;
+  }
+
+  // "New · just now", with a name only where the state names one: an accepted
+  // statement carries the person who accepted it in the log. The state holds no
+  // author for any other statement, so none is shown.
+  function changeMark(num, st, q) {
+    if (!changedNow[num]) return '';
+    var rec = st.marker === 'accepted' ? acceptRecord(q) : null;
+    return '<span class="newmark">New' + (rec && rec.by ? ' &middot; ' + esc(rec.by) : '') + ' &middot; just now</span>';
+  }
+
+  function renderSetStatement(q, st, index, idp) {
+    var num = statementNumber(q, index);
+    var rec = st.marker === 'accepted' ? acceptRecord(q) : null;
+    var note = rec
+      ? '<p class="setnote"><b>' + esc(longDate(rec.date)) + (rec.by ? ' &middot; ' + esc(rec.by) : '') + '</b>'
+        + (rec.explained ? ' &mdash; <q>' + esc(rec.explained) + '</q>' : '') + '</p>'
+      : '';
+    return '<div class="st st-' + esc(st.marker || 'plain') + '" id="' + idp + 'st-' + esc(num) + '" tabindex="-1">'
+      + (idp ? '<span class="sid">' + esc(num) + '</span>' : '<a class="sid" href="#st-' + esc(num) + '" aria-label="Statement ' + esc(num) + '">' + esc(num) + '</a>')
+      + '<div class="st-body"><p class="status">' + statusIcon(st.marker) + renderStatus(st.marker) + changeMark(num, st, q) + '</p>'
+      + '<p class="stext">' + esc(st.text) + '</p>' + note + '</div></div>';
+  }
+
+  // The query: the agent's proposal, kept in the margin. It names its slot in
+  // the column (aria-describedby), and the slot names it back (aria-details).
+  function renderQuery(e, q, st, index, k, n, idp, ctx) {
+    var num = statementNumber(q, index);
+    var qid = idp + 'st-' + num;
+    var slotId = idp + 'slot-' + num;
+    var label = n > 1 ? 'Suggestion ' + k : 'Suggestion';
+    var tag = ' <span class="sr-only">' + esc(label) + ' for ' + esc(num) + '</span>';
+    var acts = '<button type="button" class="action-btn action-btn-primary" data-action="accept" data-question="' + esc(q.id) + '" data-hash="' + esc(st.hash) + '">Accept&hellip;' + tag + '</button>';
+    if (!fixtureMode) {
+      acts += '<button type="button" class="action-btn action-btn-outline" data-action="stated" data-question="' + esc(q.id) + '" data-hash="' + esc(st.hash) + '">Mark as said' + tag + '</button>'
+        + '<button type="button" class="action-btn action-btn-outline" data-view-target="element-' + e.number + '" data-scroll-to="comment-' + e.number + '">Comment' + tag + '</button>';
+    }
+    var next = !ctx.nextTaken;
+    ctx.nextTaken = true;
+    return '<div class="slotpair"><div class="slot" id="' + slotId + '" aria-details="' + qid + '">' + esc(label) + ' would be set here</div>'
+      + '<article class="query' + (next ? ' next' : '') + '" id="' + qid + '" tabindex="-1" data-slot="' + slotId + '" data-num="' + esc(num) + '" data-question="' + esc(q.id) + '" data-hash="' + esc(st.hash) + '"'
+      + ' aria-labelledby="' + qid + '-h" aria-describedby="' + slotId + '">'
+      + '<p class="status" id="' + qid + '-h">' + statusIcon('proposed') + renderStatus('proposed')
+      + '<span class="for">for ' + esc(num) + (n > 1 ? ' &middot; ' + k + ' of ' + n : '') + '</span></p>'
+      + '<p class="qtext">' + esc(st.text) + '</p>'
+      + '<div class="qacts">' + acts + '</div></article></div>';
+  }
+
+  // One field set in the column: its set statements, quiet runs of empty
+  // questions, and a slot (with its margin query) for every open suggestion.
+  function renderColumnField(e, idp, ctx) {
+    var rows = [];
+    var run = [];
+    function flush() {
+      if (!run.length) return;
+      var label = run.length > 1 ? run[0].id + '–' + run[run.length - 1].id.split('.')[1] : run[0].id;
+      rows.push('<p class="quiet"><span class="sid">' + esc(label) + '</span><span>No statements yet</span></p>');
+      run = [];
+    }
+    e.questions.forEach(function (q) {
+      var set = [];
+      var asks = [];
+      q.statements.forEach(function (st, i) { (st.marker === 'proposed' ? asks : set).push({ st: st, i: i }); });
+      if (!set.length && !asks.length) { run.push(q); return; }
+      flush();
+      set.forEach(function (x) { rows.push(renderSetStatement(q, x.st, x.i, idp)); });
+      if (!set.length) {
+        rows.push('<div class="st st-ask"><span class="sid">' + esc(q.id) + '</span><p class="askline">Nothing set yet. '
+          + (asks.length === 1 ? 'One suggestion waits' : asks.length + ' suggestions wait') + ' in the margin.</p></div>');
+      }
+      if (asks.length) {
+        rows.push('<div class="slots">' + asks.map(function (x, k) {
+          return renderQuery(e, q, x.st, x.i, k + 1, asks.length, idp, ctx);
+        }).join('') + '</div>');
+      }
+    });
+    flush();
+    return rows.join('');
+  }
+
+  function openAsks(elements) {
+    var n = 0;
+    elements.forEach(function (e) { e.questions.forEach(function (q) { q.statements.forEach(function (st) { if (st.marker === 'proposed') n += 1; }); }); });
+    return n;
+  }
+
+  // The number of the first open query in the column, in reading order.
+  function firstAskNumber(elements) {
+    for (var a = 0; a < elements.length; a++) {
+      var qs = elements[a].questions;
+      for (var b = 0; b < qs.length; b++) {
+        for (var c = 0; c < qs[b].statements.length; c++) {
+          if (qs[b].statements[c].marker === 'proposed') return statementNumber(qs[b], c);
+        }
+      }
+    }
+    return null;
+  }
+
+  // A query sits beside its slot, so the first one can be far down the poster.
+  // On the poster the margin's head says so and jumps to it (jump = false in
+  // the presentation, where the field's queries are all on screen).
+  function laneHead(elements, jump) {
+    var n = openAsks(elements);
+    var first = jump && n ? firstAskNumber(elements) : null;
+    return '<p class="lane-head"><b>In the margin</b> &middot; ' + (n
+      ? n + (n === 1 ? ' query' : ' queries') + ' from the agent'
+      : 'nothing waits for you')
+      + (first ? '<button type="button" class="field-link lane-jump" data-view-target="poster" data-scroll-to="st-' + esc(first) + '">Go to the first query, ' + esc(first) + ' <span aria-hidden="true">&darr;</span></button>' : '')
+      + '</p>';
+  }
+
+  // The poster: the whole paper as one set column, the agent's queries in the
+  // margin. No nested <section>: the status words of the column and the margin
+  // belong to this one section.
+  function renderPoster(s) {
+    var outlet = s.frontmatter && s.frontmatter.outlet;
+    var ctx = { nextTaken: false };
+    var fields = s.elements.map(function (e) {
+      var row = ROW_LABELS.filter(function (r) { return r.from === e.number; })[0];
+      var question = HUMAN_QUESTIONS[e.number] || '';
+      var talk = (s.agenda.fields.filter(function (f) { return f.number === e.number; })[0] || { findings: [] }).findings.length;
+      return (row ? '<p class="group-label" aria-hidden="true">' + esc(row.label) + '<span>fields ' + row.from + '&ndash;' + row.to + '</span></p>' : '')
+        + '<article class="field" id="field-' + e.number + '" tabindex="-1" aria-labelledby="field-' + e.number + '-h">'
+        + '<h2 class="field-title" id="field-' + e.number + '-h"><span class="fnum">' + e.number + '</span>' + esc(e.title) + '</h2>'
+        + '<p class="field-sub">' + (question ? '<span class="fq">' + esc(question) + '</span>' : '')
+        + '<button type="button" class="field-link" data-view-target="element-' + e.number + '">Open field<span class="sr-only"> ' + esc(e.title) + '</span></button>'
+        + (talk
+            ? '<button type="button" class="field-link" data-view-target="agenda" data-scroll-to="agenda-field-' + e.number + '">'
+              + talk + (talk === 1 ? ' thing' : ' things') + ' to talk about<span class="sr-only">, ' + esc(e.title) + '</span> <span aria-hidden="true">&rarr;</span></button>'
+            : '')
+        + '</p>'
+        + renderColumnField(e, '', ctx)
+        + '</article>';
+    }).join('');
+    return '<section id="poster" data-view="poster" class="view page-section" tabindex="-1">'
+      + '<div class="sheet"><div class="poster-head">'
+      + '<h1 tabindex="-1" class="poster-title">' + esc(paperTitle(s)) + '</h1>'
+      + (outlet ? '<p class="poster-eyebrow">' + esc(outlet) + '</p>' : '')
+      + '<p class="view-sub poster-orientation">The paper&rsquo;s argument in nine fields. Open a field to comment, mark a statement as said, or accept it with your own sentence. Agents propose; you decide.</p>'
+      + '</div>'
+      + '<div class="proof">' + laneHead(s.elements, true) + '<div class="column">' + fields + '</div><svg class="leaders" aria-hidden="true"></svg></div></div>'
+      + '</section>';
+  }
+
+  // -- Present: one field at projector scale, with its queries --------------
+  function paintPresent() {
+    var e = state.elements.filter(function (x) { return x.number === presentField; })[0];
+    if (!e) { leavePresent(); return; }
+    var total = state.elements.length;
+    presentNode.innerHTML = '<div class="present-bar"><span class="count">Field ' + e.number + ' of ' + total + '</span>'
+      + '<button type="button" class="ghost-btn" data-action="present-prev"' + (e.number > 1 ? '' : ' disabled') + '>&larr; Previous<span class="sr-only"> field</span></button>'
+      + '<button type="button" class="ghost-btn" data-action="present-next"' + (e.number < total ? '' : ' disabled') + '>Next<span class="sr-only"> field</span> &rarr;</button>'
+      + '<button type="button" class="ghost-btn" data-action="present-exit">Leave presentation</button>'
+      + '<span class="hint">Arrow keys step through the fields. Esc leaves.</span></div>'
+      + '<div class="sheet"><div class="proof">' + laneHead([e]) + '<div class="column"><article class="field">'
+      + '<h2 class="field-title" id="present-title" tabindex="-1"><span class="fnum">' + e.number + '</span>' + esc(e.title) + '</h2>'
+      + '<p class="field-sub"><span class="fq">' + esc(HUMAN_QUESTIONS[e.number] || '') + '</span></p>'
+      + renderColumnField(e, 'p-', { nextTaken: false })
+      + '</article></div><svg class="leaders" aria-hidden="true"></svg></div></div>';
+    if (presentNode.setAttribute) presentNode.setAttribute('aria-label', 'Presenting field ' + e.number + ', ' + e.title);
+    layoutIn(presentNode);
+  }
+
+  function focusPresentTitle() {
+    var title = presentNode.querySelector && presentNode.querySelector('#present-title');
+    if (title) title.focus();
+  }
+
+  function enterPresent() {
+    var start = 1;
+    for (var i = 0; i < state.elements.length; i++) {
+      if (openAsks([state.elements[i]])) { start = state.elements[i].number; break; }
+    }
+    presentField = start;
+    presentNode.hidden = false;
+    app.inert = true;
+    if (typeof presentNode.requestFullscreen === 'function') {
+      try {
+        var asked = presentNode.requestFullscreen();
+        if (asked && asked.catch) asked.catch(function () {});
+      } catch (_) { /* a refused full screen leaves the field on the page */ }
+    }
+    paintPresent();
+    focusPresentTitle();
+  }
+
+  function leavePresent() {
+    presentField = null;
+    presentNode.hidden = true;
+    presentNode.innerHTML = '';
+    app.inert = false;
+    var refocus = function () {
+      var button = app.querySelector('.present-btn');
+      if (button) button.focus();
+    };
+    if (document.fullscreenElement && document.exitFullscreen) {
+      var left = document.exitFullscreen();
+      if (left && left.then) left.then(refocus, refocus);
+    }
+    refocus();
+  }
+
+  function stepPresent(delta) {
+    var next = presentField + delta;
+    if (next < 1 || next > state.elements.length) return;
+    presentField = next;
+    paintPresent();
+    focusPresentTitle();
+  }
+
+  function onPresentKey(event) {
+    if (presentField === null) return;
+    if (event.key === 'Escape') { event.preventDefault(); leavePresent(); }
+    else if (event.key === 'ArrowRight') { event.preventDefault(); stepPresent(1); }
+    else if (event.key === 'ArrowLeft') { event.preventDefault(); stepPresent(-1); }
+  }
+
+  // -- Leader lines ---------------------------------------------------------
+  // Where column and margin sit side by side, each query is placed beside its
+  // slot (pushed down past the query above it) and a leader line joins the
+  // slot's end to the query's edge. Narrow, the queries stay under their slots
+  // in the flow (CSS) and nothing is drawn.
+  function layoutProof(proof) {
+    var svg = proof.querySelector('.leaders');
+    var queries = proof.querySelectorAll('.query');
+    var i;
+    if (svg) svg.innerHTML = '';
+    for (i = 0; i < queries.length; i++) queries[i].style.top = '';
+    proof.style.minHeight = '';
+    if (!svg || !queries.length || typeof getComputedStyle !== 'function') return;
+    if (getComputedStyle(queries[0]).position !== 'absolute') return;
+    var box = proof.getBoundingClientRect();
+    var head = proof.querySelector('.lane-head');
+    var floor = head ? head.offsetTop + head.offsetHeight + 12 : 0;
+    var paths = '';
+    for (i = 0; i < queries.length; i++) {
+      var q = queries[i];
+      var slot = document.getElementById(q.getAttribute('data-slot'));
+      if (!slot) continue;
+      var s = slot.getBoundingClientRect();
+      var y1 = s.bottom - box.top;
+      var top = Math.max(y1 - 24, floor);
+      q.style.top = top + 'px';
+      floor = top + q.offsetHeight + 14;
+      var x1 = s.right - box.left;
+      var x2 = q.getBoundingClientRect().left - box.left;
+      var y2 = top + 24;
+      var mid = Math.max(x1 + 12, x2 - 22);
+      paths += '<path class="leader" data-q="' + q.id + '" d="M' + x1 + ' ' + y1 + ' H' + mid + ' L' + x2 + ' ' + y2 + '"/>'
+        + '<circle class="leader-dot" cx="' + x1 + '" cy="' + y1 + '" r="4.5"/>';
+    }
+    svg.innerHTML = paths;
+    proof.style.minHeight = floor + 'px';
+  }
+
+  function layoutIn(root) {
+    var proofs = root.querySelectorAll('.proof');
+    for (var i = 0; i < proofs.length; i++) layoutProof(proofs[i]);
+  }
+
+  var layoutQueued = false;
+  function scheduleLayout() {
+    if (layoutQueued) return;
+    layoutQueued = true;
+    var run = function () {
+      layoutQueued = false;
+      layoutIn(app);
+      if (presentField !== null) layoutIn(presentNode);
+    };
+    if (typeof requestAnimationFrame === 'function') requestAnimationFrame(run); else run();
+  }
+
+  // Focus or hover on a query lights its leader line and its slot.
+  function light(event, on) {
+    var target = event.target;
+    var el = target && target.closest && target.closest('.query, .slot');
+    if (!el) return;
+    var qid = el.classList.contains('query') ? el.id : el.getAttribute('aria-details');
+    var q = document.getElementById(qid);
+    var slot = q && document.getElementById(q.getAttribute('data-slot'));
+    var line = q && q.closest('.proof').querySelector('.leader[data-q="' + qid + '"]');
+    [q, slot, line].forEach(function (node) { if (node) node.classList.toggle('lit', on); });
+  }
+
+  // -- Framings -------------------------------------------------------
+  // The project's variants, each a whole canvas state of its own (GET
+  // /api/state: `variants: [{name, lens, state}]`). An older payload has none.
+  function variantsOf(s) { return (s && s.variants) || []; }
+
+  function variantElement(v, number) {
+    return v.state.elements.filter(function (e) { return e.number === number; })[0] || null;
+  }
+
+  // What a field says, for comparing: each question's statements, text only,
+  // whitespace collapsed. Markers and sources are not compared — a field worded
+  // alike does not differ, and one worded differently does, whatever either
+  // calls it.
+  function fieldSignature(e) {
+    if (!e) return '';
+    return e.questions.map(function (q) {
+      return q.id + ':' + q.statements.map(function (st) { return String(st.text).replace(/\s+/g, ' ').trim(); }).join('|');
+    }).join('\n');
+  }
+
+  function fieldDiffers(variants, number) {
+    var seen = {};
+    variants.forEach(function (v) { seen[fieldSignature(variantElement(v, number))] = true; });
+    return Object.keys(seen).length > 1;
+  }
+
+  // The server's own default for what a choice sets aside: the other
+  // framings' names with their lenses (hooks/lib/choose.js), prefilled in the
+  // dialog and editable there.
+  function defaultRejected(variants, name) {
+    return variants.filter(function (v) { return v.name !== name; }).map(function (v) {
+      return v.lens ? v.name + ' (lens: ' + v.lens + ')' : v.name;
+    }).join('; ');
+  }
+
+  // Why choosing is off, in one line, or null. The library refuses while the
+  // main canvas holds an [accepted] statement (a framing is chosen before
+  // anything is accepted) or a [stated] one (a choice would delete the authors'
+  // own words). Saying so here saves the round trip; if the server still
+  // refuses, its message is shown as it is.
+  function chooseBlock(s) {
+    var accepted = [];
+    var stated = [];
+    s.elements.forEach(function (e) {
+      e.questions.forEach(function (q) {
+        q.statements.forEach(function (st) {
+          if (st.marker === 'accepted' && accepted.indexOf(q.id) === -1) accepted.push(q.id);
+          if (st.marker === 'stated' && stated.indexOf(q.id) === -1) stated.push(q.id);
+        });
+      });
+    });
+    var parts = [];
+    var why = [];
+    if (accepted.length) {
+      parts.push(accepted.length + ' accepted (' + accepted.join(', ') + ')');
+      why.push('A framing is chosen before anything is accepted.');
+    }
+    if (stated.length) {
+      parts.push(stated.length + ' said by the authors (' + stated.join(', ') + ')');
+      why.push('A choice would replace what the authors said.');
+    }
+    if (!parts.length) return null;
+    return 'Choosing is off: the main canvas already holds ' + parts.join(' and ') + '. ' + why.join(' ');
+  }
+
+  function renderCompareCard(v, e, differs, several) {
+    var ve = variantElement(v, e.number);
+    var question = HUMAN_QUESTIONS[e.number] || e.title;
+    var lead = ve ? leadStatementFor(ve) : null;
+    var all = [];
+    if (ve) ve.questions.forEach(function (q) { all = all.concat(q.statements); });
+    var classes = ['field-card', 'cmp-card'];
+    if (differs) classes.push('cmp-diff');
+    else if (several) classes.push('cmp-same');
+    var leadHtml = lead
+      ? '<p class="field-lead">' + renderStatus(lead.statement.marker) + esc(lead.statement.text) + '</p>'
+      : '<p class="field-lead field-gap-note">Not answered yet.</p>';
+    // The card leads with one sentence, like the poster; a difference can sit
+    // in a statement below it, so every statement of the field is one click away.
+    var more = all.length > 1
+      ? '<details class="cmp-more"><summary>All ' + all.length + ' statements<span class="sr-only"> of ' + esc(v.name) + ' on ' + esc(question) + '</span></summary>'
+        + all.map(function (st) {
+          return '<p class="field-para">' + renderStatus(st.marker) + esc(st.text) + '</p>';
+        }).join('') + '</details>'
+      : '';
+    return '<article class="' + classes.join(' ') + '">'
+      + '<span class="cmp-context sr-only">' + esc(v.name) + ', ' + esc(question) + (differs ? ', differs from the other framings' : '') + '. </span>'
+      + (differs ? '<span class="diff-tag" aria-hidden="true">Differs</span>' : '')
+      + leadHtml + more
+      + '</article>';
+  }
+
+  // The poster's cards, one column per framing and one row per field, each
+  // column headed by the framing's name and lens, with the action that chooses
+  // it. Nothing here edits a statement: the view only reads them.
+  function renderCompare(s) {
+    var variants = variantsOf(s);
+    if (!variants.length) return '';
+    var several = variants.length > 1;
+    var blocked = chooseBlock(s);
+    var heads = variants.map(function (v) {
+      return '<div class="cmp-head"><div class="cmp-head-box">'
+        + '<h2 class="cmp-name">' + esc(v.name) + '</h2>'
+        + '<p class="cmp-lens">' + (v.lens ? 'Lens: ' + esc(v.lens) : 'No lens recorded') + '</p>'
+        + '<button type="button" class="action-btn action-btn-primary" data-action="choose" data-variant="' + esc(v.name) + '"'
+        + (blocked ? ' disabled aria-describedby="choose-note"' : '') + '>Choose this framing<span class="sr-only">: ' + esc(v.name) + '</span></button>'
+        + '</div></div>';
+    }).join('');
+    var rows = s.elements.map(function (e) {
+      var differs = several && fieldDiffers(variants, e.number);
+      return '<h2 class="cmp-row-label"><span class="num-badge" aria-hidden="true">' + e.number + '</span>' + esc(HUMAN_QUESTIONS[e.number] || e.title)
+        + (several ? '<span class="cmp-row-caption">&middot; ' + (differs ? 'differs between framings' : 'the same in every framing') + '</span>' : '') + '</h2>'
+        + variants.map(function (v) { return renderCompareCard(v, e, differs, several); }).join('');
+    }).join('');
+    return '<section id="compare" data-view="compare" class="view page-section">'
+      + '<div class="view-head"><h1 tabindex="-1">Framings</h1><p class="view-sub">The same paper read through each lens. Fields that differ are marked; the rest are faded. Choosing one makes it the main canvas and keeps the others as the record.</p></div>'
+      + (blocked ? '<p class="choose-note" id="choose-note">' + esc(blocked) + '</p>' : '')
+      + '<div class="cmp-grid" style="--k:' + variants.length + '">' + heads + rows + '</div>'
+      + '</section>';
+  }
+
+  function renderField(e, total) {
+    // Sources and visible status words read the same way in fixture mode;
+    // only the write actions (accept/mark-as-said) depend on `fixtureMode`,
+    // gated separately inside renderStatement.
+    var body = renderFieldBody(e, { linked: true });
+    var sourceKey = body.footnotes.length
+      ? '<div class="source-key-wrap"><ol class="source-key">' + body.footnotes.map(function (ref, i) {
+          return '<li id="src-' + e.number + '-' + (i + 1) + '">' + (ref.full ? esc(ref.full) : '—') + ' <a href="#srcref-' + e.number + '-' + (i + 1) + '">&#8617;</a></li>';
+        }).join('') + '</ol></div>'
+      : '';
+
+    var totalkRaw = findingsFor(state.decisions, e.number).filter(passesFilter);
+    var totalkFull = totalkRaw.length
+      ? '<div class="field-totalk-full"><h2 class="view-sub field-discussion-title">To talk about</h2>'
+        + '<ul class="totalk-list">' + totalkRaw.map(function (d) {
+          return '<li class="totalk-item">' + renderEntryBody(d.body) + renderEntryBy(d) + '</li>';
+        }).join('') + '</ul></div>'
+      : '';
+
+    var commentForm = fixtureMode
+      ? '<p class="empty-note">Read-only example. Explore the fields; notes and decisions cannot be saved here.</p>'
+      : '<div class="comment-form" id="comment-' + e.number + '" tabindex="-1">'
+        + '<label>Something to talk about? Add a note for the meeting.<textarea aria-required="true" aria-describedby="comment-error-' + e.number + '" data-comment-body-for="' + e.number + '"></textarea></label>'
+        + '<label>Why (optional) <input type="text" data-comment-why-for="' + e.number + '"></label>'
+        + '<p id="comment-error-' + e.number + '" class="comment-error" role="alert"></p>'
+        + '<button type="button" class="action-btn action-btn-primary" data-action="comment" data-element="' + e.number + '" data-element-title="' + esc(e.title) + '">Add a note</button>'
+        + '</div>';
+
+    var nav = '<div class="element-nav">'
+      + (e.number > 1 ? '<button type="button" class="ghost-btn" data-view-target="element-' + (e.number - 1) + '">&larr; Previous field</button>' : '<span></span>')
+      + (e.number < total ? '<button type="button" class="ghost-btn" data-view-target="element-' + (e.number + 1) + '">Next field &rarr;</button>' : '<span></span>')
+      + '</div>';
+
+    return '<section id="element-' + e.number + '" data-view="element-' + e.number + '" class="view page-section field-view">'
+      + nav
+      + '<div class="view-head field-head">' + fieldHeader(e, true) + '</div>'
+      + '<div class="field-body-full">' + body.html + '</div>'
+      + sourceKey
+      + totalkFull
+      + commentForm
+      + '</section>';
+  }
+
+  // Point 6: "To talk about" is a meeting starter, not a nine-row form — it
+  // lists only fields that actually have a finding, plus the questions
+  // nobody has answered yet, named by the field's human question. Both lists
+  // are computed by hooks/lib/agenda.js and arrive with the state: the tab and
+  // the Markdown the agenda command prints are the same agenda (spec §6).
+  function renderAgenda(s) {
+    var items = s.agenda.fields.map(function (f) {
+      return '<li id="agenda-field-' + f.number + '" tabindex="-1"><button type="button" class="agenda-item-open" data-view-target="element-' + f.number + '">'
+        + '<span class="agenda-item-head"><span class="num-badge">' + f.number + '</span>'
+        + '<span class="agenda-item-title">' + esc(f.question) + '</span></span>'
+        + '<ul class="agenda-findings">' + f.findings.map(function (d) {
+            return '<li>' + renderEntryBody(d.body) + renderEntryBy(d) + '</li>';
+          }).join('') + '</ul>'
+        + '</button></li>';
+    }).join('');
+
+    var sections = items ? '<ul class="agenda-list">' + items + '</ul>' : '';
+    sections += renderAgendaGaps(s.agenda.gaps);
+    if (!sections) sections = '<p class="empty-note">Nothing to talk about right now.</p>';
+
+    return '<section id="agenda" data-view="agenda" class="view page-section">'
+      + '<div class="view-head"><h1 tabindex="-1">To talk about</h1><p class="view-sub">Open questions and notes for the meeting. Open a field to add a comment.</p></div>'
+      + sections
+      + '</section>';
+  }
+
+  function renderGapField(group) {
+    return '<li><details class="agenda-gap-field"><summary><span class="num-badge">' + group.number + '</span>'
+      + '<strong>' + esc(group.question) + '</strong> <span class="agenda-gap-count">'
+      + group.gaps.length + (group.gaps.length === 1 ? ' question' : ' questions') + '</span></summary>'
+      + '<ul class="agenda-gap-list">' + group.gaps.map(function (g) {
+        return '<li><button type="button" class="agenda-gap-item" data-view-target="element-' + g.number + '">'
+          + esc(g.text) + '</button></li>';
+      }).join('') + '</ul></details></li>';
+  }
+
+  // Keep every unanswered prompt reachable, but let the discussion lead.
+  function renderAgendaGaps(gaps) {
+    if (!gaps.length) return '';
+    var groups = new Map();
+    gaps.forEach(function (g) {
+      if (!groups.has(g.number)) groups.set(g.number, { number: g.number, question: g.question, gaps: [] });
+      groups.get(g.number).gaps.push(g);
+    });
+    return '<details class="agenda-gaps"><summary>Not answered yet <span class="agenda-gap-count">'
+      + gaps.length + (gaps.length === 1 ? ' question in ' : ' questions in ')
+      + groups.size + (groups.size === 1 ? ' field' : ' fields') + '</span> <span class="agenda-gap-count">(expand to see the questions)</span></summary>'
+      + '<ul class="agenda-gap-fields">' + Array.from(groups.values()).map(renderGapField).join('') + '</ul></details>';
+  }
+
+  function historyLabel(kind) {
+    if (kind === 'DISCOVERY') return 'To talk about';
+    if (kind === 'CONSTRAINT') return 'Constraint';
+    if (kind === 'DECISION') return 'Decision';
+    return kind ? (kind.charAt(0) + kind.slice(1).toLowerCase()) : 'Entry';
+  }
+
+  // The entry hooks/lib/choose.js writes when the researcher picks a framing:
+  // a DECISION whose ref is `framing chosen: <variant name>`.
+  var FRAMING_REF = /^framing chosen: (.+)$/;
+
+  // Each entry carries its `#seq`: "Open at acceptance" names entries by it,
+  // and its links land on the card with that id.
+  // What the server's seal check says about one entry (sealStatus, the verdicts
+  // of hooks/lib/review.js). Intact entries need no integrity label.
+  var SEAL_STATE = { broken: 'Record changed', legacy: 'Older record; cannot check for changes', unverifiable: 'Cannot check for changes on this device' };
+  var BREAK_WHY = {
+    unsealed: 'an entry without a change record was added',
+    anchor: 'this entry or earlier unchecked entries changed',
+    chain: 'earlier entries are missing or were removed',
+    content: 'this entry\'s heading or text changed',
+    key: 'the key on this device is not the project\'s',
+    'line-endings': 'the file has Windows line endings, which placet-research cannot read'
+  };
+
+  function brokenAt(s) {
+    var ledger = s.review && s.review.ledger;
+    return ledger && ledger.status === 'broken' && ledger.broken ? ledger.broken : null;
+  }
+
+  // A DECISION that does not verify is marked in words, not only in colour: a
+  // forged `framing chosen` or accept must not read like the researcher's own.
+  function sealFlag(d, s) {
+    if (d.kind !== 'DECISION' || !d.sealStatus || d.sealStatus === 'verified') return '';
+    var at = brokenAt(s);
+    var why;
+    if (d.sealStatus === 'legacy') why = 'it predates checks for changes';
+    else if (d.sealStatus === 'unverifiable') why = 'changes cannot be checked on this device';
+    // A wrong key leaves no entry changed, so no entry number belongs here.
+    else if (at && at.why === 'key') why = BREAK_WHY.key;
+    else if (at && at.seq === d.seq) why = 'the saved history changed here: ' + (BREAK_WHY[at.why] || 'the saved record no longer matches');
+    else why = 'it follows a changed entry' + (at ? ' at #' + at.seq : '');
+    return '<p class="seal-flag" role="note"><span aria-hidden="true">&#9888;</span> Decision record cannot be confirmed: ' + esc(why) + '.</p>';
+  }
+
+  function renderHistory(s) {
+    var buttons = [null].concat(namesIn(s.decisions)).map(function (name) {
+      return '<button type="button" class="ghost-btn" data-by="' + esc(name === null ? '' : name)
+        + '" aria-pressed="' + (name === byFilter ? 'true' : 'false') + '">' + esc(name === null ? 'All' : name) + '</button>';
+    }).join('');
+    var rows = s.decisions.map(function (d) {
+      if (d.kind === 'SESSION') {
+        return '<li id="entry-' + esc(d.seq) + '" tabindex="-1"><div role="separator" class="session-divider">Session: '
+          + esc(d.ref) + ' &middot; ' + esc(d.date) + renderEntryBy(d) + '</div></li>';
+      }
+      if (!passesFilter(d)) return '';
+      if (d.kind === 'MERGE') {
+        return '<li id="entry-' + esc(d.seq) + '" tabindex="-1"><p class="merge-line">Merged from '
+          + esc((d.ref || '').replace(/^from /, '')) + ' &mdash; ' + esc((d.body || '').split('\n')[0])
+          + renderEntryBy(d) + '</p></li>';
+      }
+      var framing = d.kind === 'DECISION' ? FRAMING_REF.exec(d.ref || '') : null;
+      return '<li class="history-card" id="entry-' + esc(d.seq) + '" tabindex="-1"><p class="history-meta">#' + esc(d.seq) + ' &middot; '
+        + esc(framing ? 'Framing chosen' : historyLabel(d.kind)) + ' &middot; ' + esc(d.date) + ' &middot; ' + esc(framing ? framing[1] : refToQuestion(d.ref))
+        + (SEAL_STATE[d.sealStatus] ? ' &middot; ' + esc(SEAL_STATE[d.sealStatus]) : '') + '</p>'
+        + sealFlag(d, s)
+        + '<p class="history-body">' + renderEntryBody(d.body) + renderEntryBy(d) + '</p>'
+        + '</li>';
+    }).join('');
+    return '<section id="log" data-view="log" class="view page-section">'
+      + '<div class="view-head"><h1 tabindex="-1">History</h1><p class="view-sub">What has been said and decided, in order.</p></div>'
+      + '<div class="by-filter" role="group" aria-label="Show entries by">' + buttons + '</div>'
+      + (rows ? '<ol class="history-list">' + rows + '</ol>' : '<p class="empty-note">Nothing yet.</p>')
+      + '</section>';
+  }
+
+  function renderFooter(s) {
+    return '<footer class="page-section print-only"><p>placet-research ' + esc(s.version || 'unknown') + ' &middot; Canvas after Dorobantu et al. 2024</p></footer>';
+  }
+
+  function renderStagePanels(s) {
+    return renderPoster(s) + renderCompare(s) + renderAgenda(s) + s.elements.map(function (e) { return renderField(e, s.elements.length); }).join('') + renderHistory(s);
+  }
+
+  function render() {
+    // A stale fragment must not leave the filter bar with no active button.
+    if (byFilter !== null && namesIn(state.decisions).indexOf(byFilter) < 0) {
+      byFilter = null;
+      writeByFilter();
+    }
+    // The Framings tab exists while the project holds variants; once the last
+    // one is gone a reload must not leave the reader on a view with no tab.
+    if (activeView === 'compare' && !variantsOf(state).length) activeView = 'poster';
+    app.innerHTML = renderTopbar(state)
+      + renderNotices(state)
+      + '<div id="body-shell"><main id="stage" tabindex="-1">' + renderStagePanels(state) + '</main></div>'
+      + renderFooter(state);
+    applyActiveView();
+    if (presentField !== null) paintPresent();
+  }
+
+  function renderNotices(s) {
+    var notices = [];
+    if (s.profileError) notices.push('<p>Profile: ' + esc(s.profileError) + '</p>');
+    if (s.keyError) notices.push('<p>Decision history check: ' + esc(s.keyError) + '</p>');
+    var broken = brokenAt(s);
+    if (broken) {
+      // A wrong key leaves every entry unconfirmed without any entry having
+      // changed, so this notice names the key and links to no entry (SQ-294).
+      notices.push(broken.why === 'key'
+        ? '<p>Decision history cannot be checked here: ' + esc(BREAK_WHY.key) + '.</p>'
+        : '<p>Decision history has changed. The first affected entry is <button type="button" class="seq-link" data-view-target="log" data-scroll-to="entry-' + esc(broken.seq) + '">#' + esc(broken.seq) + '</button> ('
+          + esc(BREAK_WHY[broken.why] || 'the saved record no longer matches') + '). Every entry from there on is marked in History. The original record is not restored automatically.</p>');
+    }
+    if (!notices.length) return '';
+    return '<div class="notices-banner" role="alert">' + notices.join('') + '</div>';
+  }
+
+  function applyActiveView() {
+    // The shell may name a tab before the first render has drawn the field chips.
+    var fieldnav = document.getElementById('fieldnav');
+    if (fieldnav) fieldnav.hidden = activeView === 'agenda' || activeView === 'log';
+    var views = app.querySelectorAll('.view');
+    for (var i = 0; i < views.length; i++) {
+      views[i].classList.toggle('active', views[i].getAttribute('data-view') === activeView);
+    }
+    var tabs = app.querySelectorAll('.segment');
+    for (i = 0; i < tabs.length; i++) {
+      var tabMatch = tabs[i].getAttribute('data-view-target') === activeView;
+      tabs[i].classList.toggle('active', tabMatch);
+      if (tabMatch) tabs[i].setAttribute('aria-current', 'page');
+      else tabs[i].removeAttribute('aria-current');
+    }
+    // A chip is current while its field is open in the element view.
+    var chips = app.querySelectorAll('.chip');
+    for (i = 0; i < chips.length; i++) {
+      if (activeView === 'element-' + chips[i].getAttribute('data-chip')) chips[i].setAttribute('aria-current', 'true');
+      else chips[i].removeAttribute('aria-current');
+    }
+    scheduleLayout();
+  }
+
+  function focusActiveHeading() {
+    var heading = app.querySelector('.view.active h1');
+    if (heading) heading.focus();
+  }
+
+  function fetchState() {
+    var url = fixtureMode ? fixturePath : '/api/state';
+    return fetch(url).then(function (r) {
+      if (!r.ok) throw new Error('failed to load state (' + r.status + ')');
+      return r.json();
+    });
+  }
+
+  // `moved` names a query that was just accepted: where the browser can, its
+  // text travels into the column, the leader line retracts, and the page
+  // changes at once under prefers-reduced-motion.
+  function refreshState(moved) {
+    return fetchState().then(function (s) {
+      var apply = function () {
+        state = s;
+        HUMAN_QUESTIONS = s.humanQuestions || {};
+        noteChanges(s);
+        render();
+        layoutIn(app);
+        var arrived = moved && document.getElementById('st-' + moved.num);
+        var text = arrived && arrived.querySelector('.stext');
+        if (text) text.style.viewTransitionName = 'sq-moved';
+      };
+      var calm = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (moved && !calm && typeof document.startViewTransition === 'function') {
+        return document.startViewTransition(apply).finished.catch(function () {});
+      }
+      apply();
+    });
+  }
+
+  // The query behind an accept, tagged so the view transition can follow it.
+  function tagMoved(what) {
+    var query = app.querySelector('.query[data-question="' + what.questionId + '"][data-hash="' + what.hash + '"]');
+    if (!query) return null;
+    var text = query.querySelector('.qtext');
+    var line = query.closest('.proof').querySelector('.leader[data-q="' + query.id + '"]');
+    if (text) text.style.viewTransitionName = 'sq-moved';
+    if (line) line.style.viewTransitionName = 'sq-leader';
+    return { num: query.getAttribute('data-num') };
+  }
+
+  function post(path, payload) {
+    return fetch(path, {
+      method: 'POST',
+      headers: { 'X-Harness-Token': token || '', 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (json) { return { status: r.status, json: json }; });
+    });
+  }
+
+  // Trades the code from the URL for the write token. A refusal means someone
+  // else redeemed the code first (or it expired, or this is a reload): the
+  // human has to see that, not a view that silently cannot write.
+  function openSession() {
+    if (!sessionCode) { showNotice(LINK_USED); return; }
+    post('/api/session', { code: sessionCode }).then(function (res) {
+      if (res.status === 200 && res.json && res.json.ok && res.json.token) token = res.json.token;
+      else showNotice(LINK_USED);
+    }).catch(function (err) {
+      showNotice('Could not open the session: ' + err.message);
+    });
+    sessionCode = null;
+  }
+
+  function fieldError(field, message) {
+    if (!field) return;
+    field.setAttribute('aria-invalid', 'true');
+    var box = document.getElementById(field.getAttribute('aria-describedby'));
+    if (box) box.textContent = message;
+    field.focus();
+  }
+
+  function doPost(path, payload, field) {
+    if (!token) { showNotice(LINK_USED); return; }
+    post(path, payload).then(function (res) {
+      if (res.status === 200 && res.json && res.json.ok) {
+        return refreshState().then(focusActiveHeading);
+      }
+      if (res.status === 409) {
+        showNotice('The canvas changed since this view loaded; reloading.');
+        return refreshState().then(focusActiveHeading);
+      }
+      var message = (res.json && res.json.error) || ('Request failed (' + res.status + ').');
+      if (field) fieldError(field, message);
+      else showNotice(message);
+    }).catch(function (err) {
+      if (field) fieldError(field, 'Request failed: ' + err.message);
+      else showNotice('Request failed: ' + err.message);
+    });
+  }
+
+  // -- Dialogs ----------------------------------------------------------
+  // Accept and choose each ask for a sentence of the researcher's own, so both
+  // go through the one <dialog>. The dialog shows what the server answered
+  // when it refuses (a label line in the text, a [stated] statement in the
+  // way) inside itself: the notice bar sits under a modal dialog.
+  var dlg = document.getElementById('dlg');
+  var dialogState = null;
+  var dialogBusy = false;
+
+  function findStatement(s, questionId, hash) {
+    for (var i = 0; i < s.elements.length; i++) {
+      var qs2 = s.elements[i].questions;
+      for (var j = 0; j < qs2.length; j++) {
+        if (qs2[j].id !== questionId) continue;
+        for (var k = 0; k < qs2[j].statements.length; k++) {
+          if (qs2[j].statements[k].hash === hash) return { question: qs2[j], statement: qs2[j].statements[k] };
+        }
+      }
+    }
+    return null;
+  }
+
+  function showDialog(markup, what) {
+    dialogState = what;
+    dialogBusy = false;
+    dlg.innerHTML = markup;
+    if (!dlg.open) dlg.showModal();
+  }
+
+  function closeDialog() {
+    if (dlg.open) dlg.close();
+    dialogState = null;
+  }
+
+  function dialogError(message, field) {
+    // A failure can arrive after the dialog closed: the write is in, the reload
+    // of the state is not. Inside a closed dialog nothing is visible, so such a
+    // message goes to the notice bar, which outlives the dialog.
+    if (!dlg.open) { showNotice(message); return; }
+    var box = dlg.querySelector('.dlg-error');
+    if (box) box.textContent = message;
+    if (field) fieldError(field, message);
+  }
+
+  function dialogButtons(confirmLabel) {
+    return '<p id="dlg-error" class="dlg-error" role="alert"></p>'
+      + '<div class="dlg-actions"><button type="button" class="ghost-btn" data-dlg="cancel">Cancel</button>'
+      + '<button type="submit" class="action-btn action-btn-primary">' + esc(confirmLabel) + '</button></div>';
+  }
+
+  // The accept dialog: the statement as it stands (never editable here), the
+  // one required sentence, and the check questions still open on its question,
+  // each with the `#seq` of the log entry that asked it. Accepting with some
+  // open is allowed, so the button says so; the log records which were open.
+  function openAcceptDialog(questionId, hash) {
+    var found = findStatement(state, questionId, hash);
+    if (!found) {
+      showNotice('That statement is no longer on the canvas; reloading.');
+      refreshState();
+      return;
+    }
+    var checks = found.question.openChecks || [];
+    var checksHtml = checks.length
+      ? '<section class="dlg-checks" aria-labelledby="dlg-checks-title"><h3 id="dlg-checks-title">Open questions from the check</h3>'
+        + '<ul>' + checks.map(function (c) { return '<li><span class="seq">#' + esc(c.seq) + '</span>' + esc(c.body) + '</li>'; }).join('') + '</ul>'
+        + '<p>You can accept anyway. The record notes which of these were still open.</p></section>'
+      : '';
+    showDialog('<form id="dlg-form" novalidate>'
+      + '<h2 id="dlg-title">Accept this statement</h2>'
+      + '<p class="dlg-sub">' + esc(found.question.id) + ' &middot; ' + esc(found.question.text) + '</p>'
+      + '<blockquote class="dlg-quote">' + esc(found.statement.text) + '</blockquote>'
+      + '<label>In your own words, why does this hold? <span class="dlg-hint">(required, one sentence)</span>'
+      + '<textarea name="explained" rows="2" autofocus aria-required="true" aria-describedby="dlg-error"></textarea></label>'
+      + '<label>Why accept it now? <span class="dlg-hint">(optional)</span><input type="text" name="why"></label>'
+      + checksHtml
+      + dialogButtons(checks.length ? 'Accept anyway' : 'Accept')
+      + '</form>', { kind: 'accept', questionId: questionId, hash: hash });
+  }
+
+  // The choose dialog: a required reason, and what is set aside, prefilled
+  // with the other framings and their lenses and open to edit.
+  function openChooseDialog(name) {
+    var variants = variantsOf(state);
+    var v = variants.filter(function (x) { return x.name === name; })[0];
+    if (!v) return;
+    showDialog('<form id="dlg-form" novalidate>'
+      + '<h2 id="dlg-title">Choose the &ldquo;' + esc(v.name) + '&rdquo; framing</h2>'
+      + '<p class="dlg-sub">' + (v.lens ? 'Lens: ' + esc(v.lens) + '. ' : '') + 'Its statements replace the main canvas. The other framings stay in place as the record of what was compared.</p>'
+      + '<label>Why this framing? <span class="dlg-hint">(required)</span>'
+      + '<textarea name="why" rows="2" autofocus aria-required="true" aria-describedby="dlg-error"></textarea></label>'
+      + '<label>What you are setting aside <span class="dlg-hint">(filled in from the other framings; edit as you like)</span>'
+      + '<textarea name="rejected" rows="3">' + esc(defaultRejected(variants, v.name)) + '</textarea></label>'
+      + dialogButtons('Choose this framing')
+      + '</form>', { kind: 'choose', name: v.name });
+  }
+
+  function submitDialog(form) {
+    var what = dialogState;
+    if (!what || dialogBusy) return;
+    var field = function (name) { return form.elements[name] ? String(form.elements[name].value).trim() : ''; };
+    var payload;
+    var path;
+    if (what.kind === 'accept') {
+      var explained = field('explained');
+      if (!explained) { dialogError('Say in your own words why this holds. The record keeps it.', form.elements.explained); return; }
+      payload = { questionId: what.questionId, expectedHash: what.hash, explained: explained };
+      if (field('why')) payload.why = field('why');
+      path = '/api/accept';
+    } else {
+      var why = field('why');
+      if (!why) { dialogError('Say why you choose this framing. The record keeps it.', form.elements.why); return; }
+      payload = { name: what.name, why: why };
+      if (field('rejected')) payload.rejected = field('rejected');
+      path = '/api/choose';
+    }
+    if (fixtureMode) { dialogError('Fixture mode: nothing is written.'); return; }
+    if (!token) { dialogError(LINK_USED); return; }
+    dialogBusy = true;
+    post(path, payload).then(function (res) {
+      dialogBusy = false;
+      if (res.status === 200 && res.json && res.json.ok) {
+        closeDialog();
+        // The chosen framing is now the main canvas: show it.
+        if (what.kind === 'choose') activeView = 'poster';
+        return refreshState(what.kind === 'accept' ? tagMoved(what) : null).then(focusActiveHeading);
+      }
+      if (res.status === 409) {
+        closeDialog();
+        showNotice('The canvas changed since this view loaded; reloading.');
+        return refreshState().then(focusActiveHeading);
+      }
+      dialogError((res.json && res.json.error) || ('Request failed (' + res.status + ').'), form.elements[what.kind === 'accept' ? 'explained' : 'why']);
+    }).catch(function (err) {
+      dialogBusy = false;
+      dialogError('Request failed: ' + err.message, form.elements[what.kind === 'accept' ? 'explained' : 'why']);
+    });
+  }
+
+  function clearFieldError(event) {
+    event.target.removeAttribute('aria-invalid');
+    var box = document.getElementById(event.target.getAttribute('aria-describedby'));
+    if (box) box.textContent = '';
+  }
+
+  app.addEventListener('input', clearFieldError);
+  dlg.addEventListener('input', clearFieldError);
+
+  dlg.addEventListener('submit', function (event) {
+    event.preventDefault();
+    submitDialog(event.target);
+  });
+  dlg.addEventListener('click', function (event) {
+    if (event.target.closest('[data-dlg="cancel"]')) closeDialog();
+  });
+  // A native close event is queued: reopening before it arrives must keep the new state.
+  dlg.addEventListener('close', function () { if (!dlg.open) dialogState = null; });
+
+  // Fixture mode only: `?view=<view>` and `?dialog=choose:<name>` or
+  // `?dialog=accept:<question id>` open a view or a dialog on load, so a
+  // screenshot of either needs no click. Nothing is written in fixture mode.
+  function openFromUrl() {
+    if (!fixtureMode) return;
+    var spec = (qs.get('dialog') || '').split(':');
+    if (spec[0] === 'choose' && spec[1]) openChooseDialog(spec[1]);
+    if (spec[0] === 'accept' && spec[1]) {
+      var target = null;
+      state.elements.forEach(function (e) {
+        e.questions.forEach(function (q) {
+          if (q.id !== spec[1]) return;
+          q.statements.forEach(function (st) {
+            if (!target && ['proposed', 'tentative', 'stated'].indexOf(st.marker) !== -1) target = st;
+          });
+        });
+      });
+      if (target) openAcceptDialog(spec[1], target.hash);
+    }
+  }
+
+  function onClick(event) {
+    var byBtn = event.target.closest('button[data-by]');
+    if (byBtn) { setByFilter(byBtn.getAttribute('data-by') || null); return; }
+    // Navigation (view switching) works in fixture mode too: it never writes.
+    var navBtn = event.target.closest('[data-view-target]');
+    if (navBtn) {
+      event.preventDefault();
+      if (presentField !== null) leavePresent();
+      activeView = navBtn.getAttribute('data-view-target');
+      applyActiveView();
+      var scrollTo = navBtn.getAttribute('data-scroll-to');
+      var target = scrollTo && document.getElementById(scrollTo);
+      if (target) {
+        target.scrollIntoView({ block: 'start' });
+        target.focus({ preventScroll: true });
+      } else {
+        focusActiveHeading();
+      }
+      return;
+    }
+    var btn = event.target.closest('button[data-action]');
+    if (!btn) return;
+    var action = btn.getAttribute('data-action');
+    // Both dialogs open in fixture mode too; the confirm button there says
+    // nothing is written.
+    if (action === 'choose') { openChooseDialog(btn.getAttribute('data-variant')); return; }
+    if (action === 'present') { enterPresent(); return; }
+    if (action === 'present-exit') { leavePresent(); return; }
+    if (action === 'present-prev') { stepPresent(-1); return; }
+    if (action === 'present-next') { stepPresent(1); return; }
+    // The margin's Accept opens the sentence dialog in fixture mode as well;
+    // its confirm button there says nothing is written.
+    if (action === 'accept') {
+      openAcceptDialog(btn.getAttribute('data-question'), btn.getAttribute('data-hash'));
+      return;
+    }
+    if (fixtureMode) return;
+    if (action === 'stated') {
+      doPost('/api/stated', { questionId: btn.getAttribute('data-question'), expectedHash: btn.getAttribute('data-hash') });
+    } else if (action === 'comment') {
+      var num = btn.getAttribute('data-element');
+      var title = btn.getAttribute('data-element-title');
+      var bodyInput = document.querySelector('[data-comment-body-for="' + num + '"]');
+      var whyInput2 = document.querySelector('[data-comment-why-for="' + num + '"]');
+      var body = bodyInput ? bodyInput.value.trim() : '';
+      if (!body) { fieldError(bodyInput, 'A note needs some text.'); return; }
+      var commentPayload = { ref: num + ' ' + title, body: body };
+      var why2 = whyInput2 ? whyInput2.value.trim() : '';
+      if (why2) commentPayload.why = why2;
+      doPost('/api/comment', commentPayload, bodyInput);
+    }
+  }
+  // The navigation handler stays the first click listener on the page.
+  app.addEventListener('click', onClick);
+  presentNode.addEventListener('click', onClick);
+  presentNode.addEventListener('keydown', onPresentKey);
+  presentNode.addEventListener('fullscreenchange', function () {
+    if (presentField !== null && !document.fullscreenElement) leavePresent();
+  });
+  [app, presentNode].forEach(function (root) {
+    root.addEventListener('focusin', function (event) { light(event, true); });
+    root.addEventListener('focusout', function (event) { light(event, false); });
+    root.addEventListener('mouseover', function (event) { light(event, true); });
+    root.addEventListener('mouseout', function (event) { light(event, false); });
+  });
+  if (typeof window !== 'undefined' && window.addEventListener) {
+    window.addEventListener('resize', scheduleLayout);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(scheduleLayout);
+  }
+
+  // A link to a statement (`#st-3.1`) opens the page on it.
+  function revealById(id) {
+    var target = document.getElementById(id);
+    if (!target) return false;
+    layoutIn(app);
+    if (target.scrollIntoView) target.scrollIntoView({ block: 'center' });
+    if (target.focus) target.focus({ preventScroll: true });
+    return true;
+  }
+
+  function scrollToLinked() {
+    var linked = STATEMENT_HASH.exec(location.hash);
+    if (linked) revealById(linked[1]);
+  }
+
+  // The app's agent column asks for a statement by number (a link in the
+  // agent's reply). Hidden statements are not shown, so they are not found.
+  function lookupStatement(num) {
+    if (!state) return null;
+    for (var a = 0; a < state.elements.length; a++) {
+      var qs = state.elements[a].questions;
+      for (var b = 0; b < qs.length; b++) {
+        for (var c = 0; c < qs[b].statements.length; c++) {
+          var st = qs[b].statements[c];
+          if (statementNumber(qs[b], c) !== num || st.hidden) continue;
+          var words = String(st.text || '').trim().split(/\s+/).filter(Boolean);
+          return words.length > 8 ? words.slice(0, 8).join(' ') + ' …' : words.join(' ');
+        }
+      }
+    }
+    return null;
+  }
+
+  // Embedded in the app's shell page, the view takes its token from the shell
+  // instead of redeeming a code; opened alone, it redeems its own code. The
+  // shell speaks to it by message, from this origin and this frame's parent
+  // only: any other sender changes nothing. The shell's tab names are the
+  // protocol's; the view's own ids for them are below.
+  var SHELL_TABS = { 'poster': 'poster', 'to-talk-about': 'agenda', 'history': 'log' };
+
+  function showTab(tab) {
+    if (!Object.prototype.hasOwnProperty.call(SHELL_TABS, tab)) return;
+    if (presentField !== null) leavePresent();
+    activeView = SHELL_TABS[tab];
+    applyActiveView();
+  }
+
+  function listenToShell(onToken) {
+    if (typeof window === 'undefined' || !window.addEventListener || window.parent === window) return false;
+    window.addEventListener('message', function (event) {
+      if (event.origin !== window.location.origin || event.source !== window.parent) return;
+      var msg = event.data || {};
+      if (msg.type === 'harness-token' && typeof msg.token === 'string') onToken(msg.token);
+      if (msg.type === 'harness-tab') showTab(msg.tab);
+      if (msg.type === 'harness-refresh') {
+        refreshState().catch(function (err) { showNotice('Could not reload the canvas: ' + err.message); });
+      }
+      if (msg.type === 'harness-reveal' && typeof msg.num === 'string') {
+        showTab('poster');
+        revealById('st-' + msg.num);
+      }
+      if (msg.type === 'harness-lookup' && typeof msg.num === 'string') {
+        window.parent.postMessage({ type: 'harness-lookup-result', id: msg.id, words: lookupStatement(msg.num) }, window.location.origin);
+      }
+    });
+    window.parent.postMessage({ type: 'harness-ready' }, window.location.origin);
+    return true;
+  }
+
+  if (!fixtureMode && !listenToShell(function (shellToken) { token = shellToken; })) openSession();
+  if (qs.get('view')) activeView = qs.get('view');
+  var linkedAtLoad = STATEMENT_HASH.exec(location.hash);
+  refreshState().then(openFromUrl).then(function () { if (linkedAtLoad) scrollToLinked(); }).catch(function (err) {
+    app.innerHTML = '<p role="alert" class="load-message">Could not load the canvas: ' + esc(err.message) + '</p>';
+  });
+})();
+</script>
+</body>
+</html>

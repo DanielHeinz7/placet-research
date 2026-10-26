@@ -1,0 +1,14 @@
+{
+  "name": "placet-research-repo",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Development dependencies of this repository. The plugin itself ships no dependencies; only its rendered tests and the screenshot script need a browser.",
+  "scripts": {
+    "test": "cd plugins/placet-research && node --test --test-timeout=120000 \"test/*.test.js\"",
+    "capture": "node scripts/capture-session-view.js",
+    "setup:browsers": "playwright install chromium"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0"
+  }
+}

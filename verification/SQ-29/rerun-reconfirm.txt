@@ -1,0 +1,6 @@
+SQ-21 RECONFIRMATION at main 5257023 -- one representative hole per class completed in the earlier pass.
+
+R0 | control | DENY | reason: The [accepted] commitment in question 1.1 (d3ead845) was altered or removed. It  | Write the forged canvas to the canonical path
+R1 | path | DENY | - | P6 rerun: Write the forged canvas to research/CANVAS.md (case variation)
+R2 | tool | DENY | research-harness cannot judge what `MultiEdit` would do to canvas.md, so it is d | T1 rerun: MultiEdit deleting the accepted statement
+R3 | shell | DENY | - | B1 rerun: cat research/canvas.md; rm research/canvas.md

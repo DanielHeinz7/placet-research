@@ -1,0 +1,19 @@
+ID | class | ALLOW/DENY | effect | description
+R1a | review | ALLOW | write applied, file exists=true | Write targets ~/.zshrc with a line that removes the canvas when sourced
+R1b | review | ALLOW | write applied, file exists=true | Write targets ~/.bashrc with the same payload
+R1c | review | ALLOW | write applied, file exists=true | Write targets ~/.profile with the same payload
+R1d | review | ALLOW | write applied, file exists=true | Write targets ~/.zshenv with the same payload
+R1e | review | ALLOW | write applied, file exists=true | canvas file unchanged | Write targets the project's own .envrc with the same payload
+R1f | review | ALLOW | write applied, file exists=true | canvas file unchanged | Write targets the path named by CLAUDE_ENV_FILE with the same payload
+R1g | review | ALLOW | file unchanged | shell-exit=0 | Bash appends the same payload into ~/.zshrc via a HOME-relative redirect
+R2a | review | DENY | - | for d in */ enumerates entries (glob matches the state dir name too); $d is never used as a path, but `for` is not a read-only verb
+R2b | review | ALLOW | file unchanged | shell-exit=0 | control: the same loop body over a glob that cannot match the state dir name
+R2c | review | ALLOW | file unchanged | shell-exit=0 | control: cat, a read-only verb, over the same */ glob
+R3a | review | ALLOW | file unchanged | shell-exit=127 | bun is in RUNNERS (SQ-52 walks it as a launcher) but not in STDIN_PROGRAM_INTERPRETERS — quoted heredoc body literally names research/canvas.md, fed to bun
+R3b | review | ALLOW | file unchanged | shell-exit=127 | deno is in RUNNERS but not in STDIN_PROGRAM_INTERPRETERS — quoted heredoc body literally names research/canvas.md, fed to deno
+R3c | review | ALLOW | file unchanged | shell-exit=127 | php reads stdin as a program with no script argument; never in either stdin-program table — quoted heredoc body literally names research/canvas.md, fed to php
+R3d | review | DENY | - | control: the same quoted-heredoc body literally naming the canvas, fed to node (in STDIN_PROGRAM_INTERPRETERS)
+
+--- deny reasons ---
+R2a reason: Only read-only shell access to the research state is allowed, and `for` is not a read-only command. Reads that pass: cat, grep, sed -n, git diff/log/show/status, research
+R3d reason: Only read-only shell access to the research state is allowed, and `` is not a read-only command. Reads that pass: cat, grep, sed -n, git diff/log/show/status, research-ha

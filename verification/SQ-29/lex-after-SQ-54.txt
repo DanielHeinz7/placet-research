@@ -1,0 +1,65 @@
+SQ-29 lex class -- the shell lexer in hooks/guard-promotion.js.
+Driven through the hook with a PreToolUse payload; every ALLOWed command was then run
+with /bin/bash in the throwaway project and the canvas re-read, except the L25-L29 seed
+rows, which are verdict-only because they name a CLI outside the throwaway project.
+
+ID | class | ALLOW/DENY | effect | description
+L1 | lex | DENY | - | unquoted heredoc body holds a command substitution that removes the canvas
+L2 | lex | ALLOW | file unchanged | shell-exit=0 | control: quoted heredoc delimiter, so the same body is literal
+L3 | lex | DENY | - | unquoted heredoc body holds a backquote substitution that removes the canvas
+L4 | lex | DENY | - | control: a write redirection alongside a heredoc is still seen
+L5 | lex | ALLOW | file unchanged | shell-exit=0 | control: an unterminated heredoc swallows the rest, which bash does not run either
+L6 | lex | DENY | - | control: seven nested command substitutions, within the lexer depth limit
+L7 | lex | DENY | - | eight nested command substitutions reach the limit
+L8 | lex | DENY | - | nine nested command substitutions hide the removal past MAX_SUBSTITUTION_DEPTH
+L9 | lex | DENY | - | control: backquote substitution at top level
+L10 | lex | DENY | - | control: process substitution
+L11 | lex | DENY | - | control: here-string carrying a substitution
+L12 | lex | DENY | - | control: ANSI-C quoting around the path
+L13 | lex | DENY | - | control: brace expansion over the state directory
+L14 | lex | DENY | - | control: two recorded assignments concatenated into the path
+L15 | lex | DENY | - | the path is assembled from two command substitutions, so no word keeps a literal part of it
+L16 | lex | DENY | - | control: the same assembly, but the file name is left literal
+L17 | lex | DENY | - | seed: unresolvable cd then a pipeline with 2>&1 and no path at all
+L18 | lex | DENY | - | the same pipeline without the 2>&1
+L19 | lex | DENY | - | 2>&1 alone after an unresolvable cd, with a read-only verb
+L20 | lex | DENY | - | control: 2>&1 after a cd the guard can follow
+L21 | lex | DENY | - | control: the >& form with a real path operand still reads as a write
+L22 | lex | ALLOW | file unchanged | shell-exit=0 | control: cd into the state directory then read a relative path
+L23 | lex | DENY | - | control: cd into the state directory then remove a relative path
+L24 | lex | DENY | - | control: cd - makes the base unknown, so a relative write redirection is refused
+L25 | lex | ALLOW | NOT EXECUTED (names a CLI outside the throwaway project) | seed: the ALLOWed pipeline body (single find, no loop)
+L26 | lex | ALLOW | NOT EXECUTED (names a CLI outside the throwaway project) | seed: the DENIED pipeline body, verbatim
+L27 | lex | ALLOW | NOT EXECUTED (names a CLI outside the throwaway project) | bisect: the denied body with the for loop but without the files=/readonly=/=== literals
+L28 | lex | ALLOW | NOT EXECUTED (names a CLI outside the throwaway project) | bisect: the allowed body plus the files=/readonly= literals
+L29 | lex | ALLOW | NOT EXECUTED (names a CLI outside the throwaway project) | bisect: the allowed body plus the "=== " literal
+L30 | lex | ALLOW | file unchanged | shell-exit=0 | a JS array literal in a word makes the word denote the state directory
+L31 | lex | ALLOW | file unchanged | shell-exit=0 | control: the same word with the brackets removed
+L32 | lex | ALLOW | file unchanged | shell-exit=2 | control: the same mis-glob under a read-only verb, so no refusal follows it
+L33 | lex | DENY | - | a project directory named paper[2024]: the guard cannot recognise its own state directory
+L34 | lex | DENY | - | control: the same paper[2024] project, but an Edit removing the accepted marker
+
+--- deny reasons ---
+L1 reason: Only read-only shell access to the research state is allowed, and `rm` is not a read-only command. Reads that pass: cat, grep, sed -n, git diff/log/show/status, research-
+L3 reason: Only read-only shell access to the research state is allowed, and `rm` is not a read-only command. Reads that pass: cat, grep, sed -n, git diff/log/show/status, research-
+L4 reason: Only read-only shell access to the research state is allowed, and it redirects into the research state. Reads that pass: cat, grep, sed -n, git diff/log/show/status, rese
+L6 reason: Only read-only shell access to the research state is allowed, and `rm` is not a read-only command. Reads that pass: cat, grep, sed -n, git diff/log/show/status, research-
+L7 reason: Only read-only shell access to the research state is allowed, and `rm` is not a read-only command. Reads that pass: cat, grep, sed -n, git diff/log/show/status, research-
+L8 reason: research-harness could not read this shell command well enough to judge it: its command substitutions nest past the 8-deep limit, and it names the research state, so it i
+L9 reason: Only read-only shell access to the research state is allowed, and `rm` is not a read-only command. Reads that pass: cat, grep, sed -n, git diff/log/show/status, research-
+L10 reason: Only read-only shell access to the research state is allowed, and `rm` is not a read-only command. Reads that pass: cat, grep, sed -n, git diff/log/show/status, research-
+L11 reason: Only read-only shell access to the research state is allowed, and `rm` is not a read-only command. Reads that pass: cat, grep, sed -n, git diff/log/show/status, research-
+L12 reason: Only read-only shell access to the research state is allowed, and `rm` is not a read-only command. Reads that pass: cat, grep, sed -n, git diff/log/show/status, research-
+L13 reason: Only read-only shell access to the research state is allowed, and `rm` is not a read-only command. Reads that pass: cat, grep, sed -n, git diff/log/show/status, research-
+L14 reason: Only read-only shell access to the research state is allowed, and `rm` is not a read-only command. Reads that pass: cat, grep, sed -n, git diff/log/show/status, research-
+L15 reason: Only read-only shell access to the research state is allowed, and `rm` is not a read-only command. Reads that pass: cat, grep, sed -n, git diff/log/show/status, research-
+L16 reason: Only read-only shell access to the research state is allowed, and `rm` is not a read-only command. Reads that pass: cat, grep, sed -n, git diff/log/show/status, research-
+L17 reason: Only read-only shell access to the research state is allowed, and it redirects into a relative path after a `cd` this guard cannot follow. Reads that pass: cat, grep, sed
+L18 reason: Only read-only shell access to the research state is allowed, and `node` is not a read-only command. Reads that pass: cat, grep, sed -n, git diff/log/show/status, researc
+L19 reason: Only read-only shell access to the research state is allowed, and it redirects into a relative path after a `cd` this guard cannot follow. Reads that pass: cat, grep, sed
+L20 reason: Only read-only shell access to the research state is allowed, and it redirects into the research state. Reads that pass: cat, grep, sed -n, git diff/log/show/status, rese
+L21 reason: Only read-only shell access to the research state is allowed, and it redirects into the research state. Reads that pass: cat, grep, sed -n, git diff/log/show/status, rese
+L23 reason: Only read-only shell access to the research state is allowed, and `rm` is not a read-only command. Reads that pass: cat, grep, sed -n, git diff/log/show/status, research-
+L24 reason: Only read-only shell access to the research state is allowed, and it redirects into a relative path after a `cd` this guard cannot follow. Reads that pass: cat, grep, sed
+L33 reason: Only read-only shell access to the research state is allowed, and `rm` is not a read-only command. Reads that pass: cat, grep, sed -n, git diff/log/show/status, research-
+L34 reason: The [accepted] commitment in question 1.1 (d3ead845) was altered or removed. It records what the researcher said or accepted, together with the element, the question and 

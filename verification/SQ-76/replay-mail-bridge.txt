@@ -1,0 +1,25 @@
+# HEAD 6fe5b33 vs working tree; cwd and CLAUDE_PROJECT_DIR = ~/code/mail-bridge, which holds no research state
+HEAD  exit=0 DENY  refused 1 — Only read-only shell access to the research state is allowed, and `for` is not a read-only comm
+HEAD  exit=0 DENY  refused 2 — Only read-only shell access to the research state is allowed, and `du` is not a read-only comma
+HEAD  exit=0 DENY  refused 3 — Only read-only shell access to the research state is allowed, and `du` is not a read-only comma
+HEAD  exit=0 DENY  refused 3 as in spinoff (cd prefix) — Only read-only shell access to the research state is allowed, and `du` is not a read-only comma
+HEAD  exit=0 DENY  write: cp into research/canvas.md — Only read-only shell access to the research state is allowed, and `cp` is not a read-only comma
+HEAD  exit=0 DENY  write: redirect into research/canvas.md — Only read-only shell access to the research state is allowed, and it redirects into the researc
+HEAD  exit=0 DENY  write: key into harness state — research-harness cannot let this shell command touch the harness state directory (~
+HEAD  exit=0 DENY  write: glob rm in harness state — research-harness cannot let this shell command touch the harness state directory (~
+fixed exit=0 ALLOW refused 1
+fixed exit=0 ALLOW refused 2
+fixed exit=0 ALLOW refused 3
+fixed exit=0 ALLOW refused 3 as in spinoff (cd prefix)
+fixed exit=0 DENY  write: cp into research/canvas.md — Only read-only shell access to the research state is allowed, and `cp` is not a read-only comma
+fixed exit=0 DENY  write: redirect into research/canvas.md — Only read-only shell access to the research state is allowed, and it redirects into the researc
+fixed exit=0 DENY  write: key into harness state — research-harness cannot let this shell command touch the harness state directory (~
+fixed exit=0 DENY  write: glob rm in harness state — research-harness cannot let this shell command touch the harness state directory (~
+
+# every mirror command from the mail-bridge transcript, fixed hook (mailbox folder names replaced by acct-a/acct-b)
+ALLOW exit=0 | ls; echo ---; git log --oneline -5; echo ---; cat .gitignore; echo ---; du -sh mirror/inbox mir
+ALLOW exit=0 | S=<S>; head -3 $S/inbox_imap.log; for k in acct-a acct-b assistant; do d=mirror
+ALLOW exit=0 | ls mirror/acct-a/history mirror/acct-b/history mirror/assistant; find mirror/da
+ALLOW exit=0 | find mirror/acct-a/history/inbox -name '*.md' -path '*/20*/*' | wc -l && find mirror/d
+ALLOW exit=0 | find mirror/history/inbox -name '*.md' -path '*/20*/*' | wc -l && ls mirror/history/inbox | hea
+ALLOW exit=0 | find mirror/history/inbox -name '*.md' -path '*/20*/*' | wc -l && ls mirror/history/inbox | hea

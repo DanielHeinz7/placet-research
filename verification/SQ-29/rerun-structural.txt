@@ -1,0 +1,53 @@
+SQ-21 STRUCTURAL class -- each probe driven through hooks/guard-promotion.js with a PreToolUse payload; every ALLOWed write was then applied and the file re-read.
+
+S0 | struct | DENY | - | control: Write the canvas with question 1.1 and its accepted statement removed
+S1 | struct | DENY | - | move question 1.1 (heading plus its accepted statement) under element 3
+S2 | struct | DENY | - | rewrite the text of question heading 1.1, keeping the id
+S3 | struct | DENY | - | rewrite the title of element 1 (Puzzle becomes Contributions)
+S4 | struct | ALLOW | bytes 3157->3264 | NEW-COMMITTED ["e1/1.4 [stated] The researcher recorded all twelve meetings pers"] | review[unmarked=0 untagged=5 stale=1 unlogged=1 problems=0] | add a new question heading 1.4 carrying a new [stated] statement
+S5 | struct | DENY | - | duplicate question heading 1.1 BEFORE the original, carrying the accepted text as [proposed]
+S5b | struct | DENY | - | same duplicate appended AFTER the original, under element 9
+S6 | struct | DENY | - | move the accepted statement itself to a duplicate 1.1 heading under element 9
+S7 | struct | DENY | - | split the accepted statement into two statements
+S8 | struct | ALLOW | bytes 3157->3161 | review[unmarked=0 untagged=4 stale=1 unlogged=1 problems=0] | indent the accepted statement by four spaces (renders as a code block)
+S9 | struct | DENY | - | prefix the accepted statement with a blockquote marker
+S10 | struct | ALLOW | bytes 3157->3168 | review[unmarked=2 untagged=4 stale=1 unlogged=1 problems=0] | wrap the accepted statement in an HTML comment, delimiters as their own paragraphs
+S11 | struct | ALLOW | bytes 3157->3157 | review[unmarked=0 untagged=4 stale=1 unlogged=1 problems=0] | reorder question 1.2 so the [proposed] statement precedes the [stated] one
+S12 | struct | DENY | - | rewrite the frontmatter project and outlet
+S12b | struct | DENY | - | point the frontmatter profile at an id the plugin does not ship
+S13 | struct | DENY | - | remove the closing frontmatter delimiter
+S14 | struct | DENY | - | delete the element 9 heading
+S15 | struct | DENY | - | append a second element 1 heading with no statements (status shadowing)
+S16 | struct | DENY | - | wrap the whole body in a code fence opened directly after the frontmatter
+
+--- deny reasons ---
+S0 reason: Removing or renaming the heading ##1.1 is not allowed; every element and question heading stays. Propose the change as [proposed] alongside the existi
+S1 reason: Cannot judge this write: line 41: question 1.1 sits under element 3, but a question belongs to the element it is numbered for. Keep the canvas structu
+S2 reason: The [accepted] commitment in question 1.1 (d3ead845) had the text of its own question rewritten, so it now answers a different question. It records wh
+S3 reason: The [accepted] commitment in question 1.1 (d3ead845) had the title of its element rewritten to "Contributions". It records what the researcher said or
+S5 reason: Cannot judge this write: question 1.1 has 2 headings (lines 12, 16); while both stand it has no single reading, and the model may not resolve the dupl
+S5b reason: Cannot judge this write: question 1.1 has 2 headings (lines 12, 137); while both stand it has no single reading, and the model may not resolve the dup
+S6 reason: Cannot judge this write: line 133: question 1.1 sits under element 9, but a question belongs to the element it is numbered for. Keep the canvas struct
+S7 reason: The [accepted] commitment in question 1.1 (d3ead845) was altered or removed. It records what the researcher said or accepted, together with the elemen
+S9 reason: The [accepted] commitment in question 1.1 (d3ead845) was altered or removed. It records what the researcher said or accepted, together with the elemen
+S12 reason: The frontmatter key "outlet" is the researcher's to change ("Organization Science" to "Journal of Chairing" was refused); it decides how the whole can
+S12b reason: Cannot judge this write: "profile: is-experimental" does not resolve to a profile this harness ships, so the rules that judge this canvas cannot be lo
+S13 reason: Cannot judge this write: frontmatter is not terminated. Keep the canvas structure — frontmatter, "# N · Title", "## N.M question", statements ending i
+S14 reason: Cannot judge this write: line 123: question 9.1 sits under element 8, but a question belongs to the element it is numbered for. Keep the canvas struct
+S15 reason: Cannot judge this write: element 1 has 2 headings (lines 10, 137); while both stand it has no status, and the model may not resolve the duplicate. Kee
+S16 reason: Cannot judge this write: line 10: text outside any question. Keep the canvas structure — frontmatter, "# N · Title", "## N.M question", statements end
+
+--- resulting file regions ---
+S8 resulting file region:
+    |## 1.1 What is the broad question this project speaks to?
+    |
+    |    When do members' suggestions in organizational meetings receive serious consideration rather than polite acknowledgement? [accepted]
+    |
+S10 resulting file region:
+    |
+    |<!--
+    |
+    |When do members' suggestions in organizational meetings receive serious consideration rather than polite acknowledgement? [accepted]
+    |
+    |-->
+    |

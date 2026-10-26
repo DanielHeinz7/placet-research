@@ -1,0 +1,12 @@
+#!/usr/bin/env node
+'use strict';
+
+// The bare command. Claude Code puts an enabled plugin's bin/ directory on the
+// Bash tool's PATH, so a file named `placet-research` here is what the skills,
+// the guard and the researcher can all call by that name inside a session.
+//
+// It is a door, not a second CLI: the program stays in bin/placet-research.js,
+// and this file hands it the same argv, stdio and exit code. A researcher's own
+// terminal installs that same name through `placet-research install-cli`,
+// whose shim resolves this plugin directory at every run.
+process.exitCode = require('./placet-research.js').run(process.argv.slice(2));

@@ -1,0 +1,37 @@
+SQ-29 baseline class -- the three shipped probe scripts re-run and diffed against
+verification/recorded/. Each re-run transcript is written beside this file as
+rerun-<name>.txt. recorded/ is the SQ-21 pass that found the holes, so ALLOW -> DENY there
+is a hole since closed and DENY -> ALLOW is a regression.
+
+ID | class | result | counts | source
+structural | baseline | NO REGRESSION | 19 recorded rows, 19 now, 0 regressions, 8 holes closed, 0 effect changes | probe-structural.js against recorded/structural.txt
+diff | baseline | NO REGRESSION | 29 recorded rows, 29 now, 0 regressions, 7 holes closed, 0 effect changes | probe-diff.js against recorded/diff.txt
+reconfirm | baseline | NO REGRESSION | 4 recorded rows, 4 now, 0 regressions, 3 holes closed, 1 effect changes | probe-reconfirm.js against recorded/reconfirm.txt
+since-SQ-32 | baseline | IDENTICAL | 52 rows in SQ-32/probes-after.txt, 0 verdict changes, 0 effect changes | the same three scripts against the most recent recorded run
+bash + path-and-tool | baseline | SEE probe-recorded.js | no vendored script; rebuilt from recorded/bash.txt and recorded/path-and-tool.txt | node verification/SQ-29/probe-recorded.js
+
+--- differences ---
+--- structural.txt ---
+  S1: ALLOW -> DENY (hole closed since SQ-21)
+  S12: ALLOW -> DENY (hole closed since SQ-21)
+  S12b: ALLOW -> DENY (hole closed since SQ-21)
+  S15: ALLOW -> DENY (hole closed since SQ-21)
+  S2: ALLOW -> DENY (hole closed since SQ-21)
+  S3: ALLOW -> DENY (hole closed since SQ-21)
+  S5: ALLOW -> DENY (hole closed since SQ-21)
+  S6: ALLOW -> DENY (hole closed since SQ-21)
+--- diff.txt ---
+  D4a: ALLOW -> DENY (hole closed since SQ-21)
+  D4b: ALLOW -> DENY (hole closed since SQ-21)
+  D4c: ALLOW -> DENY (hole closed since SQ-21)
+  D5b: ALLOW -> DENY (hole closed since SQ-21)
+  D5c: ALLOW -> DENY (hole closed since SQ-21)
+  D7b: ALLOW -> DENY (hole closed since SQ-21)
+  D7c: ALLOW -> DENY (hole closed since SQ-21)
+--- reconfirm.txt ---
+  R0: effect changed
+      recorded: reason: The [accepted] statement in question 1.1 must not be altered, removed, or downgr
+      now:      reason: The [accepted] commitment in question 1.1 (d3ead845) was altered or removed. It
+  R1: ALLOW -> DENY (hole closed since SQ-21)
+  R2: ALLOW -> DENY (hole closed since SQ-21)
+  R3: ALLOW -> DENY (hole closed since SQ-21)

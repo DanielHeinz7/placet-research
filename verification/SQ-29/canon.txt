@@ -1,0 +1,27 @@
+SQ-29 canon class -- SQ-26 canonical commitment line and committedSet.
+Driven through hooks/guard-promotion.js with a PreToolUse payload; every ALLOWed write
+was applied and the canvas re-read. U+001F is shown as \u001f in the effect column.
+
+ID | class | ALLOW/DENY | effect | description
+
+K1 | canon | DENY | - | control: reword the accepted statement of 1.1
+K2 | canon | DENY | - | control: move a plain tag into the statement text
+K3 | canon | ALLOW | bytes 3184->3184 | LOST-COMMITTED ["e1/1.1 [accepted, src: interview-07\u001fmemo-02] When do members' suggestions in organizational m"] | NEW-COMMITTED ["e1/1.1 [accepted, memo-02] When do members' suggestions in organizational m"] | review[unmarked=0 untagged=3 stale=1 unlogged=1 problems=0] | accepted statement: a tag carrying U+001F lets the text field absorb it
+K4 | canon | ALLOW | bytes 3184->3184 | LOST-COMMITTED ["e1/1.1 [accepted, memo-02] When do members' suggestions in organizational m"] | NEW-COMMITTED ["e1/1.1 [accepted, src: interview-07\u001fmemo-02] When do members' suggestions in organizational m"] | review[unmarked=0 untagged=3 stale=1 unlogged=1 problems=0] | accepted statement: the same cut in the other direction, text back into the tag
+K5 | canon | DENY | - | control: the same shape cut so the joined line differs by one character
+K6 | canon | DENY | - | control: the marker is its own field, so the cut cannot downgrade the statement
+K7 | canon | ALLOW | bytes 3157->3278 | NEW-COMMITTED ["e1/1.2 [stated, alpha\u001fbeta] Speaking frequency is well documented; whether a"] | review[unmarked=0 untagged=4 stale=1 unlogged=1 problems=0] | step 1: the model writes a new [stated] statement whose tag carries U+001F
+K8 | canon | ALLOW | bytes 3278->3278 | LOST-COMMITTED ["e1/1.2 [stated, alpha\u001fbeta] Speaking frequency is well documented; whether a"] | NEW-COMMITTED ["e1/1.2 [stated, beta] Speaking frequency is well documented; whether a"] | review[unmarked=0 untagged=4 stale=1 unlogged=1 problems=0] | step 2: the model re-cuts its own commitment across the text/tags boundary
+K9 | canon | DENY | - | control: rewrite the element 1 title with a U+001F in it
+K10 | canon | DENY | - | control: a tag that reproduces a marker name on a stated statement
+K11 | canon | DENY | - | control: a tag that reproduces this question id
+K12 | canon | ALLOW | bytes 3170->3171 | review[unmarked=0 untagged=4 stale=1 unlogged=1 problems=0] | control: NFD spelling of the same committed text (NFC folds it to the same commitment)
+
+--- deny reasons ---
+K1 reason: The [accepted] commitment in question 1.1 (d3ead845) was altered or removed. It records what the researcher said or accepted, together with the elemen
+K2 reason: The [accepted] commitment in question 1.1 (d4ee9aca) was altered or removed. It records what the researcher said or accepted, together with the elemen
+K5 reason: The [accepted] commitment in question 1.1 (ca5d2cdf) was altered or removed. It records what the researcher said or accepted, together with the elemen
+K6 reason: The [accepted] commitment in question 1.1 (ca5d2cdf) was altered or removed. It records what the researcher said or accepted, together with the elemen
+K9 reason: The [accepted] commitment in question 1.1 (d3ead845) had the title of its element rewritten to "1.1 Puzzle". It records what the researcher said or a
+K10 reason: The [stated] commitment in question 1.2 (17e29197) had the evidence tag "accepted" attached to it. It records what the researcher said or accepted, to
+K11 reason: The [accepted] commitment in question 1.1 (d3ead845) had the evidence tag "1.1" attached to it. It records what the researcher said or accepted, toget

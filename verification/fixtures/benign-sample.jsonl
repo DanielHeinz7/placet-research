@@ -1,0 +1,13 @@
+{"label":"plain read: git status","command":"git status --short","expect":"ALLOW"}
+{"label":"plain build: npm test","command":"npm test 2>&1 | tail -20","expect":"ALLOW"}
+{"label":"SQ-76 shape 1: for loop over $VAR/...","command":"S=/tmp/mirror; head -3 $S/inbox.log; for k in acct-a acct-b; do d=$S/$k; ls \"$d\" | head -3; done","expect":"ALLOW"}
+{"label":"SQ-76 shape 2: du -sh next to a quoted '*/20*/*' pattern","command":"du -sh mirror/acct-a mirror/acct-b; find mirror/acct-a -name '*.md' -path '*/20*/*' | wc -l","expect":"ALLOW"}
+{"label":"SQ-76 shape 3: cd ... && find ... | wc -l && du -sh ...","command":"cd mirror && find history/inbox -name '*.md' | wc -l && du -sh history/inbox","expect":"ALLOW"}
+{"label":"SQ-75 shape: echo whose text contains research/","command":"echo \"drafts move to research/notes.md later\"","expect":"ALLOW"}
+{"label":"SQ-102: variable holding git -C <dir named like the CLI>","command":"G=\"git -C /home/u/src/placet-research\"; $G add -A","expect":"ALLOW"}
+{"label":"control: SQ-102 with IFS=: the variable is the CLI path","command":"IFS=:; G=\"/tmp/a b/placet-research.js\"; $G accept 1.2","expect":"DENY"}
+{"label":"control: cp into research/canvas.md","command":"cp draft.md research/canvas.md","expect":"DENY"}
+{"label":"control: redirect into research/canvas.md","command":"echo x > research/canvas.md","expect":"DENY"}
+{"label":"SQ-101: python heredoc program is not lexed as bash","command":"python3 - <<'EOF'\nimport os, tempfile\nd = tempfile.mkdtemp()\nos.mkdir(os.path.join(d, \"out\"))\nprint(d)\nEOF","expect":"ALLOW"}
+{"label":"SQ-145 row 1: sed -i whose script text holds a state-name fragment","cwd":"sq-145-no-such-directory","command":"sed -i '' 's/Foo\\./Research/' notes.md","expect":"ALLOW"}
+{"label":"SQ-145 row 2: the same fragment with a word after it","cwd":"sq-145-no-such-directory","command":"sed -i '' 's/Foo\\./Research Plan/' notes.md","expect":"ALLOW"}

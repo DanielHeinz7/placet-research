@@ -1,0 +1,6 @@
+SQ-21 RECONFIRMATION at main 5257023 -- one representative hole per class completed in the earlier pass.
+
+R0 | control | DENY | reason: The [accepted] statement in question 1.1 must not be altered, removed, or downgr | Write the forged canvas to the canonical path
+R1 | path | ALLOW | canvas.md now IS the forged text (CANVAS OVERWRITTEN); research/ contains ["canvas.md","decisions.md"] | P6 rerun: Write the forged canvas to research/CANVAS.md (case variation)
+R2 | tool | ALLOW | guard produced no output for tool_name=MultiEdit | T1 rerun: MultiEdit deleting the accepted statement
+R3 | shell | ALLOW | after executing it, research/canvas.md exists: false | B1 rerun: cat research/canvas.md; rm research/canvas.md

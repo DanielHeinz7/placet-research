@@ -1,0 +1,23 @@
+SQ-29 chain class -- SQ-27 seal chain (hooks/lib/seal.js) and the CLI log path.
+C1-C5 are driven through hooks/guard-promotion.js with a PreToolUse payload and then
+executed; C6-C15 construct a chain directly and ask verifyChain about it.
+
+ID | class | verdict | effect | description
+C1 | chain | ALLOW | cli-exit=2 | before entries[#1,#2,#3!] chain=unverifiable verified={} unverifiedDecisions=1 unlogged=1 | after entries[#1,#2,#3!] chain=unverifiable verified={} unverifiedDecisions=1 unlogged=1 | control: the CLI refuses a --body that holds an entry heading
+C2 | chain | ALLOW | cli-exit=0 | before entries[#1,#2,#3!] chain=unverifiable verified={} unverifiedDecisions=1 unlogged=1 | after entries[#1,#2,#3!,#4,#99!] chain=broken break=#99/unsealed verified={4} unverifiedDecisions=2 unlogged=1 | the same heading in --why, which the CLI does not check
+C3 | chain | ALLOW | cli-exit=1 | before entries[#1,#2,#3!,#4,#99!] chain=broken break=#99/unsealed verified={4} unverifiedDecisions=2 unlogged=1 | after entries[#1,#2,#3!,#4,#99!] chain=broken break=#99/unsealed verified={4} unverifiedDecisions=2 unlogged=1 | a legitimate log afterwards, on the ledger C2 left behind
+C3b | chain | RESEARCHER | cli-exit=1 | canvas unchanged | Cannot accept 1.2: research/decisions.md is broken at #99 (line 17); nothing is written. The harness never rep | driver bin/research-harness.js: the researcher accepts 1.2 on the ledger C2 left behind
+C4 | chain | ALLOW | cli-exit=2 | before entries[#1,#2,#3!] chain=unverifiable verified={} unverifiedDecisions=1 unlogged=1 | after entries[#1,#2,#3!] chain=unverifiable verified={} unverifiedDecisions=1 unlogged=1 | control: --supersedes is read as a number
+C5 | chain | ALLOW | cli-exit=2 | before entries[#1,#2,#3!] chain=unverifiable verified={} unverifiedDecisions=1 unlogged=1 | after entries[#1,#2,#3!] chain=unverifiable verified={} unverifiedDecisions=1 unlogged=1 | control: a ref carrying the heading separator
+C6 | chain | VERIFIED | verified={4,5,6} | driver seal.js: three appended entries over a legacy prefix
+C7 | chain | BROKEN | break #4 (anchor) | verified={} | driver seal.js: the same file under another project's key
+C8 | chain | BROKEN | break #4 (anchor) | verified={} | driver seal.js: one byte added to the legacy prefix before the first seal
+C9 | chain | BROKEN | break #5 (anchor) | verified={} | driver seal.js: the first sealed entry removed
+C10 | chain | BROKEN | break #6 (chain) | verified={4} | driver seal.js: the middle sealed entry removed
+C11 | chain | BROKEN | break #5 (content) | verified={4} | driver seal.js: the body of a sealed entry rewritten
+C12 | chain | BROKEN | break #7 (unsealed) | verified={4,5,6} | driver seal.js: an unsealed entry appended after the chain
+C13 | chain | BROKEN | break #5 (content) | verified={4} | driver seal.js: the seal of entry #6 moved onto entry #5
+C14 | chain | VERIFIED | verified={4,5,6} | driver seal.js: a sealed body rewrapped so normalizeText folds it back
+C15 | chain | UNVERIFIABLE | no-key | verified={} | driver seal.js: the chain read on a machine with no key
+
+--- deny reasons ---

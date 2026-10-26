@@ -1,0 +1,1166 @@
+Load stress probe (full), 2026-10-25T21:04:41.823Z
+Probe SHA-256: 242ef86fd962d1a0b6f0ef2f8a21cf0f77e55eeecc7d122acd2a5ddee5a99a00
+Plugin tree: 9f74a082cf1228552a54f756b6378d36842359d3
+Source HEAD: c31afb4c1f9fbe818efd7eb47753e2b5d72cc2ff
+Node v24.16.0; darwin/arm64; Apple M2; elapsed 62.43 s
+Invented temporary projects only; isolated empty state directory at run start.
+Valid chains: production seal.sealEntry + decisions.formatEntry; complete seal.verifyChain asserted for every entry.
+Independent axes: log varies with 50 statements; canvas varies with 100 log entries. Every project has 500 glossary entries.
+Wall ms, median of 3 fresh processes (no warmup; OS caches may be warm). HTML/render measured from CLI spawn; browser already launched.
+Render readiness: visible poster + 9 fields + poster/agenda/log sections + two animation frames; all DOM statements/log entries and API seals asserted; history navigation checked.
+case | entries | statements | review | status | guard Edit | guard Bash | serve HTML | rendered
+log-100 | 100 | 50 | 692.3 | 46.2 | 35.1 | 35.9 | 54.1 | 256.8
+log-1000 | 1000 | 50 | 688.1 | 103.2 | 65.2 | 65.0 | 80.3 | 625.1
+log-5000 | 5000 | 50 | 993.6 | 151.6 | 49.7 | 46.3 | 68.4 | 983.8
+log-20000 | 20000 | 50 | 4196.9 | 726.7 | 72.4 | 61.2 | 67.9 | 3436.9
+canvas-50 | 100 | 50 | 768.0 | 74.3 | 61.0 | 40.5 | 56.0 | 333.1
+canvas-500 | 100 | 500 | 771.9 | 55.2 | 46.2 | 37.6 | 48.0 | 241.8
+canvas-2000 | 100 | 2000 | 819.5 | 72.2 | 73.6 | 37.1 | 48.2 | 528.2
+
+Peak RSS MiB (/usr/bin/time -l, maximum of 3 per command; server only, excludes Chromium; not summed):
+log-20000: review=233.2, status=232.7, guard-edit=52.2, guard-bash=50.0, serve=445.1
+canvas-2000: review=78.3, status=68.8, guard-edit=69.4, guard-bash=49.8, serve=78.0
+
+Findings (thresholds flag observations, not pass/fail admission):
+None: no >5 s median, >1 s guard, crash, rendering mismatch, or flagged superlinear ratio in measured cases.
+
+Limits: single host; startup-inclusive timing; synthetic short bodies; no manuscript files; no variants, agent runtime or remote filesystem; no claim about sizes beyond those measured.
+Quick mode excludes 5,000/20,000 log entries and 2,000 statements; no largest-case memory claim in quick mode.
+
+Raw samples:
+[
+  {
+    "fixture": "log-100",
+    "operation": "review",
+    "runs": [
+      {
+        "ms": 713.968417,
+        "rssMiB": 67.65625,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 675.699959,
+        "rssMiB": 68.875,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 692.3207919999998,
+        "rssMiB": 68.859375,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      }
+    ]
+  },
+  {
+    "fixture": "log-100",
+    "operation": "status",
+    "runs": [
+      {
+        "ms": 47.11766699999998,
+        "rssMiB": 57.75,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 46.20283300000028,
+        "rssMiB": 57.90625,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 45.60633300000018,
+        "rssMiB": 57.890625,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      }
+    ]
+  },
+  {
+    "fixture": "log-100",
+    "operation": "guard-edit",
+    "runs": [
+      {
+        "ms": 36.143167000000176,
+        "rssMiB": 51.65625,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 35.099083000000064,
+        "rssMiB": 51.484375,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 34.696957999999995,
+        "rssMiB": 51.546875,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      }
+    ]
+  },
+  {
+    "fixture": "log-100",
+    "operation": "guard-bash",
+    "runs": [
+      {
+        "ms": 35.8524580000003,
+        "rssMiB": 49.65625,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 35.0173749999999,
+        "rssMiB": 49.609375,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 36.26250000000027,
+        "rssMiB": 49.578125,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      }
+    ]
+  },
+  {
+    "fixture": "log-100",
+    "operation": "serve-rss",
+    "rssMiB": 62.34375
+  },
+  {
+    "fixture": "log-100",
+    "operation": "serve-rss",
+    "rssMiB": 63.03125
+  },
+  {
+    "fixture": "log-100",
+    "operation": "serve-rss",
+    "rssMiB": 62.375
+  },
+  {
+    "fixture": "log-100",
+    "operation": "serve-render",
+    "runs": [
+      {
+        "htmlMs": 54.09983299999976,
+        "renderMs": 365.3510000000001,
+        "counts": {
+          "entries": 100,
+          "statements": 50,
+          "fieldStatements": 50,
+          "sections": 3,
+          "duplicateIds": 0
+        }
+      },
+      {
+        "htmlMs": 66.89058300000033,
+        "renderMs": 256.758292,
+        "counts": {
+          "entries": 100,
+          "statements": 50,
+          "fieldStatements": 50,
+          "sections": 3,
+          "duplicateIds": 0
+        }
+      },
+      {
+        "htmlMs": 52.04749999999967,
+        "renderMs": 205.00512499999968,
+        "counts": {
+          "entries": 100,
+          "statements": 50,
+          "fieldStatements": 50,
+          "sections": 3,
+          "duplicateIds": 0
+        }
+      }
+    ]
+  },
+  {
+    "fixture": "log-1000",
+    "operation": "review",
+    "runs": [
+      {
+        "ms": 688.1028750000005,
+        "rssMiB": 73.796875,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 681.1233329999995,
+        "rssMiB": 73.984375,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 700.7954170000003,
+        "rssMiB": 74.15625,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      }
+    ]
+  },
+  {
+    "fixture": "log-1000",
+    "operation": "status",
+    "runs": [
+      {
+        "ms": 106.8306249999996,
+        "rssMiB": 67.859375,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 97.0942500000001,
+        "rssMiB": 66.890625,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 103.1949169999998,
+        "rssMiB": 66.609375,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      }
+    ]
+  },
+  {
+    "fixture": "log-1000",
+    "operation": "guard-edit",
+    "runs": [
+      {
+        "ms": 65.16733399999976,
+        "rssMiB": 51.890625,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 83.22870799999964,
+        "rssMiB": 51.875,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 53.86374999999953,
+        "rssMiB": 51.65625,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      }
+    ]
+  },
+  {
+    "fixture": "log-1000",
+    "operation": "guard-bash",
+    "runs": [
+      {
+        "ms": 65.34458300000006,
+        "rssMiB": 49.828125,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 64.97745899999973,
+        "rssMiB": 49.9375,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 62.11266700000033,
+        "rssMiB": 50.0625,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      }
+    ]
+  },
+  {
+    "fixture": "log-1000",
+    "operation": "serve-rss",
+    "rssMiB": 82.765625
+  },
+  {
+    "fixture": "log-1000",
+    "operation": "serve-rss",
+    "rssMiB": 82.828125
+  },
+  {
+    "fixture": "log-1000",
+    "operation": "serve-rss",
+    "rssMiB": 80.78125
+  },
+  {
+    "fixture": "log-1000",
+    "operation": "serve-render",
+    "runs": [
+      {
+        "htmlMs": 80.34466699999939,
+        "renderMs": 450.0190419999999,
+        "counts": {
+          "entries": 1000,
+          "statements": 50,
+          "fieldStatements": 50,
+          "sections": 3,
+          "duplicateIds": 0
+        }
+      },
+      {
+        "htmlMs": 82.62129199999981,
+        "renderMs": 809.5140420000007,
+        "counts": {
+          "entries": 1000,
+          "statements": 50,
+          "fieldStatements": 50,
+          "sections": 3,
+          "duplicateIds": 0
+        }
+      },
+      {
+        "htmlMs": 75.69295899999997,
+        "renderMs": 625.0791669999999,
+        "counts": {
+          "entries": 1000,
+          "statements": 50,
+          "fieldStatements": 50,
+          "sections": 3,
+          "duplicateIds": 0
+        }
+      }
+    ]
+  },
+  {
+    "fixture": "log-5000",
+    "operation": "review",
+    "runs": [
+      {
+        "ms": 1162.5992500000011,
+        "rssMiB": 107.421875,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 933.886375,
+        "rssMiB": 110.015625,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 993.6205829999999,
+        "rssMiB": 108.328125,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      }
+    ]
+  },
+  {
+    "fixture": "log-5000",
+    "operation": "status",
+    "runs": [
+      {
+        "ms": 153.949290999999,
+        "rssMiB": 101.53125,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 151.62345900000037,
+        "rssMiB": 102.484375,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 137.4666670000006,
+        "rssMiB": 104.421875,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      }
+    ]
+  },
+  {
+    "fixture": "log-5000",
+    "operation": "guard-edit",
+    "runs": [
+      {
+        "ms": 49.78045799999927,
+        "rssMiB": 52.03125,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 47.602875000000495,
+        "rssMiB": 52.09375,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 49.670790999998644,
+        "rssMiB": 51.671875,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      }
+    ]
+  },
+  {
+    "fixture": "log-5000",
+    "operation": "guard-bash",
+    "runs": [
+      {
+        "ms": 44.974458000000595,
+        "rssMiB": 49.75,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 46.34279199999946,
+        "rssMiB": 50.15625,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 48.31462499999907,
+        "rssMiB": 49.921875,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      }
+    ]
+  },
+  {
+    "fixture": "log-5000",
+    "operation": "serve-rss",
+    "rssMiB": 155.015625
+  },
+  {
+    "fixture": "log-5000",
+    "operation": "serve-rss",
+    "rssMiB": 155.890625
+  },
+  {
+    "fixture": "log-5000",
+    "operation": "serve-rss",
+    "rssMiB": 157.203125
+  },
+  {
+    "fixture": "log-5000",
+    "operation": "serve-render",
+    "runs": [
+      {
+        "htmlMs": 66.21545900000092,
+        "renderMs": 782.9685840000002,
+        "counts": {
+          "entries": 5000,
+          "statements": 50,
+          "fieldStatements": 50,
+          "sections": 3,
+          "duplicateIds": 0
+        }
+      },
+      {
+        "htmlMs": 68.3992500000004,
+        "renderMs": 983.7639589999999,
+        "counts": {
+          "entries": 5000,
+          "statements": 50,
+          "fieldStatements": 50,
+          "sections": 3,
+          "duplicateIds": 0
+        }
+      },
+      {
+        "htmlMs": 85.30254100000093,
+        "renderMs": 1596.3270000000011,
+        "counts": {
+          "entries": 5000,
+          "statements": 50,
+          "fieldStatements": 50,
+          "sections": 3,
+          "duplicateIds": 0
+        }
+      }
+    ]
+  },
+  {
+    "fixture": "log-20000",
+    "operation": "review",
+    "runs": [
+      {
+        "ms": 4258.622958,
+        "rssMiB": 215.734375,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 3748.0127079999984,
+        "rssMiB": 233.203125,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 4196.906084000002,
+        "rssMiB": 223.734375,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      }
+    ]
+  },
+  {
+    "fixture": "log-20000",
+    "operation": "status",
+    "runs": [
+      {
+        "ms": 660.9251249999979,
+        "rssMiB": 231.25,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 726.7162500000013,
+        "rssMiB": 226.46875,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 810.3062920000011,
+        "rssMiB": 232.71875,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      }
+    ]
+  },
+  {
+    "fixture": "log-20000",
+    "operation": "guard-edit",
+    "runs": [
+      {
+        "ms": 67.78470899999957,
+        "rssMiB": 52.21875,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 72.42270799999824,
+        "rssMiB": 52.078125,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 73.02274999999645,
+        "rssMiB": 51.828125,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      }
+    ]
+  },
+  {
+    "fixture": "log-20000",
+    "operation": "guard-bash",
+    "runs": [
+      {
+        "ms": 61.20787500000006,
+        "rssMiB": 49.875,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 88.93233399999735,
+        "rssMiB": 49.859375,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 60.1673329999976,
+        "rssMiB": 49.96875,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      }
+    ]
+  },
+  {
+    "fixture": "log-20000",
+    "operation": "serve-rss",
+    "rssMiB": 435.65625
+  },
+  {
+    "fixture": "log-20000",
+    "operation": "serve-rss",
+    "rssMiB": 435.671875
+  },
+  {
+    "fixture": "log-20000",
+    "operation": "serve-rss",
+    "rssMiB": 445.09375
+  },
+  {
+    "fixture": "log-20000",
+    "operation": "serve-render",
+    "runs": [
+      {
+        "htmlMs": 162.1324999999997,
+        "renderMs": 4605.626375,
+        "counts": {
+          "entries": 20000,
+          "statements": 50,
+          "fieldStatements": 50,
+          "sections": 3,
+          "duplicateIds": 0
+        }
+      },
+      {
+        "htmlMs": 67.94558300000062,
+        "renderMs": 3436.8842499999955,
+        "counts": {
+          "entries": 20000,
+          "statements": 50,
+          "fieldStatements": 50,
+          "sections": 3,
+          "duplicateIds": 0
+        }
+      },
+      {
+        "htmlMs": 53.48304199999984,
+        "renderMs": 2122.6259589999972,
+        "counts": {
+          "entries": 20000,
+          "statements": 50,
+          "fieldStatements": 50,
+          "sections": 3,
+          "duplicateIds": 0
+        }
+      }
+    ]
+  },
+  {
+    "fixture": "canvas-50",
+    "operation": "review",
+    "runs": [
+      {
+        "ms": 762.2646660000028,
+        "rssMiB": 68.9375,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 768.0005410000012,
+        "rssMiB": 69.453125,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 819.8739160000041,
+        "rssMiB": 71.484375,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      }
+    ]
+  },
+  {
+    "fixture": "canvas-50",
+    "operation": "status",
+    "runs": [
+      {
+        "ms": 74.33983300000546,
+        "rssMiB": 57.71875,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 85.17099999999482,
+        "rssMiB": 57.84375,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 73.78112500000134,
+        "rssMiB": 58.234375,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      }
+    ]
+  },
+  {
+    "fixture": "canvas-50",
+    "operation": "guard-edit",
+    "runs": [
+      {
+        "ms": 61.01900000000023,
+        "rssMiB": 52.15625,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 56.34312499999942,
+        "rssMiB": 51.546875,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 63.63791600000695,
+        "rssMiB": 51.84375,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      }
+    ]
+  },
+  {
+    "fixture": "canvas-50",
+    "operation": "guard-bash",
+    "runs": [
+      {
+        "ms": 40.46579200000269,
+        "rssMiB": 49.734375,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 38.14174999999523,
+        "rssMiB": 49.765625,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 46.89058300000033,
+        "rssMiB": 49.6875,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      }
+    ]
+  },
+  {
+    "fixture": "canvas-50",
+    "operation": "serve-rss",
+    "rssMiB": 62.65625
+  },
+  {
+    "fixture": "canvas-50",
+    "operation": "serve-rss",
+    "rssMiB": 62.890625
+  },
+  {
+    "fixture": "canvas-50",
+    "operation": "serve-rss",
+    "rssMiB": 62.40625
+  },
+  {
+    "fixture": "canvas-50",
+    "operation": "serve-render",
+    "runs": [
+      {
+        "htmlMs": 53.760834000000614,
+        "renderMs": 243.98070900000312,
+        "counts": {
+          "entries": 100,
+          "statements": 50,
+          "fieldStatements": 50,
+          "sections": 3,
+          "duplicateIds": 0
+        }
+      },
+      {
+        "htmlMs": 70.83608399999503,
+        "renderMs": 419.6307089999973,
+        "counts": {
+          "entries": 100,
+          "statements": 50,
+          "fieldStatements": 50,
+          "sections": 3,
+          "duplicateIds": 0
+        }
+      },
+      {
+        "htmlMs": 56.010834000000614,
+        "renderMs": 333.11637500000506,
+        "counts": {
+          "entries": 100,
+          "statements": 50,
+          "fieldStatements": 50,
+          "sections": 3,
+          "duplicateIds": 0
+        }
+      }
+    ]
+  },
+  {
+    "fixture": "canvas-500",
+    "operation": "review",
+    "runs": [
+      {
+        "ms": 837.0899169999975,
+        "rssMiB": 72.875,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 771.890833999998,
+        "rssMiB": 75.453125,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 759.5985000000001,
+        "rssMiB": 72.640625,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      }
+    ]
+  },
+  {
+    "fixture": "canvas-500",
+    "operation": "status",
+    "runs": [
+      {
+        "ms": 55.570583000000624,
+        "rssMiB": 59.40625,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 55.187207999995735,
+        "rssMiB": 59.359375,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 53.474332999998296,
+        "rssMiB": 59.28125,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      }
+    ]
+  },
+  {
+    "fixture": "canvas-500",
+    "operation": "guard-edit",
+    "runs": [
+      {
+        "ms": 46.21537499999977,
+        "rssMiB": 54.625,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 47.908416999998735,
+        "rssMiB": 54.640625,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 45.19220800000039,
+        "rssMiB": 54.5625,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      }
+    ]
+  },
+  {
+    "fixture": "canvas-500",
+    "operation": "guard-bash",
+    "runs": [
+      {
+        "ms": 38.27666599999793,
+        "rssMiB": 49.765625,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 37.55170799999905,
+        "rssMiB": 49.59375,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 36.34083400000236,
+        "rssMiB": 49.625,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      }
+    ]
+  },
+  {
+    "fixture": "canvas-500",
+    "operation": "serve-rss",
+    "rssMiB": 64.484375
+  },
+  {
+    "fixture": "canvas-500",
+    "operation": "serve-rss",
+    "rssMiB": 64.8125
+  },
+  {
+    "fixture": "canvas-500",
+    "operation": "serve-rss",
+    "rssMiB": 64.328125
+  },
+  {
+    "fixture": "canvas-500",
+    "operation": "serve-render",
+    "runs": [
+      {
+        "htmlMs": 46.94458299999678,
+        "renderMs": 241.7614160000012,
+        "counts": {
+          "entries": 100,
+          "statements": 500,
+          "fieldStatements": 500,
+          "sections": 3,
+          "duplicateIds": 0
+        }
+      },
+      {
+        "htmlMs": 50.653707999998005,
+        "renderMs": 251.33924999999726,
+        "counts": {
+          "entries": 100,
+          "statements": 500,
+          "fieldStatements": 500,
+          "sections": 3,
+          "duplicateIds": 0
+        }
+      },
+      {
+        "htmlMs": 48.03745799999888,
+        "renderMs": 237.78204099999857,
+        "counts": {
+          "entries": 100,
+          "statements": 500,
+          "fieldStatements": 500,
+          "sections": 3,
+          "duplicateIds": 0
+        }
+      }
+    ]
+  },
+  {
+    "fixture": "canvas-2000",
+    "operation": "review",
+    "runs": [
+      {
+        "ms": 819.5476249999992,
+        "rssMiB": 76.75,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 807.0711669999946,
+        "rssMiB": 78.28125,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 868.5777079999971,
+        "rssMiB": 78.28125,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      }
+    ]
+  },
+  {
+    "fixture": "canvas-2000",
+    "operation": "status",
+    "runs": [
+      {
+        "ms": 70.87108300000546,
+        "rssMiB": 67.671875,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 72.19666699999652,
+        "rssMiB": 67.828125,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 82.90720899999724,
+        "rssMiB": 68.796875,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      }
+    ]
+  },
+  {
+    "fixture": "canvas-2000",
+    "operation": "guard-edit",
+    "runs": [
+      {
+        "ms": 70.79591599999549,
+        "rssMiB": 68.484375,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 83.91512499999953,
+        "rssMiB": 68.421875,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 73.58245900000475,
+        "rssMiB": 69.359375,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      }
+    ]
+  },
+  {
+    "fixture": "canvas-2000",
+    "operation": "guard-bash",
+    "runs": [
+      {
+        "ms": 42.73070800000278,
+        "rssMiB": 49.59375,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 37.10162500000297,
+        "rssMiB": 49.78125,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      },
+      {
+        "ms": 35.892457999994804,
+        "rssMiB": 49.84375,
+        "status": 0,
+        "assertionPassed": true,
+        "detail": "exit 0, signal none"
+      }
+    ]
+  },
+  {
+    "fixture": "canvas-2000",
+    "operation": "serve-rss",
+    "rssMiB": 77.953125
+  },
+  {
+    "fixture": "canvas-2000",
+    "operation": "serve-rss",
+    "rssMiB": 76.390625
+  },
+  {
+    "fixture": "canvas-2000",
+    "operation": "serve-rss",
+    "rssMiB": 77.921875
+  },
+  {
+    "fixture": "canvas-2000",
+    "operation": "serve-render",
+    "runs": [
+      {
+        "htmlMs": 52.34804200000508,
+        "renderMs": 553.4018750000032,
+        "counts": {
+          "entries": 100,
+          "statements": 2000,
+          "fieldStatements": 2000,
+          "sections": 3,
+          "duplicateIds": 0
+        }
+      },
+      {
+        "htmlMs": 48.218250000005355,
+        "renderMs": 490.03800000000047,
+        "counts": {
+          "entries": 100,
+          "statements": 2000,
+          "fieldStatements": 2000,
+          "sections": 3,
+          "duplicateIds": 0
+        }
+      },
+      {
+        "htmlMs": 46.97024999999849,
+        "renderMs": 528.2220420000012,
+        "counts": {
+          "entries": 100,
+          "statements": 2000,
+          "fieldStatements": 2000,
+          "sections": 3,
+          "duplicateIds": 0
+        }
+      }
+    ]
+  }
+]

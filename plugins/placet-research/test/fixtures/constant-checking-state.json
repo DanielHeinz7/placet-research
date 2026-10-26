@@ -1,0 +1,760 @@
+{
+  "version": "0.3.1",
+  "project": "constant-checking",
+  "frontmatter": {
+    "project": "constant-checking",
+    "title": "Constant Checking Is Not Addiction: A Grounded Theory of IT-Mediated State-Tracking",
+    "outlet": "MIS Quarterly",
+    "profile": "is-qualitative",
+    "created": "2026-09-30",
+    "mode": "import",
+    "canvas-schema": "2"
+  },
+  "elements": [
+    {
+      "number": 1,
+      "title": "Puzzle",
+      "questions": [
+        {
+          "id": "1.1",
+          "text": "What is the broad question this project speaks to?",
+          "statements": [
+            {
+              "text": "How can we understand individuals' frequent, hard-to-control checking of digital devices without relying on the popular but contested \"technology addiction\" framing?",
+              "marker": "proposed",
+              "tags": [
+                "src: gerlach-cenfetelli-2020 p. 1706"
+              ],
+              "raw": "How can we understand individuals' frequent, hard-to-control checking of digital devices without relying on the popular but contested \"technology addiction\" framing? [proposed, src: gerlach-cenfetelli-2020 p. 1706]",
+              "line": 15,
+              "hidden": null,
+              "hash": "3de2d26a"
+            }
+          ],
+          "line": 13
+        },
+        {
+          "id": "1.2",
+          "text": "What is it that you cannot yet explain, and what do you already know?",
+          "statements": [
+            {
+              "text": "\"Constant checking\" is a widely observed, casually named phenomenon, but no construct exists that defines it, distinguishes it from other IT use, or explains its causes and the quality of its outcomes.",
+              "marker": "stated",
+              "tags": [
+                "src: gerlach-cenfetelli-2020 p. 1706"
+              ],
+              "raw": "\"Constant checking\" is a widely observed, casually named phenomenon, but no construct exists that defines it, distinguishes it from other IT use, or explains its causes and the quality of its outcomes. [stated, src: gerlach-cenfetelli-2020 p. 1706]",
+              "line": 19,
+              "hidden": null,
+              "hash": "1c16727f"
+            }
+          ],
+          "line": 17
+        },
+        {
+          "id": "1.3",
+          "text": "Why does this matter — for practice, for theory, or both?",
+          "statements": [
+            {
+              "text": "Labeling frequent checkers \"addicts\" has real consequences: stigma, reduced self-efficacy, and abstinence-oriented treatments including unlicensed \"detox\" camps that have caused deaths. Research nonetheless lacks a construct to study the behavior rigorously or to evaluate such claims.",
+              "marker": "stated",
+              "tags": [
+                "src: gerlach-cenfetelli-2020 p. 1706-1707"
+              ],
+              "raw": "Labeling frequent checkers \"addicts\" has real consequences: stigma, reduced self-efficacy, and abstinence-oriented treatments including unlicensed \"detox\" camps that have caused deaths. Research nonetheless lacks a construct to study the behavior rigorously or to evaluate such claims. [stated, src: gerlach-cenfetelli-2020 p. 1706-1707]",
+              "line": 23,
+              "hidden": null,
+              "hash": "118e66cc"
+            }
+          ],
+          "line": 21
+        }
+      ],
+      "line": 11,
+      "status": {
+        "status": "stated",
+        "open": 1
+      }
+    },
+    {
+      "number": 2,
+      "title": "Audience and Prior Research",
+      "questions": [
+        {
+          "id": "2.1",
+          "text": "Who are the ten to twenty scholars whose conversation this joins?",
+          "statements": [
+            {
+              "text": "Two literatures: technology-addiction researchers (e.g., Turel, Serenko, Griffiths, Kardefelt-Winther, Shaffer, Widyanto) and researchers on unintended consequences of frequent IT and email use (e.g., Barley, Mazmanian, Boswell, Olson-Buchanan, Derks, Bakker, Maier, Sarker).",
+              "marker": "proposed",
+              "tags": [
+                "src: gerlach-cenfetelli-2020 p. 1706-1708"
+              ],
+              "raw": "Two literatures: technology-addiction researchers (e.g., Turel, Serenko, Griffiths, Kardefelt-Winther, Shaffer, Widyanto) and researchers on unintended consequences of frequent IT and email use (e.g., Barley, Mazmanian, Boswell, Olson-Buchanan, Derks, Bakker, Maier, Sarker). [proposed, src: gerlach-cenfetelli-2020 p. 1706-1708]",
+              "line": 29,
+              "hidden": null,
+              "hash": "e189f2bd"
+            }
+          ],
+          "line": 27
+        },
+        {
+          "id": "2.2",
+          "text": "What has that conversation been about lately, and on what assumptions does it rest?",
+          "statements": [
+            {
+              "text": "The addiction literature treats frequent checking as a maladaptive psychological dependency diagnosable through symptoms borrowed from substance-addiction research. The unintended-consequences literature treats \"IT use\" as one broad construct whose frequency or duration predicts largely negative outcomes.",
+              "marker": "stated",
+              "tags": [
+                "src: gerlach-cenfetelli-2020 p. 1706-1708"
+              ],
+              "raw": "The addiction literature treats frequent checking as a maladaptive psychological dependency diagnosable through symptoms borrowed from substance-addiction research. The unintended-consequences literature treats \"IT use\" as one broad construct whose frequency or duration predicts largely negative outcomes. [stated, src: gerlach-cenfetelli-2020 p. 1706-1708]",
+              "line": 33,
+              "hidden": null,
+              "hash": "2af494f2"
+            }
+          ],
+          "line": 31
+        },
+        {
+          "id": "2.3",
+          "text": "How has prior work handled this puzzle, and where is it inconsistent or silent?",
+          "statements": [
+            {
+              "text": "Addiction research applies confirmatory measures adapted from recognized addictions before the construct's own validity is established, which critics say overpathologizes everyday behavior. Unintended-consequences research is largely confined to work email and never isolates checking from broader IT use.",
+              "marker": "stated",
+              "tags": [
+                "src: gerlach-cenfetelli-2020 p. 1707-1708"
+              ],
+              "raw": "Addiction research applies confirmatory measures adapted from recognized addictions before the construct's own validity is established, which critics say overpathologizes everyday behavior. Unintended-consequences research is largely confined to work email and never isolates checking from broader IT use. [stated, src: gerlach-cenfetelli-2020 p. 1707-1708]",
+              "line": 37,
+              "hidden": null,
+              "hash": "f727b02a"
+            }
+          ],
+          "line": 35
+        },
+        {
+          "id": "2.4",
+          "text": "Which assumption of that work do you challenge, and on what grounds?",
+          "statements": [
+            {
+              "text": "The authors challenge the assumption that frequent, hard-to-control checking signals a diagnosable addiction, noting that both the World Health Organization and the American Psychiatric Association declined to recognize technology addictions in their official catalogs for lack of evidence.",
+              "marker": "stated",
+              "tags": [
+                "src: gerlach-cenfetelli-2020 p. 1707"
+              ],
+              "raw": "The authors challenge the assumption that frequent, hard-to-control checking signals a diagnosable addiction, noting that both the World Health Organization and the American Psychiatric Association declined to recognize technology addictions in their official catalogs for lack of evidence. [stated, src: gerlach-cenfetelli-2020 p. 1707]",
+              "line": 41,
+              "hidden": null,
+              "hash": "ebd2c70f"
+            }
+          ],
+          "line": 39
+        }
+      ],
+      "line": 25,
+      "status": {
+        "status": "stated",
+        "open": 1
+      }
+    },
+    {
+      "number": 3,
+      "title": "Research Question",
+      "questions": [
+        {
+          "id": "3.1",
+          "text": "In one sentence: what does this study answer?",
+          "statements": [
+            {
+              "text": "How can we define individuals' constant checking of digital devices, why do they do it, and when does it lead to positive or negative outcomes?",
+              "marker": "stated",
+              "tags": [
+                "src: gerlach-cenfetelli-2020 p. 1706"
+              ],
+              "raw": "How can we define individuals' constant checking of digital devices, why do they do it, and when does it lead to positive or negative outcomes? [stated, src: gerlach-cenfetelli-2020 p. 1706]",
+              "line": 47,
+              "hidden": null,
+              "hash": "6d09cdd9"
+            }
+          ],
+          "line": 45
+        },
+        {
+          "id": "3.2",
+          "text": "What would a well-informed person answer intuitively, and why is that not enough?",
+          "statements": [
+            {
+              "text": "The predominant, intuitive answer is that constant checkers are addicted to technology, but this label has contested construct validity and offers no account of why the same behavior sometimes helps and sometimes harms.",
+              "marker": "stated",
+              "tags": [
+                "src: gerlach-cenfetelli-2020 p. 1706-1707"
+              ],
+              "raw": "The predominant, intuitive answer is that constant checkers are addicted to technology, but this label has contested construct validity and offers no account of why the same behavior sometimes helps and sometimes harms. [stated, src: gerlach-cenfetelli-2020 p. 1706-1707]",
+              "line": 51,
+              "hidden": null,
+              "hash": "fda314cb"
+            }
+          ],
+          "line": 49
+        },
+        {
+          "id": "3.3",
+          "text": "How does answering it move the puzzle forward?",
+          "statements": [
+            {
+              "text": "A construct grounded in data rather than borrowed from addiction research lets scholars studying constant checking build cumulative theory instead of applying confirmatory addiction measures, and lets the outcome question be asked without assuming the behavior is inherently negative.",
+              "marker": "proposed",
+              "tags": [
+                "src: gerlach-cenfetelli-2020 p. 1719-1720"
+              ],
+              "raw": "A construct grounded in data rather than borrowed from addiction research lets scholars studying constant checking build cumulative theory instead of applying confirmatory addiction measures, and lets the outcome question be asked without assuming the behavior is inherently negative. [proposed, src: gerlach-cenfetelli-2020 p. 1719-1720]",
+              "line": 55,
+              "hidden": null,
+              "hash": "170c6204"
+            }
+          ],
+          "line": 53
+        }
+      ],
+      "line": 43,
+      "status": {
+        "status": "stated",
+        "open": 1
+      }
+    },
+    {
+      "number": 4,
+      "title": "Theoretical Constructs and Relationships",
+      "questions": [
+        {
+          "id": "4.1",
+          "text": "What are the core concepts, and where does each definition come from?",
+          "statements": [
+            {
+              "text": "IT-mediated state-tracking — the paper's own construct — is habitual use of IT to seek information that \"closes the gap between their knowledge about a real-world domain's state and its actual state.\"",
+              "marker": "stated",
+              "tags": [
+                "src: gerlach-cenfetelli-2020 p. 1713"
+              ],
+              "raw": "IT-mediated state-tracking — the paper's own construct — is habitual use of IT to seek information that \"closes the gap between their knowledge about a real-world domain's state and its actual state.\" [stated, src: gerlach-cenfetelli-2020 p. 1713]",
+              "line": 61,
+              "hidden": null,
+              "hash": "03c3a5c2"
+            },
+            {
+              "text": "A habit, quoted from Wood and Neal, is a \"learned dispositions to repeat past responses.\"",
+              "marker": "stated",
+              "tags": [
+                "src: gerlach-cenfetelli-2020 p. 1712"
+              ],
+              "raw": "A habit, quoted from Wood and Neal, is a \"learned dispositions to repeat past responses.\" [stated, src: gerlach-cenfetelli-2020 p. 1712]",
+              "line": 63,
+              "hidden": null,
+              "hash": "d3ea4be1"
+            },
+            {
+              "text": "An information need, quoted from Case, is \"a recognition that your knowledge is inadequate to satisfy a goal that you have.\"",
+              "marker": "stated",
+              "tags": [
+                "src: gerlach-cenfetelli-2020 p. 1714"
+              ],
+              "raw": "An information need, quoted from Case, is \"a recognition that your knowledge is inadequate to satisfy a goal that you have.\" [stated, src: gerlach-cenfetelli-2020 p. 1714]",
+              "line": 65,
+              "hidden": null,
+              "hash": "34f87331"
+            }
+          ],
+          "line": 59
+        },
+        {
+          "id": "4.2",
+          "text": "How do they relate — and is that relationship given in advance or emerging from the material?",
+          "statements": [
+            {
+              "text": "The relationships emerged from coding rather than from prior theory: a need to stay up to date, enduring goals, accessibility of representations, and unpredictable reward timing cause state-tracking; a situational trigger and the individual's self-control then decide whether a given instance is executed; execution serves enduring goals when the retrieved information has value, or creates problems of attention when it competes with other demands.",
+              "marker": "stated",
+              "tags": [
+                "src: gerlach-cenfetelli-2020 p. 1719-1720"
+              ],
+              "raw": "The relationships emerged from coding rather than from prior theory: a need to stay up to date, enduring goals, accessibility of representations, and unpredictable reward timing cause state-tracking; a situational trigger and the individual's self-control then decide whether a given instance is executed; execution serves enduring goals when the retrieved information has value, or creates problems of attention when it competes with other demands. [stated, src: gerlach-cenfetelli-2020 p. 1719-1720]",
+              "line": 69,
+              "hidden": null,
+              "hash": "9b00037f"
+            }
+          ],
+          "line": 67
+        },
+        {
+          "id": "4.3",
+          "text": "What mechanism explains the relationship?",
+          "statements": [
+            {
+              "text": "Repeated checking under a variable-interval reward schedule, where any single check might pay off, reinforces the trigger-behavior association until checking becomes an automatic habit that is hard to override without deliberate self-control.",
+              "marker": "stated",
+              "tags": [
+                "src: gerlach-cenfetelli-2020 p. 1716-1717"
+              ],
+              "raw": "Repeated checking under a variable-interval reward schedule, where any single check might pay off, reinforces the trigger-behavior association until checking becomes an automatic habit that is hard to override without deliberate self-control. [stated, src: gerlach-cenfetelli-2020 p. 1716-1717]",
+              "line": 73,
+              "hidden": null,
+              "hash": "3363a662"
+            }
+          ],
+          "line": 71
+        }
+      ],
+      "line": 57,
+      "status": {
+        "status": "stated",
+        "open": 0
+      }
+    },
+    {
+      "number": 5,
+      "title": "Research Setting",
+      "questions": [
+        {
+          "id": "5.1",
+          "text": "Where is the study conducted, and how did you gain access?",
+          "statements": [
+            {
+              "text": "Ninety Internet users: 46 in-depth semi-structured interviews, mostly face to face, and 44 anonymous open-ended online surveys, drawn mainly through the authors' personal and professional networks plus 24 respondents recruited through Amazon Mechanical Turk.",
+              "marker": "stated",
+              "tags": [
+                "src: gerlach-cenfetelli-2020 p. 1709"
+              ],
+              "raw": "Ninety Internet users: 46 in-depth semi-structured interviews, mostly face to face, and 44 anonymous open-ended online surveys, drawn mainly through the authors' personal and professional networks plus 24 respondents recruited through Amazon Mechanical Turk. [stated, src: gerlach-cenfetelli-2020 p. 1709]",
+              "line": 79,
+              "hidden": null,
+              "hash": "d8c4ae41"
+            }
+          ],
+          "line": 77
+        },
+        {
+          "id": "5.2",
+          "text": "Why is this setting the right one for the question — what does it make visible?",
+          "statements": [
+            {
+              "text": "Participants varied deliberately in age (19-47), gender, region (Europe and the United States), and occupation. The authors compared network-recruited against Mechanical-Turk respondents and interview against anonymous-survey data, and found consistent results across both splits.",
+              "marker": "stated",
+              "tags": [
+                "src: gerlach-cenfetelli-2020 p. 1709"
+              ],
+              "raw": "Participants varied deliberately in age (19-47), gender, region (Europe and the United States), and occupation. The authors compared network-recruited against Mechanical-Turk respondents and interview against anonymous-survey data, and found consistent results across both splits. [stated, src: gerlach-cenfetelli-2020 p. 1709]",
+              "line": 83,
+              "hidden": null,
+              "hash": "bd7a4452"
+            }
+          ],
+          "line": 81
+        },
+        {
+          "id": "5.3",
+          "text": "What would a more suitable setting be, and why are you not there?",
+          "statements": [],
+          "line": 85
+        }
+      ],
+      "line": 75,
+      "status": {
+        "status": "stated",
+        "open": 0
+      }
+    },
+    {
+      "number": 6,
+      "title": "Research Design and Analysis",
+      "questions": [
+        {
+          "id": "6.1",
+          "text": "What data, from where, collected how?",
+          "statements": [
+            {
+              "text": "Data collection used an evolving, theoretically sampled set of open-ended interview and survey questions, yielding over 35 hours of recorded, transcribed interviews (about 680 single-spaced pages) and about 85 pages of survey text, continued until no new insights emerged.",
+              "marker": "stated",
+              "tags": [
+                "src: gerlach-cenfetelli-2020 p. 1709-1710"
+              ],
+              "raw": "Data collection used an evolving, theoretically sampled set of open-ended interview and survey questions, yielding over 35 hours of recorded, transcribed interviews (about 680 single-spaced pages) and about 85 pages of survey text, continued until no new insights emerged. [stated, src: gerlach-cenfetelli-2020 p. 1709-1710]",
+              "line": 93,
+              "hidden": null,
+              "hash": "9eb5c2df"
+            }
+          ],
+          "line": 91
+        },
+        {
+          "id": "6.2",
+          "text": "How is the data analysed, and how does the procedure earn trust?",
+          "statements": [
+            {
+              "text": "The authors coded all material in ATLAS.ti through open, selective, and theoretical coding (Glaser 1978), constantly comparing across individuals, ITs, situations, and outcomes, and integrating prior literature as data rather than as an a priori lens.",
+              "marker": "stated",
+              "tags": [
+                "src: gerlach-cenfetelli-2020 p. 1709-1710"
+              ],
+              "raw": "The authors coded all material in ATLAS.ti through open, selective, and theoretical coding (Glaser 1978), constantly comparing across individuals, ITs, situations, and outcomes, and integrating prior literature as data rather than as an a priori lens. [stated, src: gerlach-cenfetelli-2020 p. 1709-1710]",
+              "line": 97,
+              "hidden": null,
+              "hash": "bb82719a"
+            }
+          ],
+          "line": 95
+        },
+        {
+          "id": "6.3",
+          "text": "Which choices in design or analysis would a sceptical reviewer challenge first?",
+          "statements": [
+            {
+              "text": "The authors themselves flag reliance on self-reports, which risks social-desirability bias, and reliance on retrospective accounts of habit formation, since they could not observe the \"birth\" of a checking habit.",
+              "marker": "stated",
+              "tags": [
+                "src: gerlach-cenfetelli-2020 p. 1721"
+              ],
+              "raw": "The authors themselves flag reliance on self-reports, which risks social-desirability bias, and reliance on retrospective accounts of habit formation, since they could not observe the \"birth\" of a checking habit. [stated, src: gerlach-cenfetelli-2020 p. 1721]",
+              "line": 101,
+              "hidden": null,
+              "hash": "14a8ad79"
+            }
+          ],
+          "line": 99
+        }
+      ],
+      "line": 89,
+      "status": {
+        "status": "stated",
+        "open": 0
+      }
+    },
+    {
+      "number": 7,
+      "title": "Findings",
+      "questions": [
+        {
+          "id": "7.1",
+          "text": "What does the material show — separated from what you make of it?",
+          "statements": [
+            {
+              "text": "Constant checking is not addiction: it is IT-mediated state-tracking, a largely automatic habit through which people close the gap between what they know and the current state of something they care about.",
+              "marker": "stated",
+              "tags": [
+                "src: gerlach-cenfetelli-2020 p. 1705"
+              ],
+              "raw": "Constant checking is not addiction: it is IT-mediated state-tracking, a largely automatic habit through which people close the gap between what they know and the current state of something they care about. [stated, src: gerlach-cenfetelli-2020 p. 1705]",
+              "line": 107,
+              "hidden": null,
+              "hash": "5e147886"
+            },
+            {
+              "text": "Constant checking is mostly habitual and automatic rather than deliberate. It is driven by a need to stay up to date that serves enduring personal goals, is enabled by highly accessible representations, and is sustained by an unpredictable reward pattern that keeps individuals checking to find out whether this time pays off.",
+              "marker": "stated",
+              "tags": [
+                "src: gerlach-cenfetelli-2020 p. 1712-1716"
+              ],
+              "raw": "Constant checking is mostly habitual and automatic rather than deliberate. It is driven by a need to stay up to date that serves enduring personal goals, is enabled by highly accessible representations, and is sustained by an unpredictable reward pattern that keeps individuals checking to find out whether this time pays off. [stated, src: gerlach-cenfetelli-2020 p. 1712-1716]",
+              "line": 109,
+              "hidden": null,
+              "hash": "364978b6"
+            },
+            {
+              "text": "Whether a given instance of checking helps or harms depends on situational factors: it serves the individual's goals when the retrieved information has value, and creates problems of attention when it competes with other demands on attention, including the individual's own wish to be mindful.",
+              "marker": "stated",
+              "tags": [
+                "src: gerlach-cenfetelli-2020 p. 1717-1719"
+              ],
+              "raw": "Whether a given instance of checking helps or harms depends on situational factors: it serves the individual's goals when the retrieved information has value, and creates problems of attention when it competes with other demands on attention, including the individual's own wish to be mindful. [stated, src: gerlach-cenfetelli-2020 p. 1717-1719]",
+              "line": 111,
+              "hidden": null,
+              "hash": "64ac495e"
+            }
+          ],
+          "line": 105
+        },
+        {
+          "id": "7.2",
+          "text": "Which instances run counter to the pattern, and what happens to them?",
+          "statements": [
+            {
+              "text": "Not every check is habitual; some are deliberate, purposeful acts, such as checking for one specific expected email. The authors report these did not contribute much to the overall phenomenon and excluded them from the theorizing.",
+              "marker": "stated",
+              "tags": [
+                "src: gerlach-cenfetelli-2020 p. 1712-1713"
+              ],
+              "raw": "Not every check is habitual; some are deliberate, purposeful acts, such as checking for one specific expected email. The authors report these did not contribute much to the overall phenomenon and excluded them from the theorizing. [stated, src: gerlach-cenfetelli-2020 p. 1712-1713]",
+              "line": 115,
+              "hidden": null,
+              "hash": "bfb57691"
+            }
+          ],
+          "line": 113
+        }
+      ],
+      "line": 103,
+      "status": {
+        "status": "stated",
+        "open": 0
+      }
+    },
+    {
+      "number": 8,
+      "title": "Contributions",
+      "questions": [
+        {
+          "id": "8.1",
+          "text": "What does the field know now that it did not before?",
+          "statements": [
+            {
+              "text": "A construct, IT-mediated state-tracking, and a grounded theory of its causes and its situationally contingent, intended and unintended consequences, offered as a non-pathologizing alternative to the undefined \"constant checking\" label that other researchers can now build on.",
+              "marker": "stated",
+              "tags": [
+                "src: gerlach-cenfetelli-2020 p. 1719-1720"
+              ],
+              "raw": "A construct, IT-mediated state-tracking, and a grounded theory of its causes and its situationally contingent, intended and unintended consequences, offered as a non-pathologizing alternative to the undefined \"constant checking\" label that other researchers can now build on. [stated, src: gerlach-cenfetelli-2020 p. 1719-1720]",
+              "line": 121,
+              "hidden": null,
+              "hash": "ce4ac2c1"
+            }
+          ],
+          "line": 119
+        },
+        {
+          "id": "8.2",
+          "text": "Which assumption in prior work does this change, and how?",
+          "statements": [
+            {
+              "text": "It challenges the assumption that frequent, hard-to-control checking is inherently addictive, the assumption that \"IT use\" is a sufficiently precise construct with uniformly negative outcomes, and the purely positive view of information-seeking and of accessibility that LIS and IS research hold respectively.",
+              "marker": "stated",
+              "tags": [
+                "src: gerlach-cenfetelli-2020 p. 1719-1720"
+              ],
+              "raw": "It challenges the assumption that frequent, hard-to-control checking is inherently addictive, the assumption that \"IT use\" is a sufficiently precise construct with uniformly negative outcomes, and the purely positive view of information-seeking and of accessibility that LIS and IS research hold respectively. [stated, src: gerlach-cenfetelli-2020 p. 1719-1720]",
+              "line": 125,
+              "hidden": null,
+              "hash": "9272a511"
+            }
+          ],
+          "line": 123
+        },
+        {
+          "id": "8.3",
+          "text": "What follows for practice?",
+          "statements": [
+            {
+              "text": "Scholars, clinicians and the press should use the addiction label far more carefully. Individuals who want to check less can remove shortcuts, bookmarks and saved passwords to break the chain between a habit and its cue, and service designers might offer digestible periodic updates, such as daily briefings, instead of only maximizing accessibility.",
+              "marker": "stated",
+              "tags": [
+                "src: gerlach-cenfetelli-2020 p. 1721"
+              ],
+              "raw": "Scholars, clinicians and the press should use the addiction label far more carefully. Individuals who want to check less can remove shortcuts, bookmarks and saved passwords to break the chain between a habit and its cue, and service designers might offer digestible periodic updates, such as daily briefings, instead of only maximizing accessibility. [stated, src: gerlach-cenfetelli-2020 p. 1721]",
+              "line": 129,
+              "hidden": null,
+              "hash": "8970de5b"
+            }
+          ],
+          "line": 127
+        }
+      ],
+      "line": 117,
+      "status": {
+        "status": "stated",
+        "open": 0
+      }
+    },
+    {
+      "number": 9,
+      "title": "Boundary Conditions and Limitations",
+      "questions": [
+        {
+          "id": "9.1",
+          "text": "Where does the claim stop applying, and why?",
+          "statements": [
+            {
+              "text": "The theory's boundaries are unclear across different cultures, laws and policies, such as after-hours email bans. It may not hold for individuals who prefer offline channels or lack the freedom to use IT for certain domains, and it applies only to checking that is frequent enough to become a habit.",
+              "marker": "stated",
+              "tags": [
+                "src: gerlach-cenfetelli-2020 p. 1721-1722"
+              ],
+              "raw": "The theory's boundaries are unclear across different cultures, laws and policies, such as after-hours email bans. It may not hold for individuals who prefer offline channels or lack the freedom to use IT for certain domains, and it applies only to checking that is frequent enough to become a habit. [stated, src: gerlach-cenfetelli-2020 p. 1721-1722]",
+              "line": 135,
+              "hidden": null,
+              "hash": "13025b79"
+            }
+          ],
+          "line": 133
+        },
+        {
+          "id": "9.2",
+          "text": "Which limitations follow from design choices, and which from the setting?",
+          "statements": [
+            {
+              "text": "The retrospective, self-report design cannot observe habit formation as it happens and depends on participants' memory and candor.",
+              "marker": "stated",
+              "tags": [
+                "src: gerlach-cenfetelli-2020 p. 1721"
+              ],
+              "raw": "The retrospective, self-report design cannot observe habit formation as it happens and depends on participants' memory and candor. [stated, src: gerlach-cenfetelli-2020 p. 1721]",
+              "line": 139,
+              "hidden": null,
+              "hash": "08c002bf"
+            },
+            {
+              "text": "The cross-cultural and cross-legal boundary is less a stated design choice than a consequence of the setting: a sample drawn from the authors' networks plus Mechanical Turk, concentrated in Europe and the United States. Theoretical sampling does not aim at a representative population, so variation beyond these contexts was never sampled.",
+              "marker": "proposed",
+              "tags": [
+                "src: gerlach-cenfetelli-2020 p. 1709; 1721-1722"
+              ],
+              "raw": "The cross-cultural and cross-legal boundary is less a stated design choice than a consequence of the setting: a sample drawn from the authors' networks plus Mechanical Turk, concentrated in Europe and the United States. Theoretical sampling does not aim at a representative population, so variation beyond these contexts was never sampled. [proposed, src: gerlach-cenfetelli-2020 p. 1709; 1721-1722]",
+              "line": 141,
+              "hidden": null,
+              "hash": "118beb59"
+            }
+          ],
+          "line": 137
+        },
+        {
+          "id": "9.3",
+          "text": "What would refute the contribution?",
+          "statements": [],
+          "line": 143
+        }
+      ],
+      "line": 131,
+      "status": {
+        "status": "stated",
+        "open": 1
+      }
+    }
+  ],
+  "violations": [],
+  "review": {
+    "statuses": {
+      "1": {
+        "status": "stated",
+        "open": 1
+      },
+      "2": {
+        "status": "stated",
+        "open": 1
+      },
+      "3": {
+        "status": "stated",
+        "open": 1
+      },
+      "4": {
+        "status": "stated",
+        "open": 0
+      },
+      "5": {
+        "status": "stated",
+        "open": 0
+      },
+      "6": {
+        "status": "stated",
+        "open": 0
+      },
+      "7": {
+        "status": "stated",
+        "open": 0
+      },
+      "8": {
+        "status": "stated",
+        "open": 0
+      },
+      "9": {
+        "status": "stated",
+        "open": 1
+      }
+    },
+    "empty": [],
+    "open": [],
+    "violations": [],
+    "unmarked": [],
+    "untagged": [],
+    "invisibleCommitments": [],
+    "conversationalStated": [],
+    "staleAcceptances": [],
+    "unloggedAcceptances": [],
+    "unverifiedDecisions": [],
+    "ledger": {
+      "status": "unverifiable",
+      "reason": "legacy",
+      "legacy": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "broken": null,
+      "verified": []
+    },
+    "problems": []
+  },
+  "decisions": [
+    {
+      "seq": 1,
+      "date": "2026-09-30",
+      "kind": "DISCOVERY",
+      "ref": "5 Research Setting",
+      "hash": null,
+      "seal": null,
+      "line": 3,
+      "offset": 36,
+      "body": "Our sample comes mostly from the authors' own networks, plus Mechanical Turk. Theoretical sampling never aimed at a representative population — so how far does the theory actually travel beyond the people we reached, and should \"What does it change?\" and \"Where does it stop?\" say so? [tentative, src: gerlach-cenfetelli-2020 p. 1709; 1721]",
+      "sealStatus": "legacy"
+    },
+    {
+      "seq": 2,
+      "date": "2026-09-30",
+      "kind": "DISCOVERY",
+      "ref": "9 Boundary Conditions and Limitations",
+      "hash": null,
+      "seal": null,
+      "line": 6,
+      "offset": 430,
+      "body": "We argue the theory's cultural and legal boundary mostly through where our sample lives — Europe and the United States — and a passing note on how checking is classified elsewhere. Should \"Where does it stop?\" say plainly that our causal account assumes a society with comparably open, unrestricted access to IT? [tentative, src: gerlach-cenfetelli-2020 p. 1707; 1721-1722]",
+      "sealStatus": "legacy"
+    },
+    {
+      "seq": 3,
+      "date": "2026-09-30",
+      "kind": "DISCOVERY",
+      "ref": "4 Theoretical Constructs and Relationships",
+      "hash": null,
+      "seal": null,
+      "line": 9,
+      "offset": 876,
+      "body": "\"What is it made of?\" rests on telling habitual checking apart from the deliberate instances we set aside in \"What did we find?\". But \"How do we look?\" never says how we actually drew that line beyond our own coding judgment and how participants labeled themselves in hindsight. Can we name a criterion, or admit the boundary is asserted rather than measured? [tentative, src: gerlach-cenfetelli-2020 p. 1712-1713]",
+      "sealStatus": "legacy"
+    },
+    {
+      "seq": 4,
+      "date": "2026-09-30",
+      "kind": "DISCOVERY",
+      "ref": "6 Research Design and Analysis",
+      "hash": null,
+      "seal": null,
+      "line": 12,
+      "offset": 1368,
+      "body": "Our answer to the self-report worry — that participants were \"generally very self-critical\" — comes from the same interviews and surveys the worry is about. Is there anything outside that data that tells us people were not still under-reporting? [tentative, src: gerlach-cenfetelli-2020 p. 1721]",
+      "sealStatus": "legacy"
+    },
+    {
+      "seq": 5,
+      "date": "2026-09-30",
+      "kind": "DISCOVERY",
+      "ref": "3 Research Question",
+      "hash": null,
+      "seal": null,
+      "line": 15,
+      "offset": 1729,
+      "body": "\"What exactly do we ask?\" asks when checking leads to positive or negative outcomes, but \"What did we find?\" answers in a different vocabulary — intended versus unintended — and says outright that it avoids labeling outcomes that way. Should the question and the finding speak the same language? [tentative, src: gerlach-cenfetelli-2020 p. 1706; 1717]",
+      "sealStatus": "legacy"
+    }
+  ],
+  "profileError": null,
+  "keyError": null
+}

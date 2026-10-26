@@ -1,0 +1,80 @@
+{
+  "record": 22893731,
+  "doi": "10.5281/zenodo.22893731",
+  "url": "https://zenodo.org/records/22893731",
+  "title": "Understanding AI Assistance in Professional Software Engineering - Replication Package",
+  "licence": "CC-BY-4.0",
+  "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+  "files": [
+    {
+      "name": "Interview_P01.md",
+      "size": 30878,
+      "sha256": "1470077381bbb806f16c062a1f9e4ea73cf248a9bce570670f17bc901daa881f"
+    },
+    {
+      "name": "Interview_P02.md",
+      "size": 25145,
+      "sha256": "7f641b1760e94b0a1f4ff0a3af6a3f2b195f6ca69df294c2596876aef79b1f4f"
+    },
+    {
+      "name": "Interview_P03.md",
+      "size": 22051,
+      "sha256": "2aee89f5944ce2c6c672a57e666d6b0e301e5b26f1fe086f1c5067d1f7c2b8e4"
+    },
+    {
+      "name": "Interview_P04.md",
+      "size": 25381,
+      "sha256": "eb61c3798eb628ca8da8b05fd5f259d8ba05ed05ca01ec81abe4a7f26d84a639"
+    },
+    {
+      "name": "Interview_P05.md",
+      "size": 11903,
+      "sha256": "8317001915a27324aacb852d8bf04618ebba2a39a25c1a0697ee2683d64f2763"
+    },
+    {
+      "name": "Interview_P06.md",
+      "size": 15466,
+      "sha256": "034eb1acde8ef8e03e30e5f2ba9640eb3a3bfa77520f76737cca5710ef2c1c4d"
+    },
+    {
+      "name": "Interview_P07.md",
+      "size": 30668,
+      "sha256": "7d0ab6c635c25093fd78a2ef520d1d458db53fe93fb7398ff7b2a514099c9119"
+    },
+    {
+      "name": "Interview_P08.md",
+      "size": 32356,
+      "sha256": "91676e8a72d813819f9aa3c08b23a54bf24795bd61e95b1223e71a5b79f5b71b"
+    },
+    {
+      "name": "Interview_P09.md",
+      "size": 20140,
+      "sha256": "3a8433cf0c1f068912fc8d9e943be18c0918b8f0b6f6242bf5bd94c6c6a2f858"
+    },
+    {
+      "name": "Interview_P10.md",
+      "size": 24759,
+      "sha256": "32d46f24a72fdd35846f4af2f13a20ce012398ff6099730c4c7e97684b213b1a"
+    },
+    {
+      "name": "Interview_P11.md",
+      "size": 22198,
+      "sha256": "ae51b6666e48063e72aa71685337e6fe43d9ba6a82b2422ab592ea279e6baaf1"
+    },
+    {
+      "name": "Interview_P12.md",
+      "size": 22473,
+      "sha256": "7b29e1443a8cf23860c716348c70e96f05f48a09c92e2c69ec38e0b0e44a5176"
+    },
+    {
+      "name": "Interview_P13.md",
+      "size": 55618,
+      "sha256": "fbbe8a99603a715f319e497cce865e02720a9756782f3003cb37997e44e326c2"
+    },
+    {
+      "name": "README.md",
+      "size": 2744,
+      "sha256": "9c0ee63d537b7108dcb0236e08f6854e8a1945fd9ef237f9caf8fe562924c51d"
+    }
+  ]
+}

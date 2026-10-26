@@ -1,0 +1,45 @@
+SQ-21 STRUCTURAL class -- each probe driven through hooks/guard-promotion.js with a PreToolUse payload; every ALLOWed write was then applied and the file re-read.
+
+S0 | struct | DENY | - | control: Write the canvas with question 1.1 and its accepted statement removed
+S1 | struct | ALLOW | bytes 3157->3157 | LOST-COMMITTED ["e1/1.1 [accepted] When do members' suggestions in organizational m"] | NEW-COMMITTED ["e3/1.1 [accepted] When do members' suggestions in organizational m"] | review[unmarked=0 untagged=4 stale=1 unlogged=1 problems=0] | move question 1.1 (heading plus its accepted statement) under element 3
+S2 | struct | ALLOW | bytes 3157->3150 | review[unmarked=0 untagged=4 stale=1 unlogged=1 problems=0] | rewrite the text of question heading 1.1, keeping the id
+S3 | struct | ALLOW | bytes 3157->3164 | review[unmarked=0 untagged=4 stale=1 unlogged=1 problems=0] | rewrite the title of element 1 (Puzzle becomes Contributions)
+S4 | struct | ALLOW | bytes 3157->3264 | NEW-COMMITTED ["e1/1.4 [stated] The researcher recorded all twelve meetings pers"] | review[unmarked=0 untagged=5 stale=1 unlogged=1 problems=0] | add a new question heading 1.4 carrying a new [stated] statement
+S5 | struct | ALLOW | bytes 3157->3350 | review[unmarked=0 untagged=5 stale=1 unlogged=1 problems=0] | duplicate question heading 1.1 BEFORE the original, carrying the accepted text as [proposed]
+S5b | struct | DENY | - | same duplicate appended AFTER the original, under element 9
+S6 | struct | ALLOW | bytes 3157->3157 | LOST-COMMITTED ["e1/1.1 [accepted] When do members' suggestions in organizational m"] | NEW-COMMITTED ["e9/1.1 [accepted] When do members' suggestions in organizational m"] | STATUS 1:stated,2:open,3:stated,4:empty,5:stated,6:empty,7:empty,8:empty,9:empty => 1:stated,2:open,3:stated,4:empty,5:stated,6:empty,7:empty,8:empty,9:accepted | review[unmarked=0 untagged=4 stale=1 unlogged=1 problems=0] | move the accepted statement itself to a duplicate 1.1 heading under element 9
+S7 | struct | DENY | - | split the accepted statement into two statements
+S8 | struct | ALLOW | bytes 3157->3161 | review[unmarked=0 untagged=4 stale=1 unlogged=1 problems=0] | indent the accepted statement by four spaces (renders as a code block)
+S9 | struct | DENY | - | prefix the accepted statement with a blockquote marker
+S10 | struct | ALLOW | bytes 3157->3168 | review[unmarked=2 untagged=4 stale=1 unlogged=1 problems=0] | wrap the accepted statement in an HTML comment, delimiters as their own paragraphs
+S11 | struct | ALLOW | bytes 3157->3157 | review[unmarked=0 untagged=4 stale=1 unlogged=1 problems=0] | reorder question 1.2 so the [proposed] statement precedes the [stated] one
+S12 | struct | ALLOW | bytes 3157->3158 | review[unmarked=0 untagged=4 stale=1 unlogged=1 problems=0] | rewrite the frontmatter project and outlet
+S12b | struct | ALLOW | bytes 3157->3158 | review[unmarked=0 untagged=4 stale=1 unlogged=1 problems=0] | point the frontmatter profile at an id the plugin does not ship
+S13 | struct | DENY | - | remove the closing frontmatter delimiter
+S14 | struct | DENY | - | delete the element 9 heading
+S15 | struct | ALLOW | bytes 3157->3215 | STATUS 1:stated,2:open,3:stated,4:empty,5:stated,6:empty,7:empty,8:empty,9:empty => 1:empty,2:open,3:stated,4:empty,5:stated,6:empty,7:empty,8:empty,9:empty | review[unmarked=0 untagged=4 stale=1 unlogged=1 problems=0] | append a second element 1 heading with no statements (status shadowing)
+S16 | struct | DENY | - | wrap the whole body in a code fence opened directly after the frontmatter
+
+--- deny reasons ---
+S0 reason: Removing or renaming the heading ##1.1 is not allowed; every element and question heading stays. Propose the change as [proposed] alongside the existi
+S5b reason: The [accepted] statement in question 1.1 must not be altered, removed, or downgraded — it records what the researcher said or accepted. Propose the ch
+S7 reason: Only the researcher may write [accepted] (question 1.1). Propose the change as [proposed] alongside the existing statement, or let the researcher make
+S9 reason: Only the researcher may write [accepted] (question 1.1). Propose the change as [proposed] alongside the existing statement, or let the researcher make
+S13 reason: Cannot judge this write: frontmatter is not terminated. Keep the canvas structure — frontmatter, "# N · Title", "## N.M question", statements ending i
+S14 reason: Removing or renaming the heading #9 is not allowed; every element and question heading stays. Propose the change as [proposed] alongside the existing 
+S16 reason: Cannot judge this write: line 10: text outside any question. Keep the canvas structure — frontmatter, "# N · Title", "## N.M question", statements end
+
+--- resulting file regions ---
+S8 resulting file region:
+    |## 1.1 What is the broad question this project speaks to?
+    |
+    |    When do members' suggestions in organizational meetings receive serious consideration rather than polite acknowledgement? [accepted]
+    |
+S10 resulting file region:
+    |
+    |<!--
+    |
+    |When do members' suggestions in organizational meetings receive serious consideration rather than polite acknowledgement? [accepted]
+    |
+    |-->
+    |

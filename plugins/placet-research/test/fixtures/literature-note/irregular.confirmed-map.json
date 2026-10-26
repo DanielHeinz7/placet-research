@@ -1,0 +1,20 @@
+{
+  "schema": "literature-note/page-map@1",
+  "pdfSha256": "1e9351568e810dd517eb7f15e0f431a2049acfe2d192ded21b16c8e6b4e3789b",
+  "confirmedBy": "A. Researcher",
+  "confirmedAt": "2026-10-05",
+  "pages": [
+    {
+      "physical": 1,
+      "printed": 41
+    },
+    {
+      "physical": 2,
+      "printed": 43
+    },
+    {
+      "physical": 3,
+      "printed": 44
+    }
+  ]
+}

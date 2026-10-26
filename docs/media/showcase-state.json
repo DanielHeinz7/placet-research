@@ -1,0 +1,2657 @@
+{
+  "version": "0.5.0",
+  "project": "ai-assistants-interviews",
+  "frontmatter": {
+    "project": "ai-assistants-interviews",
+    "title": "How senior developers decide whether to rely on an AI assistant",
+    "outlet": "",
+    "profile": "is-qualitative",
+    "created": "2026-10-06",
+    "mode": "import",
+    "canvas-schema": "2"
+  },
+  "graph": {
+    "1": [],
+    "2": [
+      1,
+      3
+    ],
+    "3": [
+      1
+    ],
+    "4": [
+      2,
+      7
+    ],
+    "5": [
+      3,
+      9
+    ],
+    "6": [
+      5
+    ],
+    "7": [
+      6
+    ],
+    "8": [
+      2,
+      4,
+      7
+    ],
+    "9": [
+      1,
+      3
+    ]
+  },
+  "elements": [
+    {
+      "number": 1,
+      "title": "Puzzle",
+      "questions": [
+        {
+          "id": "1.1",
+          "text": "What is the broad question this project speaks to?",
+          "statements": [
+            {
+              "text": "Developers who use an AI assistant every day say they still do not take its output on trust. The puzzle is what they do instead.",
+              "marker": "accepted",
+              "tags": [
+                "src: Interview_P05.md",
+                "src: Interview_P06.md",
+                "src: Interview_P10.md"
+              ],
+              "raw": "Developers who use an AI assistant every day say they still do not take its output on trust. The puzzle is what they do instead. [accepted, src: Interview_P05.md, src: Interview_P06.md, src: Interview_P10.md]",
+              "line": 15,
+              "hidden": null,
+              "hash": "8ba51f5c"
+            }
+          ],
+          "line": 13,
+          "openChecks": []
+        },
+        {
+          "id": "1.2",
+          "text": "What is it that you cannot yet explain, and what do you already know?",
+          "statements": [],
+          "line": 17,
+          "openChecks": []
+        },
+        {
+          "id": "1.3",
+          "text": "Why does this matter — for practice, for theory, or both?",
+          "statements": [],
+          "line": 21,
+          "openChecks": []
+        }
+      ],
+      "line": 11,
+      "status": {
+        "status": "accepted",
+        "open": 0
+      }
+    },
+    {
+      "number": 2,
+      "title": "Audience and Prior Research",
+      "questions": [
+        {
+          "id": "2.1",
+          "text": "Who are the ten to twenty scholars whose conversation this joins?",
+          "statements": [],
+          "line": 27,
+          "openChecks": []
+        },
+        {
+          "id": "2.2",
+          "text": "What has that conversation been about lately, and on what assumptions does it rest?",
+          "statements": [],
+          "line": 31,
+          "openChecks": []
+        },
+        {
+          "id": "2.3",
+          "text": "How has prior work handled this puzzle, and where is it inconsistent or silent?",
+          "statements": [],
+          "line": 35,
+          "openChecks": []
+        },
+        {
+          "id": "2.4",
+          "text": "Which assumption of that work do you challenge, and on what grounds?",
+          "statements": [],
+          "line": 39,
+          "openChecks": []
+        }
+      ],
+      "line": 25,
+      "status": {
+        "status": "empty",
+        "open": 0
+      }
+    },
+    {
+      "number": 3,
+      "title": "Research Question",
+      "questions": [
+        {
+          "id": "3.1",
+          "text": "In one sentence: what does this study answer?",
+          "statements": [
+            {
+              "text": "How do senior developers decide whether to rely on what an AI assistant produced?",
+              "marker": "stated",
+              "tags": [],
+              "raw": "How do senior developers decide whether to rely on what an AI assistant produced? [stated]",
+              "line": 47,
+              "hidden": null,
+              "hash": "f3034d7b"
+            }
+          ],
+          "line": 45,
+          "openChecks": [
+            {
+              "seq": 2,
+              "body": "3.1 speaks of senior developers in general; the dataset README says all 13 participants have more than five years of experience and use an assistant daily. Does the question mean these 13 or senior developers in general?\n**By:** A. Author"
+            }
+          ]
+        },
+        {
+          "id": "3.2",
+          "text": "What would a well-informed person answer intuitively, and why is that not enough?",
+          "statements": [],
+          "line": 49,
+          "openChecks": []
+        },
+        {
+          "id": "3.3",
+          "text": "How does answering it move the puzzle forward?",
+          "statements": [],
+          "line": 53,
+          "openChecks": []
+        }
+      ],
+      "line": 43,
+      "status": {
+        "status": "stated",
+        "open": 0
+      }
+    },
+    {
+      "number": 4,
+      "title": "Theoretical Constructs and Relationships",
+      "questions": [
+        {
+          "id": "4.1",
+          "text": "What are the core concepts, and where does each definition come from?",
+          "statements": [],
+          "line": 59,
+          "openChecks": []
+        },
+        {
+          "id": "4.2",
+          "text": "How do they relate — and is that relationship given in advance or emerging from the material?",
+          "statements": [],
+          "line": 63,
+          "openChecks": []
+        },
+        {
+          "id": "4.3",
+          "text": "What mechanism explains the relationship?",
+          "statements": [],
+          "line": 67,
+          "openChecks": []
+        }
+      ],
+      "line": 57,
+      "status": {
+        "status": "empty",
+        "open": 0
+      }
+    },
+    {
+      "number": 5,
+      "title": "Research Setting",
+      "questions": [
+        {
+          "id": "5.1",
+          "text": "Where is the study conducted, and how did you gain access?",
+          "statements": [],
+          "line": 73,
+          "openChecks": []
+        },
+        {
+          "id": "5.2",
+          "text": "Why is this setting the right one for the question — what does it make visible?",
+          "statements": [],
+          "line": 77,
+          "openChecks": []
+        },
+        {
+          "id": "5.3",
+          "text": "What would a more suitable setting be, and why are you not there?",
+          "statements": [],
+          "line": 81,
+          "openChecks": []
+        }
+      ],
+      "line": 71,
+      "status": {
+        "status": "empty",
+        "open": 0
+      }
+    },
+    {
+      "number": 6,
+      "title": "Research Design and Analysis",
+      "questions": [
+        {
+          "id": "6.1",
+          "text": "What data, from where, collected how?",
+          "statements": [
+            {
+              "text": "The data are the de-identified transcripts of 13 semi-structured interviews with software engineers who use an AI assistant every day.",
+              "marker": "proposed",
+              "tags": [
+                "unverified"
+              ],
+              "raw": "The data are the de-identified transcripts of 13 semi-structured interviews with software engineers who use an AI assistant every day. [proposed, unverified]",
+              "line": 89,
+              "hidden": null,
+              "hash": "1ef9bc67"
+            },
+            {
+              "text": "Each account of how a participant checks the assistant's output is read against the interview guide's validation questions before any theme is formed.",
+              "marker": "proposed",
+              "tags": [
+                "unverified"
+              ],
+              "raw": "Each account of how a participant checks the assistant's output is read against the interview guide's validation questions before any theme is formed. [proposed, unverified]",
+              "line": 91,
+              "hidden": null,
+              "hash": "b384c1dd"
+            }
+          ],
+          "line": 87,
+          "openChecks": []
+        },
+        {
+          "id": "6.2",
+          "text": "How is the data analysed, and how does the procedure earn trust?",
+          "statements": [],
+          "line": 91,
+          "openChecks": []
+        },
+        {
+          "id": "6.3",
+          "text": "Which choices in design or analysis would a sceptical reviewer challenge first?",
+          "statements": [],
+          "line": 95,
+          "openChecks": []
+        }
+      ],
+      "line": 85,
+      "status": {
+        "status": "open",
+        "open": 2
+      }
+    },
+    {
+      "number": 7,
+      "title": "Findings",
+      "questions": [
+        {
+          "id": "7.1",
+          "text": "What does the material show — separated from what you make of it?",
+          "statements": [
+            {
+              "text": "Participants name reading the code (P03, P05), running type and lint checks and looking at the result in a UI tool (P01), and writing a test of their own (P02) as their check. P03 adds that their tests are written for whoever changes the code later, not to validate the assistant's work.",
+              "marker": "tentative",
+              "tags": [
+                "src: Interview_P01.md",
+                "src: Interview_P02.md",
+                "src: Interview_P03.md",
+                "src: Interview_P05.md"
+              ],
+              "raw": "Participants name reading the code (P03, P05), running type and lint checks and looking at the result in a UI tool (P01), and writing a test of their own (P02) as their check. P03 adds that their tests are written for whoever changes the code later, not to validate the assistant's work. [tentative, src: Interview_P01.md, src: Interview_P02.md, src: Interview_P03.md, src: Interview_P05.md]",
+              "line": 103,
+              "hidden": null,
+              "hash": "dc88b068"
+            }
+          ],
+          "line": 101,
+          "openChecks": []
+        },
+        {
+          "id": "7.2",
+          "text": "Which instances run counter to the pattern, and what happens to them?",
+          "statements": [],
+          "line": 105,
+          "openChecks": []
+        }
+      ],
+      "line": 99,
+      "status": {
+        "status": "open",
+        "open": 1
+      }
+    },
+    {
+      "number": 8,
+      "title": "Contributions",
+      "questions": [
+        {
+          "id": "8.1",
+          "text": "What does the field know now that it did not before?",
+          "statements": [],
+          "line": 111,
+          "openChecks": []
+        },
+        {
+          "id": "8.2",
+          "text": "Which assumption in prior work does this change, and how?",
+          "statements": [],
+          "line": 115,
+          "openChecks": []
+        },
+        {
+          "id": "8.3",
+          "text": "What follows for practice?",
+          "statements": [],
+          "line": 119,
+          "openChecks": []
+        }
+      ],
+      "line": 109,
+      "status": {
+        "status": "empty",
+        "open": 0
+      }
+    },
+    {
+      "number": 9,
+      "title": "Boundary Conditions and Limitations",
+      "questions": [
+        {
+          "id": "9.1",
+          "text": "Where does the claim stop applying, and why?",
+          "statements": [
+            {
+              "text": "The interviews hold accounts of validation, not observations of it.",
+              "marker": "proposed",
+              "tags": [
+                "unverified"
+              ],
+              "raw": "The interviews hold accounts of validation, not observations of it. [proposed, unverified]",
+              "line": 127,
+              "hidden": null,
+              "hash": "0c6a8ab2"
+            }
+          ],
+          "line": 125,
+          "openChecks": []
+        },
+        {
+          "id": "9.2",
+          "text": "Which limitations follow from design choices, and which from the setting?",
+          "statements": [],
+          "line": 129,
+          "openChecks": []
+        },
+        {
+          "id": "9.3",
+          "text": "What would refute the contribution?",
+          "statements": [],
+          "line": 133,
+          "openChecks": []
+        }
+      ],
+      "line": 123,
+      "status": {
+        "status": "open",
+        "open": 1
+      }
+    }
+  ],
+  "violations": [],
+  "review": {
+    "statuses": {
+      "1": {
+        "status": "accepted",
+        "open": 0
+      },
+      "2": {
+        "status": "empty",
+        "open": 0
+      },
+      "3": {
+        "status": "stated",
+        "open": 0
+      },
+      "4": {
+        "status": "empty",
+        "open": 0
+      },
+      "5": {
+        "status": "empty",
+        "open": 0
+      },
+      "6": {
+        "status": "open",
+        "open": 2
+      },
+      "7": {
+        "status": "open",
+        "open": 1
+      },
+      "8": {
+        "status": "empty",
+        "open": 0
+      },
+      "9": {
+        "status": "open",
+        "open": 1
+      }
+    },
+    "empty": [
+      2,
+      4,
+      5,
+      8
+    ],
+    "open": [
+      6,
+      7,
+      9
+    ],
+    "violations": [],
+    "unmarked": [],
+    "untagged": [
+      {
+        "element": 3,
+        "question": "3.1",
+        "text": "How do senior developers decide whether to rely on what an AI assistant produced?",
+        "marker": "stated",
+        "tags": [],
+        "raw": "How do senior developers decide whether to rely on what an AI assistant produced? [stated]",
+        "line": 47,
+        "hidden": null
+      }
+    ],
+    "invisibleCommitments": [],
+    "conversationalStated": [
+      {
+        "element": 3,
+        "question": "3.1",
+        "text": "How do senior developers decide whether to rely on what an AI assistant produced?",
+        "marker": "stated",
+        "tags": [],
+        "raw": "How do senior developers decide whether to rely on what an AI assistant produced? [stated]",
+        "line": 47,
+        "hidden": null
+      }
+    ],
+    "staleAcceptances": [],
+    "unloggedAcceptances": [],
+    "unverifiedDecisions": [],
+    "glossary": null,
+    "glossaryStaleAcceptances": [],
+    "glossaryAcceptances": [],
+    "glossaryUnloggedAcceptances": [],
+    "ledger": {
+      "status": "verified",
+      "reason": null,
+      "legacy": [],
+      "broken": null,
+      "verified": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "glossaryMechanics": null,
+    "problems": [],
+    "findingsBeforeHypotheses": []
+  },
+  "decisions": [
+    {
+      "seq": 1,
+      "date": "2026-10-06",
+      "kind": "DECISION",
+      "ref": "framing chosen: trust",
+      "hash": "2138941c",
+      "seal": "ce66f31c1408d38c",
+      "line": 3,
+      "offset": 43,
+      "body": "Framing trust (lens: what a developer does before relying on what the assistant produced) chosen; its statements are copied into the main canvas.\n**By:** A. Author\n**Why:** The interview guide's last section asks how outputs are validated, so this is the framing the material can answer.\n**Rejected:** role (lens: what the developer takes the assistant to be, and what that makes of the developer's own work); workflow (lens: where in a task the assistant is brought in, and what makes a developer hand work over to it)",
+      "by": "A. Author",
+      "why": "The interview guide's last section asks how outputs are validated, so this is the framing the material can answer.",
+      "explained": null,
+      "rejected": "role (lens: what the developer takes the assistant to be, and what that makes of the developer's own work); workflow (lens: where in a task the assistant is brought in, and what makes a developer hand work over to it)",
+      "openAtAccept": [],
+      "supersedes": null,
+      "sealStatus": "verified"
+    },
+    {
+      "seq": 2,
+      "date": "2026-10-06",
+      "kind": "DISCOVERY",
+      "ref": "3.1 check",
+      "hash": null,
+      "seal": "26044a95e955c092",
+      "line": 9,
+      "offset": 658,
+      "body": "3.1 speaks of senior developers in general; the dataset README says all 13 participants have more than five years of experience and use an assistant daily. Does the question mean these 13 or senior developers in general?\n**By:** A. Author",
+      "by": "A. Author",
+      "why": null,
+      "explained": null,
+      "rejected": null,
+      "openAtAccept": [],
+      "supersedes": null,
+      "sealStatus": "verified"
+    },
+    {
+      "seq": 3,
+      "date": "2026-10-06",
+      "kind": "DECISION",
+      "ref": "1.1 accepted",
+      "hash": "8ba51f5c",
+      "seal": "89f6d321011db980",
+      "line": 13,
+      "offset": 965,
+      "body": "Developers who use an AI assistant every day say they still do not take its output on trust. The puzzle is what they do instead. [accepted, src: Interview_P05.md, src: Interview_P06.md, src: Interview_P10.md]\n**By:** A. Author\n**Explained:** I accept that these developers say they do not take the assistant's output on trust; what they do instead is the puzzle.",
+      "by": "A. Author",
+      "why": null,
+      "explained": "I accept that these developers say they do not take the assistant's output on trust; what they do instead is the puzzle.",
+      "rejected": null,
+      "openAtAccept": [],
+      "supersedes": null,
+      "sealStatus": "verified"
+    },
+    {
+      "seq": 4,
+      "date": "2026-10-06",
+      "kind": "SESSION",
+      "ref": "Supervision with A. Author",
+      "hash": null,
+      "seal": "9a7cf3d781ddf2ea",
+      "line": 18,
+      "offset": 1414,
+      "body": "Session started.\n**By:** B. Supervisor",
+      "by": "B. Supervisor",
+      "why": null,
+      "explained": null,
+      "rejected": null,
+      "openAtAccept": [],
+      "supersedes": null,
+      "sealStatus": "verified"
+    }
+  ],
+  "profileError": null,
+  "keyError": null,
+  "agenda": {
+    "fields": [
+      {
+        "number": 3,
+        "question": "What exactly do we ask?",
+        "findings": [
+          {
+            "seq": 2,
+            "ref": "3.1 check",
+            "date": "2026-10-06",
+            "body": "3.1 speaks of senior developers in general; the dataset README says all 13 participants have more than five years of experience and use an assistant daily. Does the question mean these 13 or senior developers in general?\n**By:** A. Author",
+            "by": "A. Author",
+            "why": null
+          }
+        ]
+      }
+    ],
+    "gaps": [
+      {
+        "number": 1,
+        "question": "What puzzles us?",
+        "questionId": "1.2",
+        "text": "What is it that you cannot yet explain, and what do you already know?"
+      },
+      {
+        "number": 1,
+        "question": "What puzzles us?",
+        "questionId": "1.3",
+        "text": "Why does this matter — for practice, for theory, or both?"
+      },
+      {
+        "number": 2,
+        "question": "Who cares, and what do they already know?",
+        "questionId": "2.1",
+        "text": "Who are the ten to twenty scholars whose conversation this joins?"
+      },
+      {
+        "number": 2,
+        "question": "Who cares, and what do they already know?",
+        "questionId": "2.2",
+        "text": "What has that conversation been about lately, and on what assumptions does it rest?"
+      },
+      {
+        "number": 2,
+        "question": "Who cares, and what do they already know?",
+        "questionId": "2.3",
+        "text": "How has prior work handled this puzzle, and where is it inconsistent or silent?"
+      },
+      {
+        "number": 2,
+        "question": "Who cares, and what do they already know?",
+        "questionId": "2.4",
+        "text": "Which assumption of that work do you challenge, and on what grounds?"
+      },
+      {
+        "number": 3,
+        "question": "What exactly do we ask?",
+        "questionId": "3.2",
+        "text": "What would a well-informed person answer intuitively, and why is that not enough?"
+      },
+      {
+        "number": 3,
+        "question": "What exactly do we ask?",
+        "questionId": "3.3",
+        "text": "How does answering it move the puzzle forward?"
+      },
+      {
+        "number": 4,
+        "question": "What is it made of?",
+        "questionId": "4.1",
+        "text": "What are the core concepts, and where does each definition come from?"
+      },
+      {
+        "number": 4,
+        "question": "What is it made of?",
+        "questionId": "4.2",
+        "text": "How do they relate — and is that relationship given in advance or emerging from the material?"
+      },
+      {
+        "number": 4,
+        "question": "What is it made of?",
+        "questionId": "4.3",
+        "text": "What mechanism explains the relationship?"
+      },
+      {
+        "number": 5,
+        "question": "Where do we look?",
+        "questionId": "5.1",
+        "text": "Where is the study conducted, and how did you gain access?"
+      },
+      {
+        "number": 5,
+        "question": "Where do we look?",
+        "questionId": "5.2",
+        "text": "Why is this setting the right one for the question — what does it make visible?"
+      },
+      {
+        "number": 5,
+        "question": "Where do we look?",
+        "questionId": "5.3",
+        "text": "What would a more suitable setting be, and why are you not there?"
+      },
+      {
+        "number": 6,
+        "question": "How do we look?",
+        "questionId": "6.2",
+        "text": "How is the data analysed, and how does the procedure earn trust?"
+      },
+      {
+        "number": 6,
+        "question": "How do we look?",
+        "questionId": "6.3",
+        "text": "Which choices in design or analysis would a sceptical reviewer challenge first?"
+      },
+      {
+        "number": 7,
+        "question": "What did we find?",
+        "questionId": "7.2",
+        "text": "Which instances run counter to the pattern, and what happens to them?"
+      },
+      {
+        "number": 8,
+        "question": "What does it change?",
+        "questionId": "8.1",
+        "text": "What does the field know now that it did not before?"
+      },
+      {
+        "number": 8,
+        "question": "What does it change?",
+        "questionId": "8.2",
+        "text": "Which assumption in prior work does this change, and how?"
+      },
+      {
+        "number": 8,
+        "question": "What does it change?",
+        "questionId": "8.3",
+        "text": "What follows for practice?"
+      },
+      {
+        "number": 9,
+        "question": "Where does it stop?",
+        "questionId": "9.2",
+        "text": "Which limitations follow from design choices, and which from the setting?"
+      },
+      {
+        "number": 9,
+        "question": "Where does it stop?",
+        "questionId": "9.3",
+        "text": "What would refute the contribution?"
+      }
+    ]
+  },
+  "humanQuestions": {
+    "1": "What puzzles us?",
+    "2": "Who cares, and what do they already know?",
+    "3": "What exactly do we ask?",
+    "4": "What is it made of?",
+    "5": "Where do we look?",
+    "6": "How do we look?",
+    "7": "What did we find?",
+    "8": "What does it change?",
+    "9": "Where does it stop?"
+  },
+  "variants": [
+    {
+      "name": "role",
+      "lens": "what the developer takes the assistant to be, and what that makes of the developer's own work",
+      "state": {
+        "version": "0.5.0",
+        "project": "ai-assistants-interviews",
+        "frontmatter": {
+          "project": "ai-assistants-interviews",
+          "variant": "role",
+          "lens": "what the developer takes the assistant to be, and what that makes of the developer's own work",
+          "profile": "is-qualitative",
+          "created": "2026-10-06",
+          "mode": "import",
+          "canvas-schema": "2"
+        },
+        "graph": {
+          "1": [],
+          "2": [
+            1,
+            3
+          ],
+          "3": [
+            1
+          ],
+          "4": [
+            2,
+            7
+          ],
+          "5": [
+            3,
+            9
+          ],
+          "6": [
+            5
+          ],
+          "7": [
+            6
+          ],
+          "8": [
+            2,
+            4,
+            7
+          ],
+          "9": [
+            1,
+            3
+          ]
+        },
+        "elements": [
+          {
+            "number": 1,
+            "title": "Puzzle",
+            "questions": [
+              {
+                "id": "1.1",
+                "text": "What is the broad question this project speaks to?",
+                "statements": [
+                  {
+                    "text": "When an assistant writes much of the code, the developer's day moves from writing code to reading it. The puzzle is what the developer's work is then.",
+                    "marker": "proposed",
+                    "tags": [
+                      "src: Interview_P11.md"
+                    ],
+                    "raw": "When an assistant writes much of the code, the developer's day moves from writing code to reading it. The puzzle is what the developer's work is then. [proposed, src: Interview_P11.md]",
+                    "line": 15,
+                    "hidden": null,
+                    "hash": "c24754c9"
+                  }
+                ],
+                "line": 13,
+                "openChecks": []
+              },
+              {
+                "id": "1.2",
+                "text": "What is it that you cannot yet explain, and what do you already know?",
+                "statements": [],
+                "line": 17,
+                "openChecks": []
+              },
+              {
+                "id": "1.3",
+                "text": "Why does this matter — for practice, for theory, or both?",
+                "statements": [],
+                "line": 21,
+                "openChecks": []
+              }
+            ],
+            "line": 11,
+            "status": {
+              "status": "open",
+              "open": 1
+            }
+          },
+          {
+            "number": 2,
+            "title": "Audience and Prior Research",
+            "questions": [
+              {
+                "id": "2.1",
+                "text": "Who are the ten to twenty scholars whose conversation this joins?",
+                "statements": [],
+                "line": 27,
+                "openChecks": []
+              },
+              {
+                "id": "2.2",
+                "text": "What has that conversation been about lately, and on what assumptions does it rest?",
+                "statements": [],
+                "line": 31,
+                "openChecks": []
+              },
+              {
+                "id": "2.3",
+                "text": "How has prior work handled this puzzle, and where is it inconsistent or silent?",
+                "statements": [],
+                "line": 35,
+                "openChecks": []
+              },
+              {
+                "id": "2.4",
+                "text": "Which assumption of that work do you challenge, and on what grounds?",
+                "statements": [],
+                "line": 39,
+                "openChecks": []
+              }
+            ],
+            "line": 25,
+            "status": {
+              "status": "empty",
+              "open": 0
+            }
+          },
+          {
+            "number": 3,
+            "title": "Research Question",
+            "questions": [
+              {
+                "id": "3.1",
+                "text": "In one sentence: what does this study answer?",
+                "statements": [
+                  {
+                    "text": "What do senior developers take an AI assistant to be, and how does that change what they take their own work to be?",
+                    "marker": "proposed",
+                    "tags": [],
+                    "raw": "What do senior developers take an AI assistant to be, and how does that change what they take their own work to be? [proposed]",
+                    "line": 47,
+                    "hidden": null,
+                    "hash": "9742d2d9"
+                  }
+                ],
+                "line": 45,
+                "openChecks": []
+              },
+              {
+                "id": "3.2",
+                "text": "What would a well-informed person answer intuitively, and why is that not enough?",
+                "statements": [],
+                "line": 49,
+                "openChecks": []
+              },
+              {
+                "id": "3.3",
+                "text": "How does answering it move the puzzle forward?",
+                "statements": [],
+                "line": 53,
+                "openChecks": []
+              }
+            ],
+            "line": 43,
+            "status": {
+              "status": "open",
+              "open": 1
+            }
+          },
+          {
+            "number": 4,
+            "title": "Theoretical Constructs and Relationships",
+            "questions": [
+              {
+                "id": "4.1",
+                "text": "What are the core concepts, and where does each definition come from?",
+                "statements": [],
+                "line": 59,
+                "openChecks": []
+              },
+              {
+                "id": "4.2",
+                "text": "How do they relate — and is that relationship given in advance or emerging from the material?",
+                "statements": [],
+                "line": 63,
+                "openChecks": []
+              },
+              {
+                "id": "4.3",
+                "text": "What mechanism explains the relationship?",
+                "statements": [],
+                "line": 67,
+                "openChecks": []
+              }
+            ],
+            "line": 57,
+            "status": {
+              "status": "empty",
+              "open": 0
+            }
+          },
+          {
+            "number": 5,
+            "title": "Research Setting",
+            "questions": [
+              {
+                "id": "5.1",
+                "text": "Where is the study conducted, and how did you gain access?",
+                "statements": [],
+                "line": 73,
+                "openChecks": []
+              },
+              {
+                "id": "5.2",
+                "text": "Why is this setting the right one for the question — what does it make visible?",
+                "statements": [],
+                "line": 77,
+                "openChecks": []
+              },
+              {
+                "id": "5.3",
+                "text": "What would a more suitable setting be, and why are you not there?",
+                "statements": [],
+                "line": 81,
+                "openChecks": []
+              }
+            ],
+            "line": 71,
+            "status": {
+              "status": "empty",
+              "open": 0
+            }
+          },
+          {
+            "number": 6,
+            "title": "Research Design and Analysis",
+            "questions": [
+              {
+                "id": "6.1",
+                "text": "What data, from where, collected how?",
+                "statements": [],
+                "line": 87,
+                "openChecks": []
+              },
+              {
+                "id": "6.2",
+                "text": "How is the data analysed, and how does the procedure earn trust?",
+                "statements": [],
+                "line": 91,
+                "openChecks": []
+              },
+              {
+                "id": "6.3",
+                "text": "Which choices in design or analysis would a sceptical reviewer challenge first?",
+                "statements": [],
+                "line": 95,
+                "openChecks": []
+              }
+            ],
+            "line": 85,
+            "status": {
+              "status": "empty",
+              "open": 0
+            }
+          },
+          {
+            "number": 7,
+            "title": "Findings",
+            "questions": [
+              {
+                "id": "7.1",
+                "text": "What does the material show — separated from what you make of it?",
+                "statements": [
+                  {
+                    "text": "One participant writes code sometimes and reviews code very often, because what they review is code the assistant produced (P11). Another, senior and with few colleagues to spar with, names sparring on ideas and concepts as the use that benefits them most (P13). P02 does not validate when it is sparring and learning rather than code.",
+                    "marker": "tentative",
+                    "tags": [
+                      "src: Interview_P02.md",
+                      "src: Interview_P11.md",
+                      "src: Interview_P13.md"
+                    ],
+                    "raw": "One participant writes code sometimes and reviews code very often, because what they review is code the assistant produced (P11). Another, senior and with few colleagues to spar with, names sparring on ideas and concepts as the use that benefits them most (P13). P02 does not validate when it is sparring and learning rather than code. [tentative, src: Interview_P02.md, src: Interview_P11.md, src: Interview_P13.md]",
+                    "line": 103,
+                    "hidden": null,
+                    "hash": "767c93e3"
+                  }
+                ],
+                "line": 101,
+                "openChecks": []
+              },
+              {
+                "id": "7.2",
+                "text": "Which instances run counter to the pattern, and what happens to them?",
+                "statements": [],
+                "line": 105,
+                "openChecks": []
+              }
+            ],
+            "line": 99,
+            "status": {
+              "status": "open",
+              "open": 1
+            }
+          },
+          {
+            "number": 8,
+            "title": "Contributions",
+            "questions": [
+              {
+                "id": "8.1",
+                "text": "What does the field know now that it did not before?",
+                "statements": [],
+                "line": 111,
+                "openChecks": []
+              },
+              {
+                "id": "8.2",
+                "text": "Which assumption in prior work does this change, and how?",
+                "statements": [],
+                "line": 115,
+                "openChecks": []
+              },
+              {
+                "id": "8.3",
+                "text": "What follows for practice?",
+                "statements": [],
+                "line": 119,
+                "openChecks": []
+              }
+            ],
+            "line": 109,
+            "status": {
+              "status": "empty",
+              "open": 0
+            }
+          },
+          {
+            "number": 9,
+            "title": "Boundary Conditions and Limitations",
+            "questions": [
+              {
+                "id": "9.1",
+                "text": "Where does the claim stop applying, and why?",
+                "statements": [
+                  {
+                    "text": "As the dataset's README describes the interview guide, none of its three sections asks what the assistant is, so this reading rests on asides in the answers.",
+                    "marker": "proposed",
+                    "tags": [
+                      "src: README.md"
+                    ],
+                    "raw": "As the dataset's README describes the interview guide, none of its three sections asks what the assistant is, so this reading rests on asides in the answers. [proposed, src: README.md]",
+                    "line": 127,
+                    "hidden": null,
+                    "hash": "ab55e817"
+                  }
+                ],
+                "line": 125,
+                "openChecks": []
+              },
+              {
+                "id": "9.2",
+                "text": "Which limitations follow from design choices, and which from the setting?",
+                "statements": [],
+                "line": 129,
+                "openChecks": []
+              },
+              {
+                "id": "9.3",
+                "text": "What would refute the contribution?",
+                "statements": [],
+                "line": 133,
+                "openChecks": []
+              }
+            ],
+            "line": 123,
+            "status": {
+              "status": "open",
+              "open": 1
+            }
+          }
+        ],
+        "violations": [],
+        "review": {
+          "statuses": {
+            "1": {
+              "status": "open",
+              "open": 1
+            },
+            "2": {
+              "status": "empty",
+              "open": 0
+            },
+            "3": {
+              "status": "open",
+              "open": 1
+            },
+            "4": {
+              "status": "empty",
+              "open": 0
+            },
+            "5": {
+              "status": "empty",
+              "open": 0
+            },
+            "6": {
+              "status": "empty",
+              "open": 0
+            },
+            "7": {
+              "status": "open",
+              "open": 1
+            },
+            "8": {
+              "status": "empty",
+              "open": 0
+            },
+            "9": {
+              "status": "open",
+              "open": 1
+            }
+          },
+          "empty": [
+            2,
+            4,
+            5,
+            6,
+            8
+          ],
+          "open": [
+            1,
+            3,
+            7,
+            9
+          ],
+          "violations": [],
+          "unmarked": [],
+          "untagged": [
+            {
+              "element": 3,
+              "question": "3.1",
+              "text": "What do senior developers take an AI assistant to be, and how does that change what they take their own work to be?",
+              "marker": "proposed",
+              "tags": [],
+              "raw": "What do senior developers take an AI assistant to be, and how does that change what they take their own work to be? [proposed]",
+              "line": 47,
+              "hidden": null
+            }
+          ],
+          "invisibleCommitments": [],
+          "conversationalStated": [],
+          "staleAcceptances": [],
+          "unloggedAcceptances": [],
+          "unverifiedDecisions": [],
+          "glossary": null,
+          "glossaryStaleAcceptances": [],
+          "glossaryAcceptances": [],
+          "glossaryUnloggedAcceptances": [],
+          "ledger": {
+            "status": "verified",
+            "reason": null,
+            "legacy": [],
+            "broken": null,
+            "verified": []
+          },
+          "glossaryMechanics": null,
+          "problems": [],
+          "findingsBeforeHypotheses": []
+        },
+        "decisions": [],
+        "profileError": null,
+        "keyError": null,
+        "agenda": {
+          "fields": [],
+          "gaps": [
+            {
+              "number": 1,
+              "question": "What puzzles us?",
+              "questionId": "1.2",
+              "text": "What is it that you cannot yet explain, and what do you already know?"
+            },
+            {
+              "number": 1,
+              "question": "What puzzles us?",
+              "questionId": "1.3",
+              "text": "Why does this matter — for practice, for theory, or both?"
+            },
+            {
+              "number": 2,
+              "question": "Who cares, and what do they already know?",
+              "questionId": "2.1",
+              "text": "Who are the ten to twenty scholars whose conversation this joins?"
+            },
+            {
+              "number": 2,
+              "question": "Who cares, and what do they already know?",
+              "questionId": "2.2",
+              "text": "What has that conversation been about lately, and on what assumptions does it rest?"
+            },
+            {
+              "number": 2,
+              "question": "Who cares, and what do they already know?",
+              "questionId": "2.3",
+              "text": "How has prior work handled this puzzle, and where is it inconsistent or silent?"
+            },
+            {
+              "number": 2,
+              "question": "Who cares, and what do they already know?",
+              "questionId": "2.4",
+              "text": "Which assumption of that work do you challenge, and on what grounds?"
+            },
+            {
+              "number": 3,
+              "question": "What exactly do we ask?",
+              "questionId": "3.2",
+              "text": "What would a well-informed person answer intuitively, and why is that not enough?"
+            },
+            {
+              "number": 3,
+              "question": "What exactly do we ask?",
+              "questionId": "3.3",
+              "text": "How does answering it move the puzzle forward?"
+            },
+            {
+              "number": 4,
+              "question": "What is it made of?",
+              "questionId": "4.1",
+              "text": "What are the core concepts, and where does each definition come from?"
+            },
+            {
+              "number": 4,
+              "question": "What is it made of?",
+              "questionId": "4.2",
+              "text": "How do they relate — and is that relationship given in advance or emerging from the material?"
+            },
+            {
+              "number": 4,
+              "question": "What is it made of?",
+              "questionId": "4.3",
+              "text": "What mechanism explains the relationship?"
+            },
+            {
+              "number": 5,
+              "question": "Where do we look?",
+              "questionId": "5.1",
+              "text": "Where is the study conducted, and how did you gain access?"
+            },
+            {
+              "number": 5,
+              "question": "Where do we look?",
+              "questionId": "5.2",
+              "text": "Why is this setting the right one for the question — what does it make visible?"
+            },
+            {
+              "number": 5,
+              "question": "Where do we look?",
+              "questionId": "5.3",
+              "text": "What would a more suitable setting be, and why are you not there?"
+            },
+            {
+              "number": 6,
+              "question": "How do we look?",
+              "questionId": "6.1",
+              "text": "What data, from where, collected how?"
+            },
+            {
+              "number": 6,
+              "question": "How do we look?",
+              "questionId": "6.2",
+              "text": "How is the data analysed, and how does the procedure earn trust?"
+            },
+            {
+              "number": 6,
+              "question": "How do we look?",
+              "questionId": "6.3",
+              "text": "Which choices in design or analysis would a sceptical reviewer challenge first?"
+            },
+            {
+              "number": 7,
+              "question": "What did we find?",
+              "questionId": "7.2",
+              "text": "Which instances run counter to the pattern, and what happens to them?"
+            },
+            {
+              "number": 8,
+              "question": "What does it change?",
+              "questionId": "8.1",
+              "text": "What does the field know now that it did not before?"
+            },
+            {
+              "number": 8,
+              "question": "What does it change?",
+              "questionId": "8.2",
+              "text": "Which assumption in prior work does this change, and how?"
+            },
+            {
+              "number": 8,
+              "question": "What does it change?",
+              "questionId": "8.3",
+              "text": "What follows for practice?"
+            },
+            {
+              "number": 9,
+              "question": "Where does it stop?",
+              "questionId": "9.2",
+              "text": "Which limitations follow from design choices, and which from the setting?"
+            },
+            {
+              "number": 9,
+              "question": "Where does it stop?",
+              "questionId": "9.3",
+              "text": "What would refute the contribution?"
+            }
+          ]
+        },
+        "humanQuestions": {
+          "1": "What puzzles us?",
+          "2": "Who cares, and what do they already know?",
+          "3": "What exactly do we ask?",
+          "4": "What is it made of?",
+          "5": "Where do we look?",
+          "6": "How do we look?",
+          "7": "What did we find?",
+          "8": "What does it change?",
+          "9": "Where does it stop?"
+        }
+      }
+    },
+    {
+      "name": "trust",
+      "lens": "what a developer does before relying on what the assistant produced",
+      "state": {
+        "version": "0.5.0",
+        "project": "ai-assistants-interviews",
+        "frontmatter": {
+          "project": "ai-assistants-interviews",
+          "variant": "trust",
+          "lens": "what a developer does before relying on what the assistant produced",
+          "profile": "is-qualitative",
+          "created": "2026-10-06",
+          "mode": "import",
+          "canvas-schema": "2"
+        },
+        "graph": {
+          "1": [],
+          "2": [
+            1,
+            3
+          ],
+          "3": [
+            1
+          ],
+          "4": [
+            2,
+            7
+          ],
+          "5": [
+            3,
+            9
+          ],
+          "6": [
+            5
+          ],
+          "7": [
+            6
+          ],
+          "8": [
+            2,
+            4,
+            7
+          ],
+          "9": [
+            1,
+            3
+          ]
+        },
+        "elements": [
+          {
+            "number": 1,
+            "title": "Puzzle",
+            "questions": [
+              {
+                "id": "1.1",
+                "text": "What is the broad question this project speaks to?",
+                "statements": [
+                  {
+                    "text": "Developers who use an AI assistant every day say they still do not take its output on trust. The puzzle is what they do instead.",
+                    "marker": "proposed",
+                    "tags": [
+                      "src: Interview_P05.md",
+                      "src: Interview_P06.md",
+                      "src: Interview_P10.md"
+                    ],
+                    "raw": "Developers who use an AI assistant every day say they still do not take its output on trust. The puzzle is what they do instead. [proposed, src: Interview_P05.md, src: Interview_P06.md, src: Interview_P10.md]",
+                    "line": 15,
+                    "hidden": null,
+                    "hash": "8ba51f5c"
+                  }
+                ],
+                "line": 13,
+                "openChecks": []
+              },
+              {
+                "id": "1.2",
+                "text": "What is it that you cannot yet explain, and what do you already know?",
+                "statements": [],
+                "line": 17,
+                "openChecks": []
+              },
+              {
+                "id": "1.3",
+                "text": "Why does this matter — for practice, for theory, or both?",
+                "statements": [],
+                "line": 21,
+                "openChecks": []
+              }
+            ],
+            "line": 11,
+            "status": {
+              "status": "open",
+              "open": 1
+            }
+          },
+          {
+            "number": 2,
+            "title": "Audience and Prior Research",
+            "questions": [
+              {
+                "id": "2.1",
+                "text": "Who are the ten to twenty scholars whose conversation this joins?",
+                "statements": [],
+                "line": 27,
+                "openChecks": []
+              },
+              {
+                "id": "2.2",
+                "text": "What has that conversation been about lately, and on what assumptions does it rest?",
+                "statements": [],
+                "line": 31,
+                "openChecks": []
+              },
+              {
+                "id": "2.3",
+                "text": "How has prior work handled this puzzle, and where is it inconsistent or silent?",
+                "statements": [],
+                "line": 35,
+                "openChecks": []
+              },
+              {
+                "id": "2.4",
+                "text": "Which assumption of that work do you challenge, and on what grounds?",
+                "statements": [],
+                "line": 39,
+                "openChecks": []
+              }
+            ],
+            "line": 25,
+            "status": {
+              "status": "empty",
+              "open": 0
+            }
+          },
+          {
+            "number": 3,
+            "title": "Research Question",
+            "questions": [
+              {
+                "id": "3.1",
+                "text": "In one sentence: what does this study answer?",
+                "statements": [
+                  {
+                    "text": "How do senior developers decide whether to rely on what an AI assistant produced?",
+                    "marker": "proposed",
+                    "tags": [],
+                    "raw": "How do senior developers decide whether to rely on what an AI assistant produced? [proposed]",
+                    "line": 47,
+                    "hidden": null,
+                    "hash": "f3034d7b"
+                  }
+                ],
+                "line": 45,
+                "openChecks": []
+              },
+              {
+                "id": "3.2",
+                "text": "What would a well-informed person answer intuitively, and why is that not enough?",
+                "statements": [],
+                "line": 49,
+                "openChecks": []
+              },
+              {
+                "id": "3.3",
+                "text": "How does answering it move the puzzle forward?",
+                "statements": [],
+                "line": 53,
+                "openChecks": []
+              }
+            ],
+            "line": 43,
+            "status": {
+              "status": "open",
+              "open": 1
+            }
+          },
+          {
+            "number": 4,
+            "title": "Theoretical Constructs and Relationships",
+            "questions": [
+              {
+                "id": "4.1",
+                "text": "What are the core concepts, and where does each definition come from?",
+                "statements": [],
+                "line": 59,
+                "openChecks": []
+              },
+              {
+                "id": "4.2",
+                "text": "How do they relate — and is that relationship given in advance or emerging from the material?",
+                "statements": [],
+                "line": 63,
+                "openChecks": []
+              },
+              {
+                "id": "4.3",
+                "text": "What mechanism explains the relationship?",
+                "statements": [],
+                "line": 67,
+                "openChecks": []
+              }
+            ],
+            "line": 57,
+            "status": {
+              "status": "empty",
+              "open": 0
+            }
+          },
+          {
+            "number": 5,
+            "title": "Research Setting",
+            "questions": [
+              {
+                "id": "5.1",
+                "text": "Where is the study conducted, and how did you gain access?",
+                "statements": [],
+                "line": 73,
+                "openChecks": []
+              },
+              {
+                "id": "5.2",
+                "text": "Why is this setting the right one for the question — what does it make visible?",
+                "statements": [],
+                "line": 77,
+                "openChecks": []
+              },
+              {
+                "id": "5.3",
+                "text": "What would a more suitable setting be, and why are you not there?",
+                "statements": [],
+                "line": 81,
+                "openChecks": []
+              }
+            ],
+            "line": 71,
+            "status": {
+              "status": "empty",
+              "open": 0
+            }
+          },
+          {
+            "number": 6,
+            "title": "Research Design and Analysis",
+            "questions": [
+              {
+                "id": "6.1",
+                "text": "What data, from where, collected how?",
+                "statements": [],
+                "line": 87,
+                "openChecks": []
+              },
+              {
+                "id": "6.2",
+                "text": "How is the data analysed, and how does the procedure earn trust?",
+                "statements": [],
+                "line": 91,
+                "openChecks": []
+              },
+              {
+                "id": "6.3",
+                "text": "Which choices in design or analysis would a sceptical reviewer challenge first?",
+                "statements": [],
+                "line": 95,
+                "openChecks": []
+              }
+            ],
+            "line": 85,
+            "status": {
+              "status": "empty",
+              "open": 0
+            }
+          },
+          {
+            "number": 7,
+            "title": "Findings",
+            "questions": [
+              {
+                "id": "7.1",
+                "text": "What does the material show — separated from what you make of it?",
+                "statements": [
+                  {
+                    "text": "Participants name reading the code (P03, P05), running type and lint checks and looking at the result in a UI tool (P01), and writing a test of their own (P02) as their check. P03 adds that their tests are written for whoever changes the code later, not to validate the assistant's work.",
+                    "marker": "tentative",
+                    "tags": [
+                      "src: Interview_P01.md",
+                      "src: Interview_P02.md",
+                      "src: Interview_P03.md",
+                      "src: Interview_P05.md"
+                    ],
+                    "raw": "Participants name reading the code (P03, P05), running type and lint checks and looking at the result in a UI tool (P01), and writing a test of their own (P02) as their check. P03 adds that their tests are written for whoever changes the code later, not to validate the assistant's work. [tentative, src: Interview_P01.md, src: Interview_P02.md, src: Interview_P03.md, src: Interview_P05.md]",
+                    "line": 103,
+                    "hidden": null,
+                    "hash": "dc88b068"
+                  }
+                ],
+                "line": 101,
+                "openChecks": []
+              },
+              {
+                "id": "7.2",
+                "text": "Which instances run counter to the pattern, and what happens to them?",
+                "statements": [],
+                "line": 105,
+                "openChecks": []
+              }
+            ],
+            "line": 99,
+            "status": {
+              "status": "open",
+              "open": 1
+            }
+          },
+          {
+            "number": 8,
+            "title": "Contributions",
+            "questions": [
+              {
+                "id": "8.1",
+                "text": "What does the field know now that it did not before?",
+                "statements": [],
+                "line": 111,
+                "openChecks": []
+              },
+              {
+                "id": "8.2",
+                "text": "Which assumption in prior work does this change, and how?",
+                "statements": [],
+                "line": 115,
+                "openChecks": []
+              },
+              {
+                "id": "8.3",
+                "text": "What follows for practice?",
+                "statements": [],
+                "line": 119,
+                "openChecks": []
+              }
+            ],
+            "line": 109,
+            "status": {
+              "status": "empty",
+              "open": 0
+            }
+          },
+          {
+            "number": 9,
+            "title": "Boundary Conditions and Limitations",
+            "questions": [
+              {
+                "id": "9.1",
+                "text": "Where does the claim stop applying, and why?",
+                "statements": [
+                  {
+                    "text": "The interviews hold accounts of validation, not observations of it.",
+                    "marker": "proposed",
+                    "tags": [
+                      "unverified"
+                    ],
+                    "raw": "The interviews hold accounts of validation, not observations of it. [proposed, unverified]",
+                    "line": 127,
+                    "hidden": null,
+                    "hash": "0c6a8ab2"
+                  }
+                ],
+                "line": 125,
+                "openChecks": []
+              },
+              {
+                "id": "9.2",
+                "text": "Which limitations follow from design choices, and which from the setting?",
+                "statements": [],
+                "line": 129,
+                "openChecks": []
+              },
+              {
+                "id": "9.3",
+                "text": "What would refute the contribution?",
+                "statements": [],
+                "line": 133,
+                "openChecks": []
+              }
+            ],
+            "line": 123,
+            "status": {
+              "status": "open",
+              "open": 1
+            }
+          }
+        ],
+        "violations": [],
+        "review": {
+          "statuses": {
+            "1": {
+              "status": "open",
+              "open": 1
+            },
+            "2": {
+              "status": "empty",
+              "open": 0
+            },
+            "3": {
+              "status": "open",
+              "open": 1
+            },
+            "4": {
+              "status": "empty",
+              "open": 0
+            },
+            "5": {
+              "status": "empty",
+              "open": 0
+            },
+            "6": {
+              "status": "empty",
+              "open": 0
+            },
+            "7": {
+              "status": "open",
+              "open": 1
+            },
+            "8": {
+              "status": "empty",
+              "open": 0
+            },
+            "9": {
+              "status": "open",
+              "open": 1
+            }
+          },
+          "empty": [
+            2,
+            4,
+            5,
+            6,
+            8
+          ],
+          "open": [
+            1,
+            3,
+            7,
+            9
+          ],
+          "violations": [],
+          "unmarked": [],
+          "untagged": [
+            {
+              "element": 3,
+              "question": "3.1",
+              "text": "How do senior developers decide whether to rely on what an AI assistant produced?",
+              "marker": "proposed",
+              "tags": [],
+              "raw": "How do senior developers decide whether to rely on what an AI assistant produced? [proposed]",
+              "line": 47,
+              "hidden": null
+            }
+          ],
+          "invisibleCommitments": [],
+          "conversationalStated": [],
+          "staleAcceptances": [],
+          "unloggedAcceptances": [],
+          "unverifiedDecisions": [],
+          "glossary": null,
+          "glossaryStaleAcceptances": [],
+          "glossaryAcceptances": [],
+          "glossaryUnloggedAcceptances": [],
+          "ledger": {
+            "status": "verified",
+            "reason": null,
+            "legacy": [],
+            "broken": null,
+            "verified": []
+          },
+          "glossaryMechanics": null,
+          "problems": [],
+          "findingsBeforeHypotheses": []
+        },
+        "decisions": [],
+        "profileError": null,
+        "keyError": null,
+        "agenda": {
+          "fields": [],
+          "gaps": [
+            {
+              "number": 1,
+              "question": "What puzzles us?",
+              "questionId": "1.2",
+              "text": "What is it that you cannot yet explain, and what do you already know?"
+            },
+            {
+              "number": 1,
+              "question": "What puzzles us?",
+              "questionId": "1.3",
+              "text": "Why does this matter — for practice, for theory, or both?"
+            },
+            {
+              "number": 2,
+              "question": "Who cares, and what do they already know?",
+              "questionId": "2.1",
+              "text": "Who are the ten to twenty scholars whose conversation this joins?"
+            },
+            {
+              "number": 2,
+              "question": "Who cares, and what do they already know?",
+              "questionId": "2.2",
+              "text": "What has that conversation been about lately, and on what assumptions does it rest?"
+            },
+            {
+              "number": 2,
+              "question": "Who cares, and what do they already know?",
+              "questionId": "2.3",
+              "text": "How has prior work handled this puzzle, and where is it inconsistent or silent?"
+            },
+            {
+              "number": 2,
+              "question": "Who cares, and what do they already know?",
+              "questionId": "2.4",
+              "text": "Which assumption of that work do you challenge, and on what grounds?"
+            },
+            {
+              "number": 3,
+              "question": "What exactly do we ask?",
+              "questionId": "3.2",
+              "text": "What would a well-informed person answer intuitively, and why is that not enough?"
+            },
+            {
+              "number": 3,
+              "question": "What exactly do we ask?",
+              "questionId": "3.3",
+              "text": "How does answering it move the puzzle forward?"
+            },
+            {
+              "number": 4,
+              "question": "What is it made of?",
+              "questionId": "4.1",
+              "text": "What are the core concepts, and where does each definition come from?"
+            },
+            {
+              "number": 4,
+              "question": "What is it made of?",
+              "questionId": "4.2",
+              "text": "How do they relate — and is that relationship given in advance or emerging from the material?"
+            },
+            {
+              "number": 4,
+              "question": "What is it made of?",
+              "questionId": "4.3",
+              "text": "What mechanism explains the relationship?"
+            },
+            {
+              "number": 5,
+              "question": "Where do we look?",
+              "questionId": "5.1",
+              "text": "Where is the study conducted, and how did you gain access?"
+            },
+            {
+              "number": 5,
+              "question": "Where do we look?",
+              "questionId": "5.2",
+              "text": "Why is this setting the right one for the question — what does it make visible?"
+            },
+            {
+              "number": 5,
+              "question": "Where do we look?",
+              "questionId": "5.3",
+              "text": "What would a more suitable setting be, and why are you not there?"
+            },
+            {
+              "number": 6,
+              "question": "How do we look?",
+              "questionId": "6.1",
+              "text": "What data, from where, collected how?"
+            },
+            {
+              "number": 6,
+              "question": "How do we look?",
+              "questionId": "6.2",
+              "text": "How is the data analysed, and how does the procedure earn trust?"
+            },
+            {
+              "number": 6,
+              "question": "How do we look?",
+              "questionId": "6.3",
+              "text": "Which choices in design or analysis would a sceptical reviewer challenge first?"
+            },
+            {
+              "number": 7,
+              "question": "What did we find?",
+              "questionId": "7.2",
+              "text": "Which instances run counter to the pattern, and what happens to them?"
+            },
+            {
+              "number": 8,
+              "question": "What does it change?",
+              "questionId": "8.1",
+              "text": "What does the field know now that it did not before?"
+            },
+            {
+              "number": 8,
+              "question": "What does it change?",
+              "questionId": "8.2",
+              "text": "Which assumption in prior work does this change, and how?"
+            },
+            {
+              "number": 8,
+              "question": "What does it change?",
+              "questionId": "8.3",
+              "text": "What follows for practice?"
+            },
+            {
+              "number": 9,
+              "question": "Where does it stop?",
+              "questionId": "9.2",
+              "text": "Which limitations follow from design choices, and which from the setting?"
+            },
+            {
+              "number": 9,
+              "question": "Where does it stop?",
+              "questionId": "9.3",
+              "text": "What would refute the contribution?"
+            }
+          ]
+        },
+        "humanQuestions": {
+          "1": "What puzzles us?",
+          "2": "Who cares, and what do they already know?",
+          "3": "What exactly do we ask?",
+          "4": "What is it made of?",
+          "5": "Where do we look?",
+          "6": "How do we look?",
+          "7": "What did we find?",
+          "8": "What does it change?",
+          "9": "Where does it stop?"
+        }
+      }
+    },
+    {
+      "name": "workflow",
+      "lens": "where in a task the assistant is brought in, and what makes a developer hand work over to it",
+      "state": {
+        "version": "0.5.0",
+        "project": "ai-assistants-interviews",
+        "frontmatter": {
+          "project": "ai-assistants-interviews",
+          "variant": "workflow",
+          "lens": "where in a task the assistant is brought in, and what makes a developer hand work over to it",
+          "profile": "is-qualitative",
+          "created": "2026-10-06",
+          "mode": "import",
+          "canvas-schema": "2"
+        },
+        "graph": {
+          "1": [],
+          "2": [
+            1,
+            3
+          ],
+          "3": [
+            1
+          ],
+          "4": [
+            2,
+            7
+          ],
+          "5": [
+            3,
+            9
+          ],
+          "6": [
+            5
+          ],
+          "7": [
+            6
+          ],
+          "8": [
+            2,
+            4,
+            7
+          ],
+          "9": [
+            1,
+            3
+          ]
+        },
+        "elements": [
+          {
+            "number": 1,
+            "title": "Puzzle",
+            "questions": [
+              {
+                "id": "1.1",
+                "text": "What is the broad question this project speaks to?",
+                "statements": [
+                  {
+                    "text": "Senior developers who use an AI assistant every day do not hand it the whole task: they bring it in at some steps and keep others. What decides which steps go to the assistant is not clear from the accounts we have.",
+                    "marker": "proposed",
+                    "tags": [
+                      "src: README.md",
+                      "src: Interview_P05.md"
+                    ],
+                    "raw": "Senior developers who use an AI assistant every day do not hand it the whole task: they bring it in at some steps and keep others. What decides which steps go to the assistant is not clear from the accounts we have. [proposed, src: README.md, src: Interview_P05.md]",
+                    "line": 15,
+                    "hidden": null,
+                    "hash": "d40801f5"
+                  }
+                ],
+                "line": 13,
+                "openChecks": []
+              },
+              {
+                "id": "1.2",
+                "text": "What is it that you cannot yet explain, and what do you already know?",
+                "statements": [],
+                "line": 17,
+                "openChecks": []
+              },
+              {
+                "id": "1.3",
+                "text": "Why does this matter — for practice, for theory, or both?",
+                "statements": [],
+                "line": 21,
+                "openChecks": []
+              }
+            ],
+            "line": 11,
+            "status": {
+              "status": "open",
+              "open": 1
+            }
+          },
+          {
+            "number": 2,
+            "title": "Audience and Prior Research",
+            "questions": [
+              {
+                "id": "2.1",
+                "text": "Who are the ten to twenty scholars whose conversation this joins?",
+                "statements": [],
+                "line": 27,
+                "openChecks": []
+              },
+              {
+                "id": "2.2",
+                "text": "What has that conversation been about lately, and on what assumptions does it rest?",
+                "statements": [],
+                "line": 31,
+                "openChecks": []
+              },
+              {
+                "id": "2.3",
+                "text": "How has prior work handled this puzzle, and where is it inconsistent or silent?",
+                "statements": [],
+                "line": 35,
+                "openChecks": []
+              },
+              {
+                "id": "2.4",
+                "text": "Which assumption of that work do you challenge, and on what grounds?",
+                "statements": [],
+                "line": 39,
+                "openChecks": []
+              }
+            ],
+            "line": 25,
+            "status": {
+              "status": "empty",
+              "open": 0
+            }
+          },
+          {
+            "number": 3,
+            "title": "Research Question",
+            "questions": [
+              {
+                "id": "3.1",
+                "text": "In one sentence: what does this study answer?",
+                "statements": [
+                  {
+                    "text": "At which steps of a programming task do senior developers hand work to an AI assistant, and what makes them hand it over at those steps?",
+                    "marker": "proposed",
+                    "tags": [],
+                    "raw": "At which steps of a programming task do senior developers hand work to an AI assistant, and what makes them hand it over at those steps? [proposed]",
+                    "line": 47,
+                    "hidden": null,
+                    "hash": "dbb86139"
+                  }
+                ],
+                "line": 45,
+                "openChecks": []
+              },
+              {
+                "id": "3.2",
+                "text": "What would a well-informed person answer intuitively, and why is that not enough?",
+                "statements": [],
+                "line": 49,
+                "openChecks": []
+              },
+              {
+                "id": "3.3",
+                "text": "How does answering it move the puzzle forward?",
+                "statements": [],
+                "line": 53,
+                "openChecks": []
+              }
+            ],
+            "line": 43,
+            "status": {
+              "status": "open",
+              "open": 1
+            }
+          },
+          {
+            "number": 4,
+            "title": "Theoretical Constructs and Relationships",
+            "questions": [
+              {
+                "id": "4.1",
+                "text": "What are the core concepts, and where does each definition come from?",
+                "statements": [],
+                "line": 59,
+                "openChecks": []
+              },
+              {
+                "id": "4.2",
+                "text": "How do they relate — and is that relationship given in advance or emerging from the material?",
+                "statements": [],
+                "line": 63,
+                "openChecks": []
+              },
+              {
+                "id": "4.3",
+                "text": "What mechanism explains the relationship?",
+                "statements": [],
+                "line": 67,
+                "openChecks": []
+              }
+            ],
+            "line": 57,
+            "status": {
+              "status": "empty",
+              "open": 0
+            }
+          },
+          {
+            "number": 5,
+            "title": "Research Setting",
+            "questions": [
+              {
+                "id": "5.1",
+                "text": "Where is the study conducted, and how did you gain access?",
+                "statements": [],
+                "line": 73,
+                "openChecks": []
+              },
+              {
+                "id": "5.2",
+                "text": "Why is this setting the right one for the question — what does it make visible?",
+                "statements": [],
+                "line": 77,
+                "openChecks": []
+              },
+              {
+                "id": "5.3",
+                "text": "What would a more suitable setting be, and why are you not there?",
+                "statements": [],
+                "line": 81,
+                "openChecks": []
+              }
+            ],
+            "line": 71,
+            "status": {
+              "status": "empty",
+              "open": 0
+            }
+          },
+          {
+            "number": 6,
+            "title": "Research Design and Analysis",
+            "questions": [
+              {
+                "id": "6.1",
+                "text": "What data, from where, collected how?",
+                "statements": [],
+                "line": 87,
+                "openChecks": []
+              },
+              {
+                "id": "6.2",
+                "text": "How is the data analysed, and how does the procedure earn trust?",
+                "statements": [],
+                "line": 91,
+                "openChecks": []
+              },
+              {
+                "id": "6.3",
+                "text": "Which choices in design or analysis would a sceptical reviewer challenge first?",
+                "statements": [],
+                "line": 95,
+                "openChecks": []
+              }
+            ],
+            "line": 85,
+            "status": {
+              "status": "empty",
+              "open": 0
+            }
+          },
+          {
+            "number": 7,
+            "title": "Findings",
+            "questions": [
+              {
+                "id": "7.1",
+                "text": "What does the material show — separated from what you make of it?",
+                "statements": [
+                  {
+                    "text": "One participant wrote the first version of a task alone and brought the assistant in when the requirements grew (P05). One feeds the findings of a code-quality tool to it, one by one (P09). One asks it for unit tests for new functionality and checks them, and for documentation when the quality tool complains (P10).",
+                    "marker": "tentative",
+                    "tags": [
+                      "src: Interview_P05.md",
+                      "src: Interview_P09.md",
+                      "src: Interview_P10.md"
+                    ],
+                    "raw": "One participant wrote the first version of a task alone and brought the assistant in when the requirements grew (P05). One feeds the findings of a code-quality tool to it, one by one (P09). One asks it for unit tests for new functionality and checks them, and for documentation when the quality tool complains (P10). [tentative, src: Interview_P05.md, src: Interview_P09.md, src: Interview_P10.md]",
+                    "line": 103,
+                    "hidden": null,
+                    "hash": "d188a0fb"
+                  }
+                ],
+                "line": 101,
+                "openChecks": []
+              },
+              {
+                "id": "7.2",
+                "text": "Which instances run counter to the pattern, and what happens to them?",
+                "statements": [],
+                "line": 105,
+                "openChecks": []
+              }
+            ],
+            "line": 99,
+            "status": {
+              "status": "open",
+              "open": 1
+            }
+          },
+          {
+            "number": 8,
+            "title": "Contributions",
+            "questions": [
+              {
+                "id": "8.1",
+                "text": "What does the field know now that it did not before?",
+                "statements": [],
+                "line": 111,
+                "openChecks": []
+              },
+              {
+                "id": "8.2",
+                "text": "Which assumption in prior work does this change, and how?",
+                "statements": [],
+                "line": 115,
+                "openChecks": []
+              },
+              {
+                "id": "8.3",
+                "text": "What follows for practice?",
+                "statements": [],
+                "line": 119,
+                "openChecks": []
+              }
+            ],
+            "line": 109,
+            "status": {
+              "status": "empty",
+              "open": 0
+            }
+          },
+          {
+            "number": 9,
+            "title": "Boundary Conditions and Limitations",
+            "questions": [
+              {
+                "id": "9.1",
+                "text": "Where does the claim stop applying, and why?",
+                "statements": [
+                  {
+                    "text": "Thirteen developers from seven companies, interviewed online in March and April 2026, all with more than five years of experience: the accounts say nothing about less experienced developers, and they are accounts, not observations of a task.",
+                    "marker": "proposed",
+                    "tags": [
+                      "src: README.md"
+                    ],
+                    "raw": "Thirteen developers from seven companies, interviewed online in March and April 2026, all with more than five years of experience: the accounts say nothing about less experienced developers, and they are accounts, not observations of a task. [proposed, src: README.md]",
+                    "line": 127,
+                    "hidden": null,
+                    "hash": "13f1d6b3"
+                  }
+                ],
+                "line": 125,
+                "openChecks": []
+              },
+              {
+                "id": "9.2",
+                "text": "Which limitations follow from design choices, and which from the setting?",
+                "statements": [],
+                "line": 129,
+                "openChecks": []
+              },
+              {
+                "id": "9.3",
+                "text": "What would refute the contribution?",
+                "statements": [],
+                "line": 133,
+                "openChecks": []
+              }
+            ],
+            "line": 123,
+            "status": {
+              "status": "open",
+              "open": 1
+            }
+          }
+        ],
+        "violations": [],
+        "review": {
+          "statuses": {
+            "1": {
+              "status": "open",
+              "open": 1
+            },
+            "2": {
+              "status": "empty",
+              "open": 0
+            },
+            "3": {
+              "status": "open",
+              "open": 1
+            },
+            "4": {
+              "status": "empty",
+              "open": 0
+            },
+            "5": {
+              "status": "empty",
+              "open": 0
+            },
+            "6": {
+              "status": "empty",
+              "open": 0
+            },
+            "7": {
+              "status": "open",
+              "open": 1
+            },
+            "8": {
+              "status": "empty",
+              "open": 0
+            },
+            "9": {
+              "status": "open",
+              "open": 1
+            }
+          },
+          "empty": [
+            2,
+            4,
+            5,
+            6,
+            8
+          ],
+          "open": [
+            1,
+            3,
+            7,
+            9
+          ],
+          "violations": [],
+          "unmarked": [],
+          "untagged": [
+            {
+              "element": 3,
+              "question": "3.1",
+              "text": "At which steps of a programming task do senior developers hand work to an AI assistant, and what makes them hand it over at those steps?",
+              "marker": "proposed",
+              "tags": [],
+              "raw": "At which steps of a programming task do senior developers hand work to an AI assistant, and what makes them hand it over at those steps? [proposed]",
+              "line": 47,
+              "hidden": null
+            }
+          ],
+          "invisibleCommitments": [],
+          "conversationalStated": [],
+          "staleAcceptances": [],
+          "unloggedAcceptances": [],
+          "unverifiedDecisions": [],
+          "glossary": null,
+          "glossaryStaleAcceptances": [],
+          "glossaryAcceptances": [],
+          "glossaryUnloggedAcceptances": [],
+          "ledger": {
+            "status": "verified",
+            "reason": null,
+            "legacy": [],
+            "broken": null,
+            "verified": []
+          },
+          "glossaryMechanics": null,
+          "problems": [],
+          "findingsBeforeHypotheses": []
+        },
+        "decisions": [],
+        "profileError": null,
+        "keyError": null,
+        "agenda": {
+          "fields": [],
+          "gaps": [
+            {
+              "number": 1,
+              "question": "What puzzles us?",
+              "questionId": "1.2",
+              "text": "What is it that you cannot yet explain, and what do you already know?"
+            },
+            {
+              "number": 1,
+              "question": "What puzzles us?",
+              "questionId": "1.3",
+              "text": "Why does this matter — for practice, for theory, or both?"
+            },
+            {
+              "number": 2,
+              "question": "Who cares, and what do they already know?",
+              "questionId": "2.1",
+              "text": "Who are the ten to twenty scholars whose conversation this joins?"
+            },
+            {
+              "number": 2,
+              "question": "Who cares, and what do they already know?",
+              "questionId": "2.2",
+              "text": "What has that conversation been about lately, and on what assumptions does it rest?"
+            },
+            {
+              "number": 2,
+              "question": "Who cares, and what do they already know?",
+              "questionId": "2.3",
+              "text": "How has prior work handled this puzzle, and where is it inconsistent or silent?"
+            },
+            {
+              "number": 2,
+              "question": "Who cares, and what do they already know?",
+              "questionId": "2.4",
+              "text": "Which assumption of that work do you challenge, and on what grounds?"
+            },
+            {
+              "number": 3,
+              "question": "What exactly do we ask?",
+              "questionId": "3.2",
+              "text": "What would a well-informed person answer intuitively, and why is that not enough?"
+            },
+            {
+              "number": 3,
+              "question": "What exactly do we ask?",
+              "questionId": "3.3",
+              "text": "How does answering it move the puzzle forward?"
+            },
+            {
+              "number": 4,
+              "question": "What is it made of?",
+              "questionId": "4.1",
+              "text": "What are the core concepts, and where does each definition come from?"
+            },
+            {
+              "number": 4,
+              "question": "What is it made of?",
+              "questionId": "4.2",
+              "text": "How do they relate — and is that relationship given in advance or emerging from the material?"
+            },
+            {
+              "number": 4,
+              "question": "What is it made of?",
+              "questionId": "4.3",
+              "text": "What mechanism explains the relationship?"
+            },
+            {
+              "number": 5,
+              "question": "Where do we look?",
+              "questionId": "5.1",
+              "text": "Where is the study conducted, and how did you gain access?"
+            },
+            {
+              "number": 5,
+              "question": "Where do we look?",
+              "questionId": "5.2",
+              "text": "Why is this setting the right one for the question — what does it make visible?"
+            },
+            {
+              "number": 5,
+              "question": "Where do we look?",
+              "questionId": "5.3",
+              "text": "What would a more suitable setting be, and why are you not there?"
+            },
+            {
+              "number": 6,
+              "question": "How do we look?",
+              "questionId": "6.1",
+              "text": "What data, from where, collected how?"
+            },
+            {
+              "number": 6,
+              "question": "How do we look?",
+              "questionId": "6.2",
+              "text": "How is the data analysed, and how does the procedure earn trust?"
+            },
+            {
+              "number": 6,
+              "question": "How do we look?",
+              "questionId": "6.3",
+              "text": "Which choices in design or analysis would a sceptical reviewer challenge first?"
+            },
+            {
+              "number": 7,
+              "question": "What did we find?",
+              "questionId": "7.2",
+              "text": "Which instances run counter to the pattern, and what happens to them?"
+            },
+            {
+              "number": 8,
+              "question": "What does it change?",
+              "questionId": "8.1",
+              "text": "What does the field know now that it did not before?"
+            },
+            {
+              "number": 8,
+              "question": "What does it change?",
+              "questionId": "8.2",
+              "text": "Which assumption in prior work does this change, and how?"
+            },
+            {
+              "number": 8,
+              "question": "What does it change?",
+              "questionId": "8.3",
+              "text": "What follows for practice?"
+            },
+            {
+              "number": 9,
+              "question": "Where does it stop?",
+              "questionId": "9.2",
+              "text": "Which limitations follow from design choices, and which from the setting?"
+            },
+            {
+              "number": 9,
+              "question": "Where does it stop?",
+              "questionId": "9.3",
+              "text": "What would refute the contribution?"
+            }
+          ]
+        },
+        "humanQuestions": {
+          "1": "What puzzles us?",
+          "2": "Who cares, and what do they already know?",
+          "3": "What exactly do we ask?",
+          "4": "What is it made of?",
+          "5": "Where do we look?",
+          "6": "How do we look?",
+          "7": "What did we find?",
+          "8": "What does it change?",
+          "9": "Where does it stop?"
+        }
+      }
+    }
+  ]
+}

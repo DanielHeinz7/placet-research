@@ -1,0 +1,10 @@
+# node --test test/*.test.js, cwd plugins/research-harness
+exit=0
+✔ SQ-71: without research state ordinary shell commands are not the guard's business (3018.412834ms)
+✔ SQ-71: an empty state directory is no state (459.631833ms)
+✔ SQ-71: with research state the same rows still deny (588.174792ms)
+✔ SQ-76: without research state a pattern below the state directory is not the state (1355.83225ms)
+ℹ tests 141
+ℹ pass 141
+ℹ fail 0
+# lines removed from the test file by this change: 0

@@ -1,0 +1,728 @@
+{
+  "version": "0.2.1",
+  "project": "voice-uptake",
+  "frontmatter": {
+    "project": "voice-uptake",
+    "outlet": "Organization Science",
+    "profile": "is-qualitative",
+    "created": "2026-09-15",
+    "mode": "seed",
+    "canvas-schema": "2"
+  },
+  "elements": [
+    {
+      "number": 1,
+      "title": "Puzzle",
+      "questions": [
+        {
+          "id": "1.1",
+          "text": "What is the broad question this project speaks to?",
+          "statements": [
+            {
+              "text": "When do members' suggestions in organizational meetings receive serious consideration rather than polite acknowledgement?",
+              "marker": "accepted",
+              "tags": [],
+              "raw": "When do members' suggestions in organizational meetings receive serious consideration rather than polite acknowledgement? [accepted]",
+              "line": 14,
+              "hidden": null,
+              "hash": "db929961"
+            }
+          ],
+          "line": 12
+        },
+        {
+          "id": "1.2",
+          "text": "What is it that you cannot yet explain, and what do you already know?",
+          "statements": [
+            {
+              "text": "Speaking frequency is well documented; whether a proposal is taken up is not.",
+              "marker": "stated",
+              "tags": [],
+              "raw": "Speaking frequency is well documented; whether a proposal is taken up is not. [stated]",
+              "line": 18,
+              "hidden": null,
+              "hash": "ed84af0f"
+            },
+            {
+              "text": "Uptake may be a property of the meeting's chairing style rather than of the proposal.",
+              "marker": "proposed",
+              "tags": [],
+              "raw": "Uptake may be a property of the meeting's chairing style rather than of the proposal. [proposed]",
+              "line": 19,
+              "hidden": null,
+              "hash": "62254e0e"
+            }
+          ],
+          "line": 16
+        },
+        {
+          "id": "1.3",
+          "text": "Why does this matter — for practice, for theory, or both?",
+          "statements": [],
+          "line": 21
+        }
+      ],
+      "line": 10,
+      "status": {
+        "status": "stated",
+        "open": 1
+      }
+    },
+    {
+      "number": 2,
+      "title": "Audience and Prior Research",
+      "questions": [
+        {
+          "id": "2.1",
+          "text": "Who are the ten to twenty scholars whose conversation this joins?",
+          "statements": [],
+          "line": 27
+        },
+        {
+          "id": "2.2",
+          "text": "What has that conversation been about lately, and on what assumptions does it rest?",
+          "statements": [
+            {
+              "text": "Prior work treats voice as an individual disposition.",
+              "marker": "proposed",
+              "tags": [
+                "unverified"
+              ],
+              "raw": "Prior work treats voice as an individual disposition. [proposed, unverified]",
+              "line": 33,
+              "hidden": null,
+              "hash": "a468d143"
+            }
+          ],
+          "line": 31
+        },
+        {
+          "id": "2.3",
+          "text": "How has prior work handled this puzzle, and where is it inconsistent or silent?",
+          "statements": [],
+          "line": 35
+        },
+        {
+          "id": "2.4",
+          "text": "Which assumption of that work do you challenge, and on what grounds?",
+          "statements": [],
+          "line": 39
+        }
+      ],
+      "line": 25,
+      "status": {
+        "status": "open",
+        "open": 1
+      }
+    },
+    {
+      "number": 3,
+      "title": "Research Question",
+      "questions": [
+        {
+          "id": "3.1",
+          "text": "In one sentence: what does this study answer?",
+          "statements": [
+            {
+              "text": "Under what meeting conditions does a junior member's proposal get taken up?",
+              "marker": "stated",
+              "tags": [
+                "src: memo-03"
+              ],
+              "raw": "Under what meeting conditions does a junior member's proposal get taken up? [stated, src: memo-03]",
+              "line": 47,
+              "hidden": null,
+              "hash": "9a5bd72b"
+            }
+          ],
+          "line": 45
+        },
+        {
+          "id": "3.2",
+          "text": "What would a well-informed person answer intuitively, and why is that not enough?",
+          "statements": [],
+          "line": 49
+        },
+        {
+          "id": "3.3",
+          "text": "How does answering it move the puzzle forward?",
+          "statements": [],
+          "line": 53
+        }
+      ],
+      "line": 43,
+      "status": {
+        "status": "stated",
+        "open": 0
+      }
+    },
+    {
+      "number": 4,
+      "title": "Theoretical Constructs and Relationships",
+      "questions": [
+        {
+          "id": "4.1",
+          "text": "What are the core concepts, and where does each definition come from?",
+          "statements": [],
+          "line": 59
+        },
+        {
+          "id": "4.2",
+          "text": "How do they relate — and is that relationship given in advance or emerging from the material?",
+          "statements": [],
+          "line": 63
+        },
+        {
+          "id": "4.3",
+          "text": "What mechanism explains the relationship?",
+          "statements": [],
+          "line": 67
+        }
+      ],
+      "line": 57,
+      "status": {
+        "status": "empty",
+        "open": 0
+      }
+    },
+    {
+      "number": 5,
+      "title": "Research Setting",
+      "questions": [
+        {
+          "id": "5.1",
+          "text": "Where is the study conducted, and how did you gain access?",
+          "statements": [
+            {
+              "text": "Twelve recorded project meetings at a fictional engineering firm, access through a consulting engagement.",
+              "marker": "stated",
+              "tags": [],
+              "raw": "Twelve recorded project meetings at a fictional engineering firm, access through a consulting engagement. [stated]",
+              "line": 75,
+              "hidden": null,
+              "hash": "3c13e570"
+            }
+          ],
+          "line": 73
+        },
+        {
+          "id": "5.2",
+          "text": "Why is this setting the right one for the question — what does it make visible?",
+          "statements": [],
+          "line": 77
+        },
+        {
+          "id": "5.3",
+          "text": "What would a more suitable setting be, and why are you not there?",
+          "statements": [],
+          "line": 81
+        }
+      ],
+      "line": 71,
+      "status": {
+        "status": "stated",
+        "open": 0
+      }
+    },
+    {
+      "number": 6,
+      "title": "Research Design and Analysis",
+      "questions": [
+        {
+          "id": "6.1",
+          "text": "What data, from where, collected how?",
+          "statements": [],
+          "line": 87
+        },
+        {
+          "id": "6.2",
+          "text": "How is the data analysed, and how does the procedure earn trust?",
+          "statements": [],
+          "line": 91
+        },
+        {
+          "id": "6.3",
+          "text": "Which choices in design or analysis would a sceptical reviewer challenge first?",
+          "statements": [],
+          "line": 95
+        }
+      ],
+      "line": 85,
+      "status": {
+        "status": "empty",
+        "open": 0
+      }
+    },
+    {
+      "number": 7,
+      "title": "Findings",
+      "questions": [
+        {
+          "id": "7.1",
+          "text": "What does the material show — separated from what you make of it?",
+          "statements": [],
+          "line": 101
+        },
+        {
+          "id": "7.2",
+          "text": "Which instances run counter to the pattern, and what happens to them?",
+          "statements": [],
+          "line": 105
+        }
+      ],
+      "line": 99,
+      "status": {
+        "status": "empty",
+        "open": 0
+      }
+    },
+    {
+      "number": 8,
+      "title": "Contributions",
+      "questions": [
+        {
+          "id": "8.1",
+          "text": "What does the field know now that it did not before?",
+          "statements": [],
+          "line": 111
+        },
+        {
+          "id": "8.2",
+          "text": "Which assumption in prior work does this change, and how?",
+          "statements": [],
+          "line": 115
+        },
+        {
+          "id": "8.3",
+          "text": "What follows for practice?",
+          "statements": [],
+          "line": 119
+        }
+      ],
+      "line": 109,
+      "status": {
+        "status": "empty",
+        "open": 0
+      }
+    },
+    {
+      "number": 9,
+      "title": "Boundary Conditions and Limitations",
+      "questions": [
+        {
+          "id": "9.1",
+          "text": "Where does the claim stop applying, and why?",
+          "statements": [],
+          "line": 125
+        },
+        {
+          "id": "9.2",
+          "text": "Which limitations follow from design choices, and which from the setting?",
+          "statements": [],
+          "line": 129
+        },
+        {
+          "id": "9.3",
+          "text": "What would refute the contribution?",
+          "statements": [],
+          "line": 133
+        }
+      ],
+      "line": 123,
+      "status": {
+        "status": "empty",
+        "open": 0
+      }
+    }
+  ],
+  "violations": [],
+  "review": {
+    "statuses": {
+      "1": {
+        "status": "stated",
+        "open": 1
+      },
+      "2": {
+        "status": "open",
+        "open": 1
+      },
+      "3": {
+        "status": "stated",
+        "open": 0
+      },
+      "4": {
+        "status": "empty",
+        "open": 0
+      },
+      "5": {
+        "status": "stated",
+        "open": 0
+      },
+      "6": {
+        "status": "empty",
+        "open": 0
+      },
+      "7": {
+        "status": "empty",
+        "open": 0
+      },
+      "8": {
+        "status": "empty",
+        "open": 0
+      },
+      "9": {
+        "status": "empty",
+        "open": 0
+      }
+    },
+    "empty": [
+      4,
+      6,
+      7,
+      8,
+      9
+    ],
+    "open": [
+      2
+    ],
+    "violations": [],
+    "unmarked": [],
+    "untagged": [
+      {
+        "element": 1,
+        "question": "1.1",
+        "text": "When do members' suggestions in organizational meetings receive serious consideration rather than polite acknowledgement?",
+        "marker": "accepted",
+        "tags": [],
+        "raw": "When do members' suggestions in organizational meetings receive serious consideration rather than polite acknowledgement? [accepted]",
+        "line": 14,
+        "hidden": null
+      },
+      {
+        "element": 1,
+        "question": "1.2",
+        "text": "Speaking frequency is well documented; whether a proposal is taken up is not.",
+        "marker": "stated",
+        "tags": [],
+        "raw": "Speaking frequency is well documented; whether a proposal is taken up is not. [stated]",
+        "line": 18,
+        "hidden": null
+      },
+      {
+        "element": 1,
+        "question": "1.2",
+        "text": "Uptake may be a property of the meeting's chairing style rather than of the proposal.",
+        "marker": "proposed",
+        "tags": [],
+        "raw": "Uptake may be a property of the meeting's chairing style rather than of the proposal. [proposed]",
+        "line": 19,
+        "hidden": null
+      },
+      {
+        "element": 5,
+        "question": "5.1",
+        "text": "Twelve recorded project meetings at a fictional engineering firm, access through a consulting engagement.",
+        "marker": "stated",
+        "tags": [],
+        "raw": "Twelve recorded project meetings at a fictional engineering firm, access through a consulting engagement. [stated]",
+        "line": 75,
+        "hidden": null
+      }
+    ],
+    "invisibleCommitments": [],
+    "conversationalStated": [
+      {
+        "element": 1,
+        "question": "1.2",
+        "text": "Speaking frequency is well documented; whether a proposal is taken up is not.",
+        "marker": "stated",
+        "tags": [],
+        "raw": "Speaking frequency is well documented; whether a proposal is taken up is not. [stated]",
+        "line": 18,
+        "hidden": null
+      },
+      {
+        "element": 5,
+        "question": "5.1",
+        "text": "Twelve recorded project meetings at a fictional engineering firm, access through a consulting engagement.",
+        "marker": "stated",
+        "tags": [],
+        "raw": "Twelve recorded project meetings at a fictional engineering firm, access through a consulting engagement. [stated]",
+        "line": 75,
+        "hidden": null
+      }
+    ],
+    "staleAcceptances": [
+      {
+        "seq": 3,
+        "ref": "1.1 accepted",
+        "hash": "3b7a1c9e"
+      }
+    ],
+    "unloggedAcceptances": [
+      {
+        "question": "1.1",
+        "line": 14,
+        "hash": "db929961",
+        "text": "When do members' suggestions in organizational meetings receive serious consideration rather than polite acknowledgement?",
+        "coveredBy": null
+      }
+    ],
+    "unverifiedDecisions": [
+      {
+        "seq": 3,
+        "ref": "1.1 accepted",
+        "hash": "3b7a1c9e",
+        "line": 9,
+        "state": "legacy"
+      }
+    ],
+    "ledger": {
+      "status": "unverifiable",
+      "reason": "legacy",
+      "legacy": [
+        1,
+        2,
+        3
+      ],
+      "broken": null,
+      "verified": []
+    },
+    "problems": []
+  },
+  "decisions": [
+    {
+      "seq": 1,
+      "date": "2026-09-10",
+      "kind": "CONSTRAINT",
+      "ref": "5 Research Setting",
+      "hash": null,
+      "seal": null,
+      "line": 3,
+      "offset": 31,
+      "body": "Only the twelve recorded meetings may be used; no additional fieldwork before submission. [stated]",
+      "sealStatus": "legacy"
+    },
+    {
+      "seq": 2,
+      "date": "2026-09-12",
+      "kind": "DISCOVERY",
+      "ref": "1 Puzzle",
+      "hash": null,
+      "seal": null,
+      "line": 6,
+      "offset": 184,
+      "body": "Two meetings show proposals adopted weeks later without attribution to their originator. [tentative, src: memo-02]",
+      "sealStatus": "legacy"
+    },
+    {
+      "seq": 3,
+      "date": "2026-09-15",
+      "kind": "DECISION",
+      "ref": "1.1 accepted",
+      "hash": "3b7a1c9e",
+      "seal": null,
+      "line": 9,
+      "offset": 342,
+      "body": "When do members' suggestions in organizational meetings receive serious consideration rather than polite acknowledgement? [accepted]\n**Why:** the phenomenon, not a gap, drives the study.\n**Rejected:** framing it as a voice-frequency question.",
+      "sealStatus": "legacy"
+    },
+    {
+      "seq": 4,
+      "date": "2026-09-30",
+      "kind": "DECISION",
+      "ref": "1.1 accepted",
+      "hash": "3de2d26a",
+      "seal": "b773a2d1ecbc298b",
+      "line": 13,
+      "offset": 612,
+      "body": "How can we understand how members' suggestions come to be taken up in meetings? [accepted, src: gerlach-cenfetelli-2020 p. 1706]\n**Why:** The study starts from the phenomenon, not from a gap.",
+      "sealStatus": "verified"
+    },
+    {
+      "seq": 5,
+      "date": "2026-09-30",
+      "kind": "DISCOVERY",
+      "ref": "1 Puzzle",
+      "hash": null,
+      "seal": "f8bd896407e7642d",
+      "line": 17,
+      "offset": 820,
+      "body": "Ask whether the twelve meetings cover more than one team.\n**Why:** The puzzle may hold for only one group.",
+      "sealStatus": "verified"
+    }
+  ],
+  "profileError": null,
+  "keyError": null,
+  "agenda": {
+    "fields": [
+      {
+        "number": 1,
+        "question": "What puzzles us?",
+        "findings": [
+          {
+            "seq": 2,
+            "ref": "1 Puzzle",
+            "date": "2026-09-12",
+            "body": "Two meetings show proposals adopted weeks later without attribution to their originator. [tentative, src: memo-02]",
+            "by": null,
+            "why": null
+          },
+          {
+            "seq": 5,
+            "ref": "1 Puzzle",
+            "date": "2026-09-30",
+            "body": "Ask whether the twelve meetings cover more than one team.\n**Why:** The puzzle may hold for only one group.",
+            "by": null,
+            "why": "The puzzle may hold for only one group."
+          }
+        ]
+      }
+    ],
+    "gaps": [
+      {
+        "number": 1,
+        "question": "What puzzles us?",
+        "questionId": "1.3",
+        "text": "Why does this matter — for practice, for theory, or both?"
+      },
+      {
+        "number": 2,
+        "question": "Who cares, and what do they already know?",
+        "questionId": "2.1",
+        "text": "Who are the ten to twenty scholars whose conversation this joins?"
+      },
+      {
+        "number": 2,
+        "question": "Who cares, and what do they already know?",
+        "questionId": "2.3",
+        "text": "How has prior work handled this puzzle, and where is it inconsistent or silent?"
+      },
+      {
+        "number": 2,
+        "question": "Who cares, and what do they already know?",
+        "questionId": "2.4",
+        "text": "Which assumption of that work do you challenge, and on what grounds?"
+      },
+      {
+        "number": 3,
+        "question": "What exactly do we ask?",
+        "questionId": "3.2",
+        "text": "What would a well-informed person answer intuitively, and why is that not enough?"
+      },
+      {
+        "number": 3,
+        "question": "What exactly do we ask?",
+        "questionId": "3.3",
+        "text": "How does answering it move the puzzle forward?"
+      },
+      {
+        "number": 4,
+        "question": "What is it made of?",
+        "questionId": "4.1",
+        "text": "What are the core concepts, and where does each definition come from?"
+      },
+      {
+        "number": 4,
+        "question": "What is it made of?",
+        "questionId": "4.2",
+        "text": "How do they relate — and is that relationship given in advance or emerging from the material?"
+      },
+      {
+        "number": 4,
+        "question": "What is it made of?",
+        "questionId": "4.3",
+        "text": "What mechanism explains the relationship?"
+      },
+      {
+        "number": 5,
+        "question": "Where do we look?",
+        "questionId": "5.2",
+        "text": "Why is this setting the right one for the question — what does it make visible?"
+      },
+      {
+        "number": 5,
+        "question": "Where do we look?",
+        "questionId": "5.3",
+        "text": "What would a more suitable setting be, and why are you not there?"
+      },
+      {
+        "number": 6,
+        "question": "How do we look?",
+        "questionId": "6.1",
+        "text": "What data, from where, collected how?"
+      },
+      {
+        "number": 6,
+        "question": "How do we look?",
+        "questionId": "6.2",
+        "text": "How is the data analysed, and how does the procedure earn trust?"
+      },
+      {
+        "number": 6,
+        "question": "How do we look?",
+        "questionId": "6.3",
+        "text": "Which choices in design or analysis would a sceptical reviewer challenge first?"
+      },
+      {
+        "number": 7,
+        "question": "What did we find?",
+        "questionId": "7.1",
+        "text": "What does the material show — separated from what you make of it?"
+      },
+      {
+        "number": 7,
+        "question": "What did we find?",
+        "questionId": "7.2",
+        "text": "Which instances run counter to the pattern, and what happens to them?"
+      },
+      {
+        "number": 8,
+        "question": "What does it change?",
+        "questionId": "8.1",
+        "text": "What does the field know now that it did not before?"
+      },
+      {
+        "number": 8,
+        "question": "What does it change?",
+        "questionId": "8.2",
+        "text": "Which assumption in prior work does this change, and how?"
+      },
+      {
+        "number": 8,
+        "question": "What does it change?",
+        "questionId": "8.3",
+        "text": "What follows for practice?"
+      },
+      {
+        "number": 9,
+        "question": "Where does it stop?",
+        "questionId": "9.1",
+        "text": "Where does the claim stop applying, and why?"
+      },
+      {
+        "number": 9,
+        "question": "Where does it stop?",
+        "questionId": "9.2",
+        "text": "Which limitations follow from design choices, and which from the setting?"
+      },
+      {
+        "number": 9,
+        "question": "Where does it stop?",
+        "questionId": "9.3",
+        "text": "What would refute the contribution?"
+      }
+    ]
+  },
+  "humanQuestions": {
+    "1": "What puzzles us?",
+    "2": "Who cares, and what do they already know?",
+    "3": "What exactly do we ask?",
+    "4": "What is it made of?",
+    "5": "Where do we look?",
+    "6": "How do we look?",
+    "7": "What did we find?",
+    "8": "What does it change?",
+    "9": "Where does it stop?"
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "record": 6344804,
+  "doi": "10.5281/zenodo.6344804",
+  "url": "https://zenodo.org/records/6344804",
+  "title": "Interview Data on Challenges in big data based communication amid C19",
+  "licence": "CC-BY-4.0",
+  "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+  "files": [
+    {
+      "name": "Copy of Interview 1 Transcript.pdf",
+      "size": 106362,
+      "sha256": "c999183eba7bba31a1fca18945e94a680901fd72aeb1fb7530ea752b8c766d9a"
+    },
+    {
+      "name": "Copy of Interview 2 Transcript.pdf",
+      "size": 102875,
+      "sha256": "fb0bba9004c19a389d3ee5c03d4c759e7f0e9042048b4d4acae18b10b3fe86b8"
+    },
+    {
+      "name": "Copy of Interview 3 Transcript.pdf",
+      "size": 101903,
+      "sha256": "b76a9a0bfc2d8009592d2dd228d12900d6bd32baff5c9537126c35652a8e2b45"
+    },
+    {
+      "name": "Copy of Interview 4 Transcript.pdf",
+      "size": 100717,
+      "sha256": "7484cc68ee2582c87d18976a69a5ae6628a77e593cde71736b3e1c59224fd9e0"
+    },
+    {
+      "name": "Copy of Interview 5 Transcript.pdf",
+      "size": 89885,
+      "sha256": "9f8093d14cdd7789b4473d2efea1d4e6c88e4d68944af7ab49760e4f006fa8ec"
+    },
+    {
+      "name": "Copy of Interview 6 Transcript.pdf",
+      "size": 101884,
+      "sha256": "6ba183acda9b692ee16ecae063d17fa7f318d170ab966fcdbe0fc93cfda6f082"
+    },
+    {
+      "name": "Copy of Interview 7 Transcript.pdf",
+      "size": 102900,
+      "sha256": "89d3189388a082987c680934a3e4b406a090458ef4caf53a2dc08561e0a9ffa2"
+    },
+    {
+      "name": "Copy of Interview 8 Transcript.pdf",
+      "size": 86757,
+      "sha256": "c7db7101b489b6ab276fcc282a96a70f7dee061cea00ce4471d44b839e385ee8"
+    },
+    {
+      "name": "Copy of Interview 9 Transcript.pdf",
+      "size": 106326,
+      "sha256": "089a5cec323862d985ce11aa63ad21edab2fbda2f7f4b594f76385929e3a7a58"
+    },
+    {
+      "name": "Copy of Interview 10 Transcript.pdf",
+      "size": 83005,
+      "sha256": "f3383c69475924e3261d26a1dc58ad6cd0803c2f45ca87156537ebd4f906bea3"
+    },
+    {
+      "name": "Copy of Interview 11 Transcript.pdf",
+      "size": 93681,
+      "sha256": "54772dd7b0485f3cc89d00f33436e79b3fc40291510d68478f302e8161d8f13a"
+    },
+    {
+      "name": "Copy of Interview 12 Transcript.pdf",
+      "size": 106534,
+      "sha256": "8167f139f94dd23bacb3a343af48d64841ab6798dfaf049c075452f515e429de"
+    },
+    {
+      "name": "Copy of Interview 13 Transcript.pdf",
+      "size": 88362,
+      "sha256": "9e17f481e0b8037623e8dece6c60af91cc6cbf6baf903eadfac162ab0dac30f8"
+    },
+    {
+      "name": "Research participants.pdf",
+      "size": 71455,
+      "sha256": "219d868aec0cb8437f6a3d51a8375e58da7743b030432093b51a949dbf4bb357"
+    }
+  ]
+}

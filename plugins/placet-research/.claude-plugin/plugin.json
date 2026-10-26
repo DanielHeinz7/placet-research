@@ -1,0 +1,19 @@
+{
+  "name": "placet-research",
+  "version": "0.7.0",
+  "description": "A research harness for paper projects: the AMJ research canvas as version-controlled project state, with an enforced line between what an agent proposed and what the researcher accepted.",
+  "author": {
+    "name": "The Placet authors"
+  },
+  "homepage": "https://github.com/anonymous-owner/placet-research/tree/main/plugins/placet-research",
+  "repository": "https://github.com/anonymous-owner/placet-research",
+  "license": "MIT",
+  "keywords": [
+    "research",
+    "academic-writing",
+    "paper",
+    "canvas",
+    "qualitative",
+    "harness"
+  ]
+}

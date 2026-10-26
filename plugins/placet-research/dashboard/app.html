@@ -1,0 +1,1216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Research harness</title>
+<style>
+  /* The app window around the session view. Same paper, ink and hairlines as
+     the view (canvas.html); the sidebar is set like an index, not like a
+     dashboard of cards. Red stays with the view's queries; here it only
+     frames a problem next to the control that caused it. Fonts ship with the
+     plugin (dashboard/fonts, SIL OFL 1.1); no hosted font service. */
+  @font-face {
+    font-family: "Source Serif 4";
+    src: url("fonts/source-serif-4-latin-wght-normal.woff2") format("woff2");
+    font-weight: 200 900;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Source Serif 4";
+    src: url("fonts/source-serif-4-latin-wght-italic.woff2") format("woff2");
+    font-weight: 200 900;
+    font-style: italic;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Hanken Grotesk";
+    src: url("fonts/hanken-grotesk-latin-wght-normal.woff2") format("woff2");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+  }
+  :root {
+    color-scheme: light;
+    --paper: #ffffff;
+    --panel: #f5f5f7;
+    --ink: #1a1a1a;
+    --ink-2: #474747;
+    --ink-3: #4e4e55;
+    --line: #dadadd;
+    --edge: #85858c;
+    --red: #d2232a;
+    --red-tint: #fdf0f0;
+    --blue: #0b5cad;
+    --blue-tint: #e7f0f9;
+    --dialog: var(--paper);
+    --backdrop: rgba(26, 26, 26, 0.45);
+    --sans: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    /* Type grows with the window, as in the view. */
+    --t-col: clamp(1.0625rem, 0.5rem + 0.7vw, 1.75rem);
+    --t-body: clamp(1rem, 0.45rem + 0.65vw, 1.5rem);
+    --t-label: clamp(0.875rem, 0.35rem + 0.5vw, 1.25rem);
+    --t-head: clamp(1.25rem, 0.7rem + 0.9vw, 2rem);
+    --t-title: clamp(1.625rem, 0.8rem + 1.6vw, 3rem);
+    --side: clamp(16rem, 11rem + 9vw, 26rem);
+    --page: clamp(1rem, 0.4rem + 2vw, 2.25rem);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --paper: #141416;
+      --panel: #1d1d20;
+      --ink: #ececee;
+      --ink-2: #c9c9ce;
+      --ink-3: #b3b3ba;
+      --line: #36363c;
+      --edge: #84848c;
+      --red: #ff7176;
+      --red-tint: #2b1b1d;
+      --blue: #74b6ff;
+      --blue-tint: #1a2a3d;
+      --dialog: var(--panel);
+      --backdrop: rgba(0, 0, 0, 0.65);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-padding-top: 1rem; }
+  body {
+    margin: 0;
+    font-family: var(--sans);
+    font-size: var(--t-body);
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--paper);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, p, ul, fieldset { margin: 0; padding: 0; }
+  ul { list-style: none; }
+  h1, h2, h3 { font-family: var(--sans); line-height: 1.2; text-wrap: balance; }
+  button, input { font-family: inherit; font-size: inherit; color: inherit; }
+  svg.i { width: 1.05em; height: 1.05em; flex: none; display: block; }
+  ::selection { background: var(--blue-tint); color: var(--ink); }
+  input { caret-color: var(--red); }
+  :focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; border-radius: 3px; }
+  [tabindex="-1"]:focus { outline: none; }
+  [tabindex="-1"]:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+  }
+  [hidden] { display: none !important; }
+  .skip-link { position: absolute; left: 0.75rem; top: -4rem; z-index: 70; background: var(--ink); color: var(--paper); padding: 0.6rem 1rem; border-radius: 6px; font-weight: 600; text-decoration: none; }
+  .skip-link:focus { top: 0.75rem; }
+
+  /* -- Controls ------------------------------------------------------------ */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.4em;
+    min-height: 44px; padding: 0 0.9em;
+    border: 1px solid var(--edge); border-radius: 6px;
+    background: var(--paper); color: var(--ink);
+    font-size: var(--t-label); font-weight: 600; line-height: 1.1;
+    cursor: pointer;
+  }
+  .btn:hover { background: var(--panel); }
+  .btn-primary { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+  .btn-primary:hover { background: var(--ink-2); border-color: var(--ink-2); }
+  .btn[disabled] { color: var(--ink-3); border-color: var(--line); background: var(--panel); cursor: not-allowed; }
+  .badge { background: var(--blue); color: var(--paper); border-radius: 999px; font-size: 0.85em; font-weight: 700; padding: 0 0.55em; line-height: 1.5; font-variant-numeric: tabular-nums; }
+
+  /* -- Frame ------------------------------------------------------------------ */
+  #shell { display: grid; grid-template-columns: var(--side) minmax(0, 1fr); height: 100vh; }
+  #shell.no-side { grid-template-columns: minmax(0, 1fr); }
+  #shell { --agent: clamp(24rem, 14rem + 22vw, 40rem); }
+  #shell.with-agent { grid-template-columns: var(--side) minmax(0, 1fr) var(--agent); }
+  #shell.no-side.with-agent { grid-template-columns: minmax(0, 1fr) var(--agent); }
+  /* The terminal is drawn by the app over this slot; the page only keeps the room free. */
+  #agent-slot { border-left: 1px solid var(--line); background: var(--paper); min-height: 0; }
+  #agent-slot[hidden] { display: none; }
+  #agent-toggle { display: none; }
+  #sidebar {
+    min-width: 0; overflow-y: auto;
+    background: var(--panel); border-right: 1px solid var(--line);
+    padding: 1rem 1rem 1.5rem;
+    display: flex; flex-direction: column; gap: 1.25rem;
+    font-size: var(--t-label);
+  }
+  .group { border-top: 1px solid var(--ink); padding-top: 0.6rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .group h2 { font-size: var(--t-label); font-weight: 700; color: var(--ink-2); }
+  .proj-name { font-size: var(--t-head); font-weight: 700; line-height: 1.15; overflow-wrap: anywhere; }
+  .proj-name:focus-visible { outline-offset: 3px; }
+  .path { font-family: var(--mono); font-size: 0.8em; color: var(--ink-2); overflow-wrap: anywhere; }
+  #proj-path { direction: rtl; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; overflow-wrap: normal; }
+  .side-btn { width: 100%; justify-content: flex-start; }
+  .side-btn .badge { margin-left: auto; }
+  .row-btn {
+    display: flex; align-items: center; width: 100%; min-height: 44px; padding: 0 0.25rem;
+    background: none; border: 0; border-bottom: 1px solid var(--line); border-radius: 0;
+    font-size: var(--t-label); font-weight: 500; text-align: left; cursor: pointer; color: var(--ink);
+  }
+  .row-btn:hover { background: var(--paper); }
+  .hint { color: var(--ink-2); font-size: 0.95em; }
+  .people { display: flex; flex-direction: column; gap: 0.2rem; color: var(--ink); }
+  .people-none { color: var(--ink-2); }
+  .live { display: flex; align-items: center; gap: 0.5rem; font-weight: 600; }
+  .live i { width: 0.6em; height: 0.6em; border-radius: 50%; background: var(--ink); flex: none; }
+  .live .elapsed { font-variant-numeric: tabular-nums; }
+
+  /* Outcome line: under the control that caused it, until the next action. */
+  .outcome:not(:empty) {
+    display: flex; align-items: flex-start; gap: 0.5rem;
+    padding: 0.5rem 0.65rem; border: 1px solid var(--edge); border-radius: 6px;
+    background: var(--paper); color: var(--ink); font-size: var(--t-label);
+    overflow-wrap: anywhere;
+  }
+  .outcome[data-kind="problem"]:not(:empty) { border-color: var(--red); background: var(--red-tint); }
+  .outcome svg.i { margin-top: 0.2em; }
+  /* The button is full width, so it goes under the path and a narrow sidebar keeps the path readable. */
+  .outcome:has(.copy-path) { flex-wrap: wrap; }
+  .outcome:has(.copy-path) > span:not(.sr-only) { flex: 1 1 0; min-width: 0; }
+
+  /* -- Centre ----------------------------------------------------------------- */
+  #main { min-width: 0; min-height: 0; display: flex; flex-direction: column; }
+  #session-frame { flex: 1; width: 100%; min-height: 0; border: 0; background: var(--paper); }
+  #fatal, #start { padding: 2rem var(--page) 3rem; max-width: 52rem; }
+  #fatal p { font-size: var(--t-col); font-family: var(--serif); }
+  #start { width: 100%; margin-inline: auto; }
+  #start #main-start { margin-top: 0.5rem; }
+  #app-projects { margin-top: auto; }
+  #start h1 { font-size: var(--t-title); font-weight: 700; letter-spacing: -0.01em; }
+  #start .lede { margin-top: 0.5rem; max-width: 64ch; color: var(--ink-2); }
+  .start-list { margin-top: 1.5rem; border-top: 1px solid var(--ink); }
+  .start-list li { display: grid; grid-template-columns: minmax(11rem, 14rem) minmax(0, 1fr); gap: 0.5rem 1.5rem; align-items: center; padding: 1rem 0; border-bottom: 1px solid var(--line); }
+  .start-list p { font-family: var(--serif); font-size: var(--t-col); line-height: 1.45; max-width: 36em; }
+  #start h2 { margin-top: 2rem; font-size: var(--t-head); font-weight: 700; }
+  #start .recent { margin-top: 0.5rem; max-width: 40rem; }
+  #start .outcome { margin-top: 1rem; max-width: 40rem; }
+  #start-restart { margin-top: 0.5rem; }
+  .recent .path { margin-left: 0.5rem; }
+
+  @media (max-width: 52rem) {
+    #shell { display: block; height: auto; }
+    #sidebar { border-right: 0; border-bottom: 1px solid var(--line); overflow: visible; }
+    #session-frame { height: 100vh; min-height: 30rem; }
+    #agent-slot { height: 70vh; border-left: 0; border-top: 1px solid var(--line); }
+    #agent-toggle { display: inline-flex; }
+    .start-list li { grid-template-columns: minmax(0, 1fr); }
+  }
+
+  /* -- Dialog ------------------------------------------------------------------ */
+  dialog.dlg { width: min(38rem, calc(100vw - 2rem)); max-height: calc(100vh - 2rem); padding: 1.4rem 1.6rem; border: 1px solid var(--ink); border-radius: 8px; background: var(--dialog); color: var(--ink); overflow-y: auto; }
+  dialog.dlg::backdrop { background: var(--backdrop); }
+  .dlg h2 { font-size: var(--t-head); font-weight: 700; }
+  .dlg-sub { margin-top: 0.4rem; color: var(--ink-2); font-size: var(--t-body); max-width: 64ch; }
+  .dlg label, .dlg legend { display: block; margin-top: 1rem; font-size: var(--t-label); font-weight: 600; padding: 0; }
+  .dlg .hint { font-weight: 400; display: block; margin-top: 0.15rem; }
+  .dlg input[type="text"] { width: 100%; min-height: 44px; margin-top: 0.3rem; padding: 0 0.7em; border: 1px solid var(--edge); border-radius: 6px; background: var(--paper); color: var(--ink); }
+  .dlg input[aria-invalid="true"] { border-color: var(--red); }
+  .dlg .pathrow { display: flex; gap: 0.5rem; align-items: flex-start; }
+  .dlg .pathrow input { flex: 1; min-width: 0; font-family: var(--mono); font-size: 0.9em; }
+  .dlg .pathrow .btn { margin-top: 0.3rem; }
+  .dlg fieldset { border: 0; min-width: 0; }
+  .dlg .choice { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.1rem 0.6rem; margin-top: 0.6rem; align-items: start; font-weight: 400; }
+  .dlg .choice input { appearance: none; width: 1.25rem; height: 1.25rem; margin: 0.2rem 0 0; border: 1px solid var(--ink); border-radius: 50%; background: var(--paper); display: grid; place-content: center; cursor: pointer; }
+  .dlg .choice input:checked::before { content: ""; width: 0.65rem; height: 0.65rem; border-radius: 50%; background: var(--ink); }
+  @media (forced-colors: active) { .dlg .choice input { appearance: auto; } .dlg .choice input:checked::before { content: none; } }
+  .dlg .choice b { font-weight: 700; }
+  .dlg-error:not(:empty) { margin-top: 1rem; padding: 0.5rem 0.7rem; border: 1px solid var(--red); border-radius: 6px; background: var(--red-tint); font-size: var(--t-label); overflow-wrap: anywhere; }
+  .dlg-offer { margin-top: 0.6rem; }
+  .dlg-actions { margin-top: 1.2rem; display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 0.5rem; }
+  .join-line { gap: 0.6rem; }
+  .join-line p { color: var(--ink); }
+  .link { display: block; margin-top: 0.3rem; padding: 0.4rem 0.6rem; border: 1px solid var(--edge); border-radius: 6px; background: var(--panel); font-family: var(--mono); font-size: 0.9em; overflow-wrap: anywhere; user-select: all; }
+  #share-box, #sync-box { display: flex; flex-direction: column; gap: 0.5rem; }
+  .dlg-facts { margin-top: 0.8rem; padding-left: 1.1rem; list-style: disc; color: var(--ink); font-size: var(--t-body); display: flex; flex-direction: column; gap: 0.2rem; max-width: 64ch; }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-ok" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.4" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4.9 8.4l2.2 2.2 4-4.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-problem" viewBox="0 0 16 16"><path d="M8 1.6l6.6 11.9H1.4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 6.2v3.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="11.5" r=".9" fill="currentColor"/></symbol>
+  </defs>
+</svg>
+
+<a class="skip-link" href="#main-start" id="skip-link">Skip to the main part</a>
+
+<div id="shell" class="no-side">
+  <aside id="sidebar" aria-label="Project, meeting and people" hidden>
+    <section class="group join-line" id="join-line" aria-label="Joining this project" hidden>
+      <p>This computer has not joined this project yet, so it cannot add entries.</p>
+      <button type="button" class="btn btn-primary side-btn" id="btn-join">Join this project…</button>
+    </section>
+
+    <section class="group" aria-labelledby="h-project">
+      <h2 id="h-project">Project</h2>
+      <p class="proj-name" id="proj-name" tabindex="-1"></p>
+      <p class="path" id="proj-path"></p>
+      <div id="share-box" hidden>
+        <button type="button" class="btn side-btn" id="btn-share" aria-describedby="hint-share">Share with co-authors…</button>
+        <p class="hint" id="hint-share">Puts the project in a repository you create, so co-authors can get it.</p>
+      </div>
+      <p class="outcome" id="out-share" aria-live="polite"></p>
+      <div id="sync-box">
+        <button type="button" class="btn side-btn" id="btn-update" aria-describedby="hint-update">Get updates <span class="badge" id="update-badge" hidden></span></button>
+        <p class="hint" id="hint-update">Brings in your co-authors’ changes. Yours are kept.</p>
+        <p class="outcome" id="out-update" aria-live="polite"></p>
+        <button type="button" class="btn side-btn" id="btn-send" aria-describedby="hint-send">Send my changes…</button>
+        <p class="hint" id="hint-send">Sends your saved changes so co-authors can get them.</p>
+        <p class="outcome" id="out-send" aria-live="polite"></p>
+      </div>
+      <button type="button" class="btn side-btn" id="btn-agent-setup" hidden>Set up the agent…</button>
+      <button type="button" class="btn side-btn" id="agent-toggle" hidden>Hide the agent</button>
+      <p class="outcome" id="out-project" aria-live="polite"></p>
+    </section>
+
+    <section class="group" aria-labelledby="h-meeting">
+      <h2 id="h-meeting">Meeting</h2>
+      <p class="live" id="live" tabindex="-1" hidden><i aria-hidden="true"></i><span>Session running · <span class="elapsed" id="elapsed">0:00</span></span></p>
+      <button type="button" class="btn side-btn" id="btn-session">Start session…</button>
+      <button type="button" class="btn side-btn" id="btn-agenda">To talk about</button>
+      <p class="outcome" id="out-meeting" aria-live="polite"></p>
+      <button type="button" class="btn side-btn" id="btn-minutes">Export minutes…</button>
+    </section>
+
+    <section class="group" aria-labelledby="h-people">
+      <h2 id="h-people">People</h2>
+      <ul class="people" id="people"></ul>
+      <button type="button" class="btn side-btn" id="btn-invite">Invite co-author…</button>
+      <p class="outcome" id="out-people" aria-live="polite"></p>
+    </section>
+    <section class="group" id="app-projects" aria-labelledby="h-app-projects">
+      <h2 id="h-app-projects">Other projects</h2>
+      <div>
+        <button type="button" class="row-btn" id="btn-open">Open project…</button>
+        <button type="button" class="row-btn" id="btn-clone">Clone from link…</button>
+        <button type="button" class="row-btn" id="btn-new">New project…</button>
+      </div>
+    </section>
+    <section class="group" id="app-group" aria-labelledby="h-app" hidden>
+      <h2 id="h-app">This app</h2>
+      <p class="outcome" id="out-app" aria-live="polite"></p>
+      <button type="button" class="btn side-btn" id="btn-restart" hidden>Restart now</button>
+    </section>
+  </aside>
+
+  <main id="main" tabindex="-1">
+    <div id="fatal" hidden></div>
+
+    <div id="start" hidden>
+      <h1>Placet</h1>
+      <h2 id="main-start" tabindex="-1">Start with a paper project</h2>
+      <p class="lede">Each project is a folder on this computer. Nothing leaves it until you send your changes.</p>
+      <ul class="start-list">
+        <li><button type="button" class="btn btn-primary" id="start-new" aria-describedby="d-new">New project…</button><p id="d-new">Creates a folder for a new paper and sets up its research canvas and decision log.</p></li>
+        <li><button type="button" class="btn" id="start-open" aria-describedby="d-open">Open project…</button><p id="d-open">Opens a paper folder on this computer that already has a research canvas.</p></li>
+        <li><button type="button" class="btn" id="start-clone" aria-describedby="d-clone">Clone from link…</button><p id="d-clone">Downloads a shared paper from a link your co-author gave you, into a new folder.</p></li>
+      </ul>
+      <p class="outcome" id="out-start" aria-live="polite"></p>
+      <p class="outcome" id="out-app-start" aria-live="polite"></p>
+      <button type="button" class="btn" id="start-restart" hidden>Restart now</button>
+      <section id="recent-section" hidden aria-labelledby="h-recent">
+        <h2 id="h-recent">Recent projects</h2>
+        <ul class="recent" id="recent"></ul>
+      </section>
+    </div>
+
+    <iframe id="session-frame" title="Session view" hidden></iframe>
+  </main>
+
+  <div id="agent-slot" role="region" aria-label="Agent" hidden></div>
+</div>
+
+<dialog id="dlg" class="dlg" aria-labelledby="dlg-title"></dialog>
+
+<!-- Dialogs. Each says what will happen before it happens; the button repeats the act. -->
+<template id="t-new">
+  <form data-kind="new" novalidate>
+    <h2 id="dlg-title">New project</h2>
+    <p class="dlg-sub">Creates a new paper project, with a research canvas and a decision log, inside the folder you choose. It turns the folder into a git repository and saves the first version of the research files in it, so the project can be shared later. It also creates the key that seals your entries; the key stays on this computer, outside the folder.</p>
+    <label for="f-parent">Folder to create it in<span class="hint">The new folder goes inside this one.</span><span class="hint" data-plain>Type the full path of the folder.</span></label>
+    <div class="pathrow"><input type="text" id="f-parent" name="parent" autocomplete="off" spellcheck="false"><button type="button" class="btn" data-pick="parent" hidden>Choose…</button></div>
+    <label for="f-folder">Name of the new folder</label>
+    <input type="text" id="f-folder" name="folder" autocomplete="off" spellcheck="false">
+    <label for="f-title">Working title of the paper<span class="hint">Optional. You can change it later.</span></label>
+    <input type="text" id="f-title" name="title" autocomplete="off">
+    <label for="f-name">Your name<span class="hint">As co-authors should see it next to your entries. It is kept on this computer, not in the project.</span></label>
+    <input type="text" id="f-name" name="name" autocomplete="name">
+    <fieldset>
+      <legend>Where do you start?</legend>
+      <label class="choice"><input type="radio" name="mode" value="brainstorming" checked><span><b>Brainstorming.</b> Nothing exists yet; you build the nine fields in conversation.</span></label>
+      <label class="choice"><input type="radio" name="mode" value="seed"><span><b>Seed.</b> You have material and a phenomenon, but no manuscript.</span></label>
+      <label class="choice"><input type="radio" name="mode" value="import"><span><b>Import.</b> A manuscript exists and the canvas is read from it.</span></label>
+    </fieldset>
+    <p id="dlg-error" class="dlg-error" role="alert"></p>
+    <div class="dlg-actions"><button type="button" class="btn" data-dlg="cancel">Cancel</button><button type="submit" class="btn btn-primary">Create project</button></div>
+  </form>
+</template>
+
+<template id="t-open">
+  <form data-kind="open" novalidate>
+    <h2 id="dlg-title">Open a project</h2>
+    <p class="dlg-sub">Opens the paper project in the folder you give. The folder needs a research canvas (research/canvas.md). Nothing in it is changed.</p>
+    <label for="f-root">Project folder<span class="hint" data-plain>Type the full path of the folder, for example the one you see at the top of your file manager.</span></label>
+    <div class="pathrow"><input type="text" id="f-root" name="root" autocomplete="off" spellcheck="false"><button type="button" class="btn" data-pick="root" hidden>Choose…</button></div>
+    <p id="dlg-error" class="dlg-error" role="alert"></p>
+    <p class="dlg-offer" id="offer-new" hidden><button type="button" class="btn" data-dlg="to-new">Create a project instead…</button></p>
+    <div class="dlg-actions"><button type="button" class="btn" data-dlg="cancel">Cancel</button><button type="submit" class="btn btn-primary">Open project</button></div>
+  </form>
+</template>
+
+<template id="t-clone">
+  <form data-kind="clone" novalidate>
+    <h2 id="dlg-title">Clone from link</h2>
+    <p class="dlg-sub">Downloads the shared paper from the link into a new folder inside the folder you choose. Nothing is sent to anyone. If the link asks for a login, the app asks you for it.</p>
+    <label for="f-url">Link<span class="hint">The https link your co-author sent you. Links that start with ssh:// or look like git@host:path work too.</span></label>
+    <input type="text" id="f-url" name="url" autocomplete="off" spellcheck="false">
+    <label for="f-parent">Folder to download it into<span class="hint">The new folder goes inside this one.</span><span class="hint" data-plain>Type the full path of the folder.</span></label>
+    <div class="pathrow"><input type="text" id="f-parent" name="parent" autocomplete="off" spellcheck="false"><button type="button" class="btn" data-pick="parent" hidden>Choose…</button></div>
+    <label for="f-folder">Name of the new folder<span class="hint">It must not exist yet.</span></label>
+    <input type="text" id="f-folder" name="folder" autocomplete="off" spellcheck="false">
+    <p id="dlg-error" class="dlg-error" role="alert"></p>
+    <div class="dlg-actions"><button type="button" class="btn" data-dlg="cancel">Cancel</button><button type="submit" class="btn btn-primary">Clone project</button></div>
+  </form>
+</template>
+
+<template id="t-send">
+  <form data-kind="send" novalidate>
+    <h2 id="dlg-title">Send my changes</h2>
+    <p class="dlg-sub">This does three things, in this order:</p>
+    <ul class="dlg-facts">
+      <li>Saves the changes in your research folder (the canvas and the decision log) as one step in the project’s history.</li>
+      <li>Uploads them to the shared copy, where your co-authors can get them.</li>
+      <li>If a co-author sent changes first, you get those before yours go out.</li>
+    </ul>
+    <p id="dlg-error" class="dlg-error" role="alert"></p>
+    <div class="dlg-actions"><button type="button" class="btn" data-dlg="cancel">Cancel</button><button type="submit" class="btn btn-primary">Send changes</button></div>
+  </form>
+</template>
+
+<template id="t-share">
+  <form data-kind="share" novalidate>
+    <h2 id="dlg-title">Share with co-authors</h2>
+    <p class="dlg-sub">Co-authors get the project from a shared copy on a website. Create an empty private repository on GitHub, or on your institute’s GitLab, copy its https link and paste it below. The app then uploads the project there. Your co-authors use Clone from link… with the same link.</p>
+    <ul class="dlg-facts">
+      <li>Uploads the project’s history as it is: the canvas and the decision log in the research folder, and everything else committed in this folder.</li>
+      <li>The key that seals your entries stays on this computer. You give it to each co-author yourself, with Invite co-author….</li>
+      <li>The repository must be empty, without a README or licence file. If it already holds files, nothing is uploaded.</li>
+    </ul>
+    <label for="f-url">Link of the empty repository<span class="hint">Copy it from the repository’s page on the website. If it asks for a login, the app asks you for it.</span></label>
+    <input type="text" id="f-url" name="url" autocomplete="off" spellcheck="false">
+    <p id="dlg-error" class="dlg-error" role="alert"></p>
+    <div class="dlg-actions"><button type="button" class="btn" data-dlg="cancel">Cancel</button><button type="submit" class="btn btn-primary">Share project</button></div>
+  </form>
+</template>
+
+<template id="t-session">
+  <form data-kind="session" novalidate>
+    <h2 id="dlg-title">Start a session</h2>
+    <p class="dlg-sub">Writes a session marker with today’s date and your name into the decision log. The entries that follow belong to this session, and its minutes can be exported at the end.</p>
+    <label for="f-occasion">What is the occasion?<span class="hint">One line, for example “Supervision with B. Supervisor”.</span></label>
+    <input type="text" id="f-occasion" name="occasion" autocomplete="off">
+    <div id="name-block">
+      <label for="f-name">Your name<span class="hint">This computer has no name for the decision log yet. Give it once, as co-authors should see it next to your entries.</span></label>
+      <input type="text" id="f-name" name="name" autocomplete="name">
+    </div>
+    <p id="dlg-error" class="dlg-error" role="alert"></p>
+    <div class="dlg-actions"><button type="button" class="btn" data-dlg="cancel">Cancel</button><button type="submit" class="btn btn-primary">Start session</button></div>
+  </form>
+</template>
+
+<template id="t-minutes">
+  <form data-kind="minutes" novalidate>
+    <h2 id="dlg-title">Export minutes</h2>
+    <p class="dlg-sub">Writes the minutes of the latest session to a text file (Markdown, opens in any editor): what was said, decided and left open. The decision log itself is not changed.</p>
+    <label for="f-out">Save the minutes as<span class="hint" data-plain>Type the full path of the file, ending in .md.</span></label>
+    <div class="pathrow"><input type="text" id="f-out" name="out" autocomplete="off" spellcheck="false"><button type="button" class="btn" data-pick="out" hidden>Choose…</button></div>
+    <p id="dlg-error" class="dlg-error" role="alert"></p>
+    <div class="dlg-actions"><button type="button" class="btn" data-dlg="cancel">Cancel</button><button type="submit" class="btn btn-primary">Export minutes</button></div>
+  </form>
+</template>
+
+<template id="t-invite">
+  <form data-kind="invite" novalidate>
+    <h2 id="dlg-title">Invite a co-author</h2>
+    <p class="dlg-sub">Your co-author needs two things from you: the project’s link and the key file. The link is how they download the project. The key file lets their entries verify here; anyone who has it can do the same, so give it to them yourself, by mail or on a USB stick. Do not paste it into a chat with an agent. The app sends neither of them anywhere.</p>
+    <p class="dlg-sub" id="invite-link-line"></p>
+    <label for="f-out">Save the key file as<span class="hint" data-plain>Type the full path of the file, ending in .seal.key.</span></label>
+    <div class="pathrow"><input type="text" id="f-out" name="out" autocomplete="off" spellcheck="false"><button type="button" class="btn" data-pick="out" hidden>Choose…</button></div>
+    <p id="dlg-error" class="dlg-error" role="alert"></p>
+    <div class="dlg-actions"><button type="button" class="btn" data-dlg="cancel">Cancel</button><button type="submit" class="btn btn-primary">Save key file</button></div>
+  </form>
+</template>
+
+<template id="t-join">
+  <form data-kind="join" novalidate>
+    <h2 id="dlg-title">Join this project</h2>
+    <p class="dlg-sub">This computer has no sealing key for the project yet, so your entries cannot be sealed and the existing ones cannot be checked. Choose the key file your co-author gave you and say how your name should appear. The key is stored on this computer, outside the project folder.</p>
+    <label for="f-key">Key file you received<span class="hint" data-plain>Type the full path of the file, ending in .seal.key.</span></label>
+    <div class="pathrow"><input type="text" id="f-key" name="keyFile" autocomplete="off" spellcheck="false"><button type="button" class="btn" data-pick="keyFile" hidden>Choose…</button></div>
+    <label for="f-name">Your name<span class="hint">As co-authors should see it next to your entries.</span></label>
+    <input type="text" id="f-name" name="name" autocomplete="name">
+    <p id="dlg-error" class="dlg-error" role="alert"></p>
+    <div class="dlg-actions"><button type="button" class="btn" data-dlg="cancel">Cancel</button><button type="submit" class="btn btn-primary">Join project</button></div>
+  </form>
+</template>
+
+<script>
+(function () {
+  'use strict';
+
+  // The write token lives in this closure and nowhere else: not in the page,
+  // not in the address, not in storage. The one-time code leaves the address
+  // bar before anything else happens.
+  var token = null;
+  var hash = new URLSearchParams(location.hash.slice(1));
+  var code = hash.get('c');
+  history.replaceState(null, '', location.pathname);
+
+  // Null in a browser tab: the dialogs then show path fields instead of pickers.
+  var host = window.harnessHost || null;
+  var hostInfo = null;     // what /api/app/projects says about the computer the app runs on: platform, home, sep
+
+  var current = null;      // folder of the open project
+  var lastState = null;    // what /api/state said last
+  var facts = null;        // what /api/app/status said last: name, key, shared copy
+  var sessionStart = null; // when this window started a session
+  var sessionTimer = null;
+
+  var $ = function (id) { return document.getElementById(id); };
+  var frame = $('session-frame');
+  var dlg = $('dlg');
+
+  var UNREACHABLE = 'The app could not be reached. Close this window and start the app again.';
+  // The sentence names the way this person started the app: a start file on
+  // Windows, a terminal elsewhere. The desktop app keeps its own.
+  function linkUsed() {
+    if (host) return 'This window was already opened elsewhere. Close it and start the app again.';
+    return 'This page was already opened elsewhere. ' + (/Windows/.test(navigator.userAgent)
+      ? 'Close the placet-research window and double-click Start placet-research again.'
+      : 'Stop placet-research serve --app with Ctrl+C and start it again.');
+  }
+
+  async function redeem() {
+    if (!code) throw new Error('This page needs the link the app prints when it starts. Start the app again.');
+    var res = await fetch('/api/session', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code: code }) });
+    var body = await res.json();
+    if (!body.ok) throw new Error(linkUsed());
+    token = body.token;
+  }
+
+  async function api(name, body) {
+    var get = name === 'projects';
+    try {
+      var res = await fetch('/api/app/' + name, {
+        method: get ? 'GET' : 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Harness-Token': token },
+        body: get ? undefined : JSON.stringify(body || {}),
+      });
+      return await res.json();
+    } catch (err) {
+      return { ok: false, code: 'unreachable', error: UNREACHABLE };
+    }
+  }
+
+  async function readState() {
+    try {
+      var res = await fetch('/api/state', { headers: { 'X-Harness-Token': token } });
+      var body = await res.json();
+      if (res.ok) return body;
+      if (body && body.error) say('out-project', 'problem', body.error);
+      return null;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  async function readFacts() {
+    var res = await api('status');
+    return res && res.ok ? res : null;
+  }
+
+  async function refreshFacts() {
+    var fresh = await readFacts();
+    if (fresh) facts = fresh;
+  }
+
+  function embedSessionView() {
+    window.addEventListener('message', function (event) {
+      if (event.origin !== location.origin || event.source !== frame.contentWindow) return;
+      if ((event.data || {}).type === 'harness-ready' && token) {
+        frame.contentWindow.postMessage({ type: 'harness-token', token: token }, location.origin);
+      }
+    });
+  }
+
+  function tellView(message) {
+    if (frame.contentWindow) frame.contentWindow.postMessage(message, location.origin);
+  }
+
+  // -- Agent column -----------------------------------------------------------
+  // The app draws Claude Code's terminal in its own view over #agent-slot; this
+  // page keeps the room free, reports where it is, and relays statement
+  // numbers between the app and the session view. In a browser there is no
+  // host and so no column. The app gives up on a lookup the session view does
+  // not answer, so the page keeps no timer of its own.
+  var agentShown = false;
+  var agentFolded = false;
+  var lookups = {};
+  var lookupSeq = 0;
+
+  // A native view paints over the page, so while the dialog is open the
+  // column gives up its room; the dialog is modal anyway.
+  function agentRect() {
+    var slot = $('agent-slot');
+    if (!agentShown || slot.hidden || dlg.open) return null;
+    var r = slot.getBoundingClientRect();
+    return { x: Math.round(r.x), y: Math.round(r.y), width: Math.round(r.width), height: Math.round(r.height) };
+  }
+  function reportAgent() { if (host && host.agentBounds) host.agentBounds(agentRect()); }
+
+  function showAgent(shown) {
+    agentShown = shown;
+    var narrow = window.matchMedia('(max-width: 52rem)').matches;
+    $('agent-slot').hidden = !shown || (narrow && agentFolded);
+    $('shell').classList.toggle('with-agent', shown && !narrow);
+    $('btn-agent-setup').hidden = shown || !current;
+    $('agent-toggle').textContent = agentFolded ? 'Show the agent' : 'Hide the agent';
+    $('agent-toggle').hidden = !shown;
+    reportAgent();
+  }
+
+  function setUpAgentColumn() {
+    if (!host || !host.onAgentShown) return;
+    host.onAgentShown(showAgent);
+    host.onAgentLookup(function (num) {
+      return new Promise(function (resolve) {
+        if (!current) { resolve(null); return; }
+        var id = ++lookupSeq;
+        lookups[id] = resolve;
+        tellView({ type: 'harness-lookup', id: id, num: num });
+      });
+    });
+    host.onAgentReveal(function (num) { tellView({ type: 'harness-reveal', num: num }); });
+    host.onAgentFocusView(function () { frame.focus(); });
+    window.addEventListener('message', function (event) {
+      if (event.origin !== location.origin || event.source !== frame.contentWindow) return;
+      var msg = event.data || {};
+      if (msg.type === 'harness-lookup-result' && lookups[msg.id]) {
+        var resolve = lookups[msg.id];
+        delete lookups[msg.id];
+        resolve(typeof msg.words === 'string' ? msg.words : null);
+      }
+    });
+    new ResizeObserver(reportAgent).observe($('agent-slot'));
+    window.addEventListener('resize', function () { showAgent(agentShown); });
+    $('btn-agent-setup').addEventListener('click', function () { host.setUpAgent(); });
+    $('agent-toggle').addEventListener('click', function () { agentFolded = !agentFolded; showAgent(agentShown); });
+  }
+  setUpAgentColumn();
+
+  // -- Outcomes -------------------------------------------------------------
+  // Keep the latest outcome in each group, under the control that caused it.
+  // Nothing fades or disappears on a timer.
+  function say(id, kind, text) {
+    var box = $(id);
+    var group = box.closest('.group');
+    if (group) group.querySelectorAll('.outcome').forEach(function (other) { clearSay(other.id); });
+    box.textContent = '';
+    box.dataset.kind = kind;
+    var words = document.createElement('span');
+    words.textContent = text;
+    if (kind !== 'working') {
+      var icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      icon.setAttribute('class', 'i');
+      icon.setAttribute('aria-hidden', 'true');
+      var use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+      use.setAttribute('href', kind === 'problem' ? '#i-problem' : '#i-ok');
+      icon.appendChild(use);
+      var lead = document.createElement('span');
+      lead.className = 'sr-only';
+      lead.textContent = kind === 'problem' ? 'Problem: ' : 'Done: ';
+      box.appendChild(icon);
+      box.appendChild(lead);
+    }
+    box.appendChild(words);
+  }
+
+  // Without a desktop app there is no Show in folder; the path in the outcome
+  // line gets a button that copies it.
+  function addCopyPath(id, text) {
+    if (host) return;
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'btn side-btn copy-path';
+    btn.textContent = 'Copy path';
+    btn.addEventListener('click', function () {
+      navigator.clipboard.writeText(text).then(
+        function () { btn.textContent = 'Copied'; },
+        function () { btn.textContent = 'Copy did not work; select the path and copy it'; }
+      );
+    });
+    $(id).appendChild(btn);
+  }
+
+  function clearSay(id) {
+    var box = $(id);
+    box.textContent = '';
+    delete box.dataset.kind;
+  }
+
+  // -- App updates ----------------------------------------------------------
+  // Only the desktop app signed with a Developer ID sends these (sub-project
+  // 4). A browser tab has no host and never shows the line.
+  var UPDATE_TEXT = {
+    downloading: function (m) { return 'Version ' + m.version + ' is downloading. It installs when you quit Placet.'; },
+    ready: function (m) { return 'Version ' + m.version + ' is ready. It installs when you quit Placet.'; },
+    current: function () { return 'You have the newest version.'; },
+    error: function (m) { return m.message; },
+  };
+  function showAppUpdate(msg) {
+    var text = msg && UPDATE_TEXT[msg.state] ? UPDATE_TEXT[msg.state](msg) : null;
+    if (!text) return;
+    var kind = msg.state === 'error' ? 'problem' : 'ok';
+    $('app-group').hidden = false;
+    say('out-app', kind, text);
+    say('out-app-start', kind, text);
+    $('btn-restart').hidden = $('start-restart').hidden = msg.state !== 'ready';
+  }
+  if (host && typeof host.onUpdate === 'function') {
+    host.onUpdate(showAppUpdate);
+    ['btn-restart', 'start-restart'].forEach(function (id) {
+      $(id).addEventListener('click', function () { host.restartToUpdate(); });
+    });
+  }
+
+  // -- Page states ------------------------------------------------------------
+  function show(which) {
+    $('fatal').hidden = which !== 'fatal';
+    $('start').hidden = which !== 'start';
+    frame.hidden = which !== 'project';
+    $('sidebar').hidden = which !== 'project';
+    $('shell').classList.toggle('no-side', which !== 'project');
+    $('skip-link').setAttribute('href', which === 'project' ? '#session-frame' : '#main-start');
+    $('skip-link').textContent = which === 'project' ? 'Skip to the session view' : 'Skip to the main part';
+  }
+
+  function fatal(message) {
+    var box = $('fatal');
+    box.textContent = '';
+    var p = document.createElement('p');
+    p.setAttribute('role', 'alert');
+    p.textContent = message;
+    box.appendChild(p);
+    show('fatal');
+  }
+
+  function renderRecent(recent) {
+    var list = $('recent');
+    list.textContent = '';
+    recent.forEach(function (root) {
+      var li = document.createElement('li');
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'row-btn';
+      b.dataset.root = root;
+      var name = document.createElement('span');
+      name.textContent = baseName(root);
+      var path = document.createElement('span');
+      path.className = 'path';
+      path.textContent = root;
+      b.appendChild(name);
+      b.appendChild(path);
+      li.appendChild(b);
+      list.appendChild(li);
+    });
+    $('recent-section').hidden = recent.length === 0;
+  }
+
+  function baseName(p) {
+    var parts = String(p).split(/[\\/]+/).filter(Boolean);
+    return parts.length ? parts[parts.length - 1] : String(p);
+  }
+
+  function titleize(slug) {
+    return String(slug || '').split(/[-_]+/).filter(Boolean).map(function (w) { return w.charAt(0).toUpperCase() + w.slice(1); }).join(' ');
+  }
+
+  function projectName(state, root) {
+    var fm = (state && state.frontmatter) || {};
+    var title = fm.title && String(fm.title).trim();
+    return title || titleize((state && state.project) || baseName(root)) || 'Untitled project';
+  }
+
+  function peopleOf(state) {
+    var seen = [];
+    ((state && state.decisions) || []).forEach(function (d) { if (d.by && seen.indexOf(d.by) === -1) seen.push(d.by); });
+    return seen;
+  }
+
+  function renderSidebar(state) {
+    $('proj-name').textContent = projectName(state, current);
+    // One line, cut at the front: the end of a path is the part a person
+    // recognises. The <bdi> keeps the path itself left to right.
+    var pathLine = $('proj-path');
+    var pathText = document.createElement('bdi');
+    pathText.textContent = current;
+    pathLine.textContent = '';
+    pathLine.appendChild(pathText);
+    pathLine.title = current;
+    var list = $('people');
+    list.textContent = '';
+    var names = peopleOf(state);
+    if (!names.length) {
+      var none = document.createElement('li');
+      none.className = 'people-none';
+      none.textContent = 'No names in the decision log yet.';
+      list.appendChild(none);
+    }
+    names.forEach(function (name) {
+      var li = document.createElement('li');
+      li.textContent = name;
+      list.appendChild(li);
+    });
+    // Join and Share follow what this computer holds and what the project has,
+    // not the ledger: an empty decision log has nothing to verify, and a
+    // co-author still needs the key before the first entry.
+    var f = facts || {};
+    var noKey = f.hasKey === false;
+    var unshared = f.shared === false;
+    $('join-line').hidden = !noKey;
+    $('btn-invite').hidden = noKey;
+    $('share-box').hidden = !unshared;
+    $('sync-box').hidden = unshared;
+  }
+
+  async function enterProject(root, reloadView) {
+    var changed = root !== current;
+    current = root;
+    if (changed && host && host.agentProject) host.agentProject(root);
+    lastState = await readState();
+    facts = await readFacts();
+    renderSidebar(lastState);
+    if (host && host.onAgentShown) showAgent(agentShown);
+    show('project');
+    if (changed || reloadView || !frame.getAttribute('src')) {
+      if (frame.getAttribute('src')) frame.contentWindow.location.replace('/');
+      else frame.src = '/';
+    }
+  }
+
+  // -- Dialogs ---------------------------------------------------------------
+  var dlgBusy = false;
+  var returnTo = null;
+
+  // Always form.elements, never form.title or form.name: those are the form's own attributes.
+  function fieldOf(form, name) { return form.elements[name]; }
+  function val(form, name) { return String(form.elements[name].value).trim(); }
+
+  function wirePicker(form, name, pick) {
+    var btn = form.querySelector('[data-pick="' + name + '"]');
+    if (!btn) return;
+    if (!host) return;
+    btn.hidden = false;
+    form.querySelectorAll('[data-plain]').forEach(function (n) { n.hidden = true; });
+    btn.addEventListener('click', async function () {
+      var chosen = await pick();
+      if (chosen) { fieldOf(form, name).value = chosen; fieldOf(form, name).focus(); }
+    });
+  }
+
+  // In a browser tab there is no folder picker. The path fields start in the
+  // home folder, and their hints say how to copy a path on this system.
+  function pathTip() {
+    return hostInfo.platform === 'win32'
+      ? 'In File Explorer, right-click the folder (Shift+right-click on Windows 10) and choose Copy as path, then paste it here.'
+      : 'In Finder, select it and press Option+Command+C, then paste it here.';
+  }
+
+  function prepareBrowserFields(form) {
+    if (host || !hostInfo) return;
+    var tip = pathTip();
+    form.querySelectorAll('[data-plain]').forEach(function (n) { n.textContent += ' ' + tip; });
+    var home = hostInfo.home;
+    var start = {
+      parent: home,
+      root: home,
+      out: home + hostInfo.sep + saveName() + (form.dataset.kind === 'invite' ? '.seal.key' : '-minutes.md'),
+    };
+    Object.keys(start).forEach(function (name) {
+      var field = fieldOf(form, name);
+      if (field && !field.value) field.value = start[name];
+    });
+  }
+
+  function openDialog(templateId, invoker, setup) {
+    returnTo = invoker || null;
+    dlg.textContent = '';
+    dlg.appendChild($(templateId).content.cloneNode(true));
+    var form = dlg.querySelector('form');
+    dlgBusy = false;
+    if (setup) setup(form);
+    prepareBrowserFields(form);
+    if (!dlg.open) { dlg.showModal(); reportAgent(); }
+    var first = form.querySelector('input:not([type="radio"])') || form.querySelector('input') || form.querySelector('button[type="submit"]');
+    if (first) first.focus();
+    // A starting path is selected, so pasting a path replaces it.
+    if (!host && first && first.type === 'text' && first.value) first.select();
+    return form;
+  }
+
+  function closeDialog() {
+    if (dlg.open) dlg.close();
+  }
+
+  // A refusal belongs to the submit that caused it; a new submit starts clean.
+  function clearDialogError(form) {
+    form.querySelector('.dlg-error').textContent = '';
+    form.querySelectorAll('[aria-invalid]').forEach(function (n) { n.removeAttribute('aria-invalid'); n.removeAttribute('aria-describedby'); });
+  }
+
+  function dialogError(form, message, fieldName) {
+    clearDialogError(form);
+    form.querySelector('.dlg-error').textContent = message;
+    var field = fieldName && fieldOf(form, fieldName);
+    if (field) {
+      field.setAttribute('aria-invalid', 'true');
+      field.setAttribute('aria-describedby', 'dlg-error');
+      field.focus();
+    }
+  }
+
+  // Focus goes back to the control that opened the dialog; when that control is
+  // gone or hidden, to a place that still exists.
+  function restoreFocus(fallback) {
+    var target = returnTo && !returnTo.hidden && returnTo.getClientRects().length ? returnTo : fallback;
+    if (target) target.focus();
+  }
+
+  function require_(form, name, message) {
+    var field = fieldOf(form, name);
+    if (field && !String(field.value).trim()) { dialogError(form, message, name); return false; }
+    return true;
+  }
+
+  var NEED = {
+    parent: 'Choose the folder the new project goes into.',
+    folder: 'Give the new folder a name.',
+    root: 'Enter the folder of the project.',
+    url: 'Paste the link you were given.',
+    occasion: 'Name the occasion in one line.',
+    out: 'Choose where to save the file.',
+    keyFile: 'Choose the key file you received.',
+    name: 'Enter your name as co-authors should see it.',
+  };
+
+  // What each dialog does when submitted: a request and what follows. Each
+  // resolves to the server's answer; the common code shows a refusal inside
+  // the dialog, next to the field it names.
+  var DO = {
+    new: function (form) {
+      var mode = form.querySelector('input[name="mode"]:checked');
+      return api('init', { parent: val(form, 'parent'), folder: val(form, 'folder'), mode: mode && mode.value, title: val(form, 'title') || undefined, name: val(form, 'name') || undefined });
+    },
+    open: function (form) { return api('open', { root: val(form, 'root') }); },
+    clone: function (form) { return api('clone', { url: val(form, 'url'), parent: val(form, 'parent'), folder: val(form, 'folder') }); },
+    send: function () { return api('send'); },
+    share: function (form) { return api('share', { url: val(form, 'url') }); },
+    session: function (form) { return api('session', { action: 'start', occasion: val(form, 'occasion'), name: fieldOf(form, 'name') ? val(form, 'name') : undefined }); },
+    minutes: function (form) { return api('session', { action: 'minutes', out: val(form, 'out') }); },
+    invite: function (form) { return api('invite', { out: val(form, 'out') }); },
+    join: function (form) { return api('join', { keyFile: val(form, 'keyFile'), name: val(form, 'name') }); },
+  };
+
+  var REQUIRED = {
+    new: ['parent', 'folder', 'name'], open: ['root'], clone: ['url', 'parent', 'folder'], send: [], share: ['url'],
+    session: ['occasion', 'name'], minutes: ['out'], invite: ['out'], join: ['keyFile', 'name'],
+  };
+  var FIELD_OF_CODE = { 'not-project': 'root', exists: 'folder', invalid: null };
+
+  async function afterSuccess(kind, form, res) {
+    var out;
+    if (kind === 'new' || kind === 'open' || kind === 'clone') {
+      var made = res.current;
+      closeDialog();
+      await enterProject(made, true);
+      out = kind === 'new' ? 'Created the project in ' + made + '. Next: Share with co-authors… to let co-authors get it, or Start session… to begin a meeting.'
+        + (res.repoError ? ' The project history could not be set up yet, and sharing needs it. ' + res.repoError : '')
+        : kind === 'clone' ? 'Downloaded the project to ' + made + '.' : 'Opened ' + made + '.';
+      clearAll();
+      say('out-project', 'ok', out);
+      // The project is open and usable; the line asks the person to act.
+      if (res.warning) say('out-project', 'problem', res.warning);
+      $('proj-name').focus();
+      return;
+    }
+    closeDialog();
+    if (kind === 'send') {
+      say('out-send', 'ok', res.updated
+        ? 'Your co-authors had sent changes first. You got those, then your changes went out.'
+        : 'Sent. The shared copy now holds all your changes.');
+      restoreFocus($('btn-send'));
+    } else if (kind === 'share') {
+      await refreshFacts();
+      renderSidebar(lastState);
+      say('out-share', 'ok', 'Shared. The project is now at ' + res.origin + '. Next: Invite co-author… to save the key file. Your co-author needs that link and the key file to join.');
+      restoreFocus($('proj-name'));
+    } else if (kind === 'session') {
+      startClock();
+      say('out-meeting', 'ok', 'Session started. The decision log has its marker.');
+      $('live').focus();
+      await refreshState();
+    } else if (kind === 'minutes') {
+      var path = val(form, 'out');
+      say('out-meeting', 'ok', 'Saved the minutes to ' + path + '.');
+      addCopyPath('out-meeting', path);
+      if (host && host.reveal) host.reveal(path).catch(function () {});
+      restoreFocus($('btn-minutes'));
+    } else if (kind === 'invite') {
+      var keyPath = val(form, 'out');
+      var link = facts && facts.origin;
+      say('out-people', 'ok', 'Saved the key file to ' + keyPath + '. Your co-author needs two things, and you give them both yourself: ' + (link ? 'the project’s link (' + link + ') and this key file.' : 'this key file and the project’s link. The project has no link yet; use Share with co-authors… first.'));
+      addCopyPath('out-people', keyPath);
+      if (host && host.reveal) host.reveal(keyPath).catch(function () {});
+      restoreFocus($('btn-invite'));
+    } else if (kind === 'join') {
+      await refreshState();
+      say('out-people', 'ok', 'You joined the project. Entries you write here are sealed with the shared key.');
+      restoreFocus($('proj-name'));
+    }
+  }
+
+  async function submitDialog(form) {
+    if (dlgBusy) return;
+    clearDialogError(form);
+    var kind = form.dataset.kind;
+    var needed = REQUIRED[kind];
+    for (var i = 0; i < needed.length; i++) {
+      if (!require_(form, needed[i], NEED[needed[i]])) return;
+    }
+    dlgBusy = true;
+    var submit = form.querySelector('button[type="submit"]');
+    var label = submit.textContent;
+    submit.disabled = true;
+    submit.textContent = 'Working…';
+    form.setAttribute('aria-busy', 'true');
+    var res = await DO[kind](form);
+    dlgBusy = false;
+    if (res && res.ok) { await afterSuccess(kind, form, res); return; }
+    submit.disabled = false;
+    submit.textContent = label;
+    form.removeAttribute('aria-busy');
+    var message = (res && res.error) || 'That did not work.';
+    var field = res && Object.prototype.hasOwnProperty.call(FIELD_OF_CODE, res.code) ? FIELD_OF_CODE[res.code] : null;
+    if (kind === 'invite' || kind === 'minutes') field = 'out';
+    if (kind === 'join') field = res.code === 'invalid' && /name/i.test(message) ? 'name' : 'keyFile';
+    if (kind === 'new' && res.code === 'invalid') field = /name/i.test(message) ? 'folder' : 'parent';
+    if (kind === 'clone') field = res.code === 'exists' || /folder name/i.test(message) ? 'folder' : res.code === 'invalid' && /link/i.test(message) ? 'url' : null;
+    if (res && res.field) field = res.field;
+    dialogError(form, message, field);
+    if (!field) submit.focus();
+    var offer = form.querySelector('#offer-new');
+    if (offer) offer.hidden = res.code !== 'not-project';
+  }
+
+  function clearAll() {
+    ['out-update', 'out-send', 'out-share', 'out-project', 'out-meeting', 'out-people', 'out-start'].forEach(clearSay);
+    $('update-badge').hidden = true;
+    stopClock();
+  }
+
+  // -- Actions -----------------------------------------------------------------
+  function pickFolder() { return host.pickFolder(); }
+
+  function openNew(invoker) {
+    var form = openDialog('t-new', invoker, function (f) { wirePicker(f, 'parent', pickFolder); });
+    // The name this computer already has; with no project open it is asked for.
+    var nameField = fieldOf(form, 'name');
+    var typed = false;
+    nameField.addEventListener('input', function () { typed = true; });
+    if (facts && facts.name) nameField.value = facts.name;
+    api('status').then(function (res) {
+      if (res && res.ok && res.name && !typed && !nameField.value) nameField.value = res.name;
+    });
+  }
+  function openSession(invoker) {
+    var form = openDialog('t-session', invoker);
+    // Asked only when this computer has no name for the decision log.
+    if (facts && facts.name) form.querySelector('#name-block').remove();
+  }
+  function openInvite(invoker) {
+    openDialog('t-invite', invoker, function (form) {
+      wirePicker(form, 'out', function () { return host.saveFile({ suggestedName: saveName() + '.seal.key' }); });
+      var line = form.querySelector('#invite-link-line');
+      var link = facts && facts.origin;
+      line.textContent = '';
+      if (link) {
+        line.appendChild(document.createTextNode('The link to give them:'));
+        var code = document.createElement('code');
+        code.className = 'link';
+        code.textContent = link;
+        line.appendChild(code);
+      } else {
+        line.textContent = 'This project has no link yet. Use Share with co-authors… first, so your co-author has something to download.';
+      }
+    });
+  }
+  function openOpen(invoker) {
+    openDialog('t-open', invoker, function (form) { wirePicker(form, 'root', pickFolder); });
+  }
+  function openClone(invoker) {
+    var form = openDialog('t-clone', invoker, function (f) { wirePicker(f, 'parent', pickFolder); });
+    // The folder name follows the link until the person types their own.
+    var typed = false;
+    var folderField = fieldOf(form, 'folder');
+    var urlField = fieldOf(form, 'url');
+    if (!host && hostInfo && hostInfo.platform === 'win32') form.querySelector('label[for="f-url"] .hint').textContent += ' Use the https link; an ssh link needs a key set up in a terminal.';
+    folderField.addEventListener('input', function () { typed = true; });
+    urlField.addEventListener('input', function () {
+      if (typed) return;
+      var last = urlField.value.trim().replace(/\/+$/, '').split(/[\/:]/).pop() || '';
+      folderField.value = last.replace(/\.git$/, '').replace(/[^A-Za-z0-9._-]/g, '-').replace(/^[^A-Za-z0-9]+/, '');
+    });
+  }
+
+  var updating = false;
+
+  async function getUpdates() {
+    // The button stays enabled so focus stays on it; a second press while
+    // the first is running does nothing.
+    if (updating) return;
+    updating = true;
+    // An entry is new when the log did not hold it before. The merge entry that
+    // joining two logs writes is the app's own bookkeeping, not news.
+    var entryKey = function (d) { return [d.date, d.kind, d.ref, d.by, d.body].join('\u0001'); };
+    var known = {};
+    ((lastState && lastState.decisions) || []).forEach(function (d) { known[entryKey(d)] = true; });
+    say('out-update', 'working', 'Getting updates…');
+    var res = await api('update');
+    updating = false;
+    if (!res.ok) { say('out-update', 'problem', res.error || 'Getting updates did not work.'); return; }
+    var fresh = await readState();
+    var news = ((fresh && fresh.decisions) || []).filter(function (d) { return d.kind !== 'MERGE' && !known[entryKey(d)]; });
+    var added = news.length;
+    lastState = fresh || lastState;
+    if (fresh) renderSidebar(fresh);
+    var badge = $('update-badge');
+    if (added) {
+      var by = [];
+      news.forEach(function (d) { if (d.by && by.indexOf(d.by) === -1) by.push(d.by); });
+      badge.textContent = added + ' new';
+      badge.hidden = false;
+      say('out-update', 'ok', added + (added === 1 ? ' new entry' : ' new entries') + ' in the decision log' + (by.length ? ' from ' + by.join(' and ') : '') + '.' + (res.merged ? ' The two decision logs were merged.' : ''));
+    } else {
+      badge.hidden = true;
+      say('out-update', 'ok', res.merged ? 'The two decision logs were merged.' : 'You already have everything your co-authors sent.');
+    }
+    tellView({ type: 'harness-refresh' });
+  }
+
+  async function refreshState() {
+    await refreshFacts();
+    var fresh = await readState();
+    if (fresh) { lastState = fresh; renderSidebar(fresh); }
+    tellView({ type: 'harness-refresh' });
+  }
+
+  function formatElapsed(ms) {
+    var minutes = Math.floor(ms / 60000);
+    return Math.floor(minutes / 60) + ':' + String(minutes % 60).padStart(2, '0');
+  }
+
+  function startClock() {
+    sessionStart = Date.now();
+    $('live').hidden = false;
+    $('btn-session').hidden = true;
+    tick();
+    sessionTimer = setInterval(tick, 15000);
+  }
+
+  function stopClock() {
+    if (sessionTimer) clearInterval(sessionTimer);
+    sessionTimer = null;
+    sessionStart = null;
+    $('live').hidden = true;
+    $('btn-session').hidden = false;
+  }
+
+  function tick() {
+    $('elapsed').textContent = formatElapsed(Date.now() - sessionStart);
+  }
+
+  function saveName() { return baseName(current || 'paper').replace(/[^A-Za-z0-9._-]+/g, '-'); }
+
+  function wire() {
+    $('start-new').addEventListener('click', function (e) { openNew(e.currentTarget); });
+    $('start-open').addEventListener('click', function (e) { openOpen(e.currentTarget); });
+    $('start-clone').addEventListener('click', function (e) { openClone(e.currentTarget); });
+    $('btn-new').addEventListener('click', function (e) { openNew(e.currentTarget); });
+    $('btn-open').addEventListener('click', function (e) { openOpen(e.currentTarget); });
+    $('btn-clone').addEventListener('click', function (e) { openClone(e.currentTarget); });
+    $('btn-update').addEventListener('click', getUpdates);
+    $('btn-send').addEventListener('click', function (e) { openDialog('t-send', e.currentTarget); });
+    $('btn-share').addEventListener('click', function (e) { openDialog('t-share', e.currentTarget); });
+    $('btn-session').addEventListener('click', function (e) { openSession(e.currentTarget); });
+    $('btn-agenda').addEventListener('click', function () {
+      tellView({ type: 'harness-tab', tab: 'to-talk-about' });
+      say('out-meeting', 'ok', 'The session view shows To talk about.');
+      $('out-meeting').scrollIntoView({ block: 'nearest' });
+    });
+    $('btn-minutes').addEventListener('click', function (e) {
+      openDialog('t-minutes', e.currentTarget, function (form) {
+        wirePicker(form, 'out', function () { return host.saveFile({ suggestedName: saveName() + '-minutes.md' }); });
+      });
+    });
+    $('btn-invite').addEventListener('click', function (e) { openInvite(e.currentTarget); });
+    $('btn-join').addEventListener('click', function (e) {
+      openDialog('t-join', e.currentTarget, function (form) {
+        wirePicker(form, 'keyFile', function () { return host.pickFile({ suffix: '.seal.key' }); });
+      });
+    });
+    $('recent').addEventListener('click', async function (e) {
+      var b = e.target.closest('button[data-root]');
+      if (!b) return;
+      var res = await api('open', { root: b.dataset.root });
+      if (!res.ok) { say('out-start', 'problem', res.error); return; }
+      await enterProject(res.current, true);
+      if (res.warning) say('out-project', 'problem', res.warning);
+      $('proj-name').focus();
+    });
+
+    dlg.addEventListener('submit', function (event) { event.preventDefault(); submitDialog(event.target); });
+    dlg.addEventListener('click', function (event) {
+      if (event.target.closest('[data-dlg="cancel"]')) closeDialog();
+      if (event.target.closest('[data-dlg="to-new"]')) openNew(returnTo);
+    });
+    dlg.addEventListener('input', function (event) {
+      var t = event.target;
+      if (t.getAttribute && t.getAttribute('aria-invalid')) { t.removeAttribute('aria-invalid'); t.removeAttribute('aria-describedby'); }
+    });
+    dlg.addEventListener('close', function () {
+      reportAgent();
+      // Closing a dialog by Escape or Cancel hands focus back to its control.
+      if (returnTo && returnTo.getClientRects().length) returnTo.focus();
+    });
+  }
+
+  embedSessionView();
+  wire();
+  redeem()
+    .then(function () { return api('projects'); })
+    .then(async function (res) {
+      if (!res.ok) throw new Error(res.error || UNREACHABLE);
+      hostInfo = res.host || null;
+      renderRecent(res.recent || []);
+      if (res.current) await enterProject(res.current, false);
+      else show('start');
+    })
+    .catch(function (err) { fatal(err.message); });
+})();
+</script>
+</body>
+</html>

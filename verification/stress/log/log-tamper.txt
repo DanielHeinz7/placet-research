@@ -1,0 +1,124 @@
+SQ-323 — seal and decision-log stress probe
+Observed via real CLI review/status --key. Diagnostic text, not exit 0, decides detection.
+Baseline: fresh absent state directory, invented name, fixture canvas, ten CLI entries (one accept + nine logs).
+Expected for mutations: detected. Controls and concurrent valid appends: verified. LIMIT rows require a retained external anchor.
+Whitespace rows are literal byte mutations: an unchanged logical payload that verifies is still reported, not silently exempted.
+
+ID | case | expected | review verdict | status verdict | FINDING?
+L00 | baseline: ten CLI entries | verified control | exit 0; verified: 10 sealed entries | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: verified | no
+L01 | one body character | detected | exit 0; BROKEN at #5 (line 25): its own heading or body changed. | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: BROKEN at #5 (content) — run research-harness review | no
+L02 | one By field character | detected | exit 0; BROKEN at #5 (line 25): its own heading or body changed. | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: BROKEN at #5 (content) — run research-harness review | no
+L03 | one date character | detected | exit 0; BROKEN at #5 (line 25): its own heading or body changed. | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: BROKEN at #5 (content) — run research-harness review | no
+L04 | one Seal key fingerprint character | detected | exit 0; BROKEN at #0 (line 3): this key is not the project's: the Seal key line in decisions.md names a different key. | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: this key is not the project's: the Seal key line in decisions.md names a different key — run research-harness join with the project key | no
+L05 | one seal value character | detected | exit 0; BROKEN at #5 (line 25): its own heading or body changed. | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: BROKEN at #5 (content) — run research-harness review | no
+L06 | delete middle entry | detected | exit 0; BROKEN at #6 (line 25): entries before it are missing or were removed. | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: BROKEN at #6 (chain) — run research-harness review | no
+L07 | delete last entry | detected | exit 0; verified: 9 sealed entries | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: verified | LIMIT
+L08 | swap middle entries | detected | exit 0; BROKEN at #6 (line 25): entries before it are missing or were removed. | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: BROKEN at #6 (chain) — run research-harness review | no
+L09 | duplicate entry | detected | exit 0; BROKEN at #5 (line 30): entries before it are missing or were removed. | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: BROKEN at #5 (chain) — run research-harness review | no
+L10 | append forged entry sealed with foreign key | detected | exit 0; BROKEN at #11 (line 55): its own heading or body changed. | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: BROKEN at #11 (content) — run research-harness review | no
+L11 | re-seal entire log under new key; reviewer receives new key | detected | exit 0; verified: 10 sealed entries | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: verified | LIMIT
+L12 | re-sealed log checked with original key | detected | exit 0; BROKEN at #0 (line 3): this key is not the project's: the Seal key line in decisions.md names a different key. | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: this key is not the project's: the Seal key line in decisions.md names a different key — run research-harness join with the project key | no
+L13 | CRLF only | detected | exit 1; research/decisions.md has Windows line endings (CRLF) from line 1, so research-harness cannot read it. Nothing was changed. See https://github.com/anonymous-owner/research-harness#windows-line-endings | exit 1; research/decisions.md has Windows line endings (CRLF) from line 1, so research-harness cannot read it. Nothing was changed. See https://github.com/anonymous-owner/research-harness#windows-line-endings | no
+L14 | trailing spaces on body lines only | detected | exit 0; verified: 10 sealed entries | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: verified | FINDING
+L15 | trailing spaces on every nonempty line | detected | exit 0; unverifiable: entries #1, #2, #3, #4, #5, #6, #7, #8, #9, #10 predate the seal | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: unverifiable (10 entries predate the seal) | no
+L16 | UTF-8 BOM at file start only | detected | exit 0; BROKEN at #1 (line 5): its own content or the unsealed block before it changed. | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: BROKEN at #1 (anchor) — run research-harness review | no
+L17 | accepted statement text changed after acceptance | detected | exit 0; #1 1.2 accepted — text ed84af0f no longer matches any accepted statement | exit 0; Dependency violations: none · Stale acceptances: #1 · Ledger: verified | no
+L18 | plain git merge unresolved conflict markers | detected | exit 0; BROKEN at #10 (line 50): its own heading or body changed. | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: BROKEN at #10 (content) — run research-harness review | no
+L19 | wrong conflict resolution: keep both divergent tails | detected | exit 0; BROKEN at #11 (line 62): entries before it are missing or were removed. | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: BROKEN at #11 (chain) — run research-harness review | no
+L20 | wrong conflict resolution: keep only ours; lose theirs | detected | exit 0; verified: 12 sealed entries | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: verified | LIMIT
+L21 | wrong conflict resolution: interleave divergent tails | detected | exit 0; BROKEN at #11 (line 59): entries before it are missing or were removed. | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: BROKEN at #11 (chain) — run research-harness review | no
+L22 | CLI merge-log retains both tails and a MERGE marker | verified control | exit 0; verified: 15 sealed entries | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: verified | no
+C01 | two concurrent CLI appends round 1 | both entries once; unique seq; verified | exit 0; verified: 12 sealed entries | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: verified | no
+C02 | two concurrent CLI appends round 2 | both entries once; unique seq; verified | exit 0; verified: 12 sealed entries | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: verified | no
+C03 | two concurrent CLI appends round 3 | both entries once; unique seq; verified | exit 0; BROKEN at #11 (line 59): entries before it are missing or were removed. | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: BROKEN at #11 (chain) — run research-harness review | FINDING
+C04 | two concurrent CLI appends round 4 | both entries once; unique seq; verified | exit 0; BROKEN at #11 (line 59): entries before it are missing or were removed. | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: BROKEN at #11 (chain) — run research-harness review | FINDING
+C05 | two concurrent CLI appends round 5 | both entries once; unique seq; verified | exit 0; BROKEN at #11 (line 59): entries before it are missing or were removed. | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: BROKEN at #11 (chain) — run research-harness review | FINDING
+C06 | two concurrent CLI appends round 6 | both entries once; unique seq; verified | exit 0; verified: 12 sealed entries | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: verified | no
+C07 | two concurrent CLI appends round 7 | both entries once; unique seq; verified | exit 0; BROKEN at #11 (line 59): entries before it are missing or were removed. | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: BROKEN at #11 (chain) — run research-harness review | FINDING
+C08 | two concurrent CLI appends round 8 | both entries once; unique seq; verified | exit 0; BROKEN at #11 (line 59): entries before it are missing or were removed. | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: BROKEN at #11 (chain) — run research-harness review | FINDING
+C09 | two concurrent CLI appends round 9 | both entries once; unique seq; verified | exit 0; BROKEN at #11 (line 59): entries before it are missing or were removed. | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: BROKEN at #11 (chain) — run research-harness review | FINDING
+C10 | two concurrent CLI appends round 10 | both entries once; unique seq; verified | exit 0; verified: 12 sealed entries | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: verified | no
+C11 | two concurrent CLI appends round 11 | both entries once; unique seq; verified | exit 0; verified: 12 sealed entries | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: verified | no
+C12 | two concurrent CLI appends round 12 | both entries once; unique seq; verified | exit 0; BROKEN at #11 (line 59): entries before it are missing or were removed. | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: BROKEN at #11 (chain) — run research-harness review | FINDING
+C13 | two concurrent CLI appends round 13 | both entries once; unique seq; verified | exit 0; BROKEN at #11 (line 59): entries before it are missing or were removed. | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: BROKEN at #11 (chain) — run research-harness review | FINDING
+C14 | two concurrent CLI appends round 14 | both entries once; unique seq; verified | exit 0; verified: 12 sealed entries | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: verified | no
+C15 | two concurrent CLI appends round 15 | both entries once; unique seq; verified | exit 0; BROKEN at #11 (line 59): entries before it are missing or were removed. | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: BROKEN at #11 (chain) — run research-harness review | FINDING
+C16 | two concurrent CLI appends round 16 | both entries once; unique seq; verified | exit 0; verified: 12 sealed entries | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: verified | no
+C17 | two concurrent CLI appends round 17 | both entries once; unique seq; verified | exit 0; verified: 12 sealed entries | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: verified | no
+C18 | two concurrent CLI appends round 18 | both entries once; unique seq; verified | exit 0; verified: 12 sealed entries | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: verified | no
+C19 | two concurrent CLI appends round 19 | both entries once; unique seq; verified | exit 0; BROKEN at #11 (line 59): entries before it are missing or were removed. | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: BROKEN at #11 (chain) — run research-harness review | FINDING
+C20 | two concurrent CLI appends round 20 | both entries once; unique seq; verified | exit 0; BROKEN at #11 (line 59): entries before it are missing or were removed. | exit 0; Dependency violations: none · Stale acceptances: none · Ledger: BROKEN at #11 (chain) — run research-harness review | FINDING
+
+Evidence and assertions
+L00: anchor unchanged relative to retained baseline.
+L01: anchor CHANGED relative to retained baseline.
+L02: anchor CHANGED relative to retained baseline.
+L03: anchor CHANGED relative to retained baseline.
+L04: anchor CHANGED relative to retained baseline.
+L05: anchor CHANGED relative to retained baseline.
+L06: anchor CHANGED relative to retained baseline.
+L07: anchor CHANGED relative to retained baseline.
+L07 LIMIT (README, “Verifying a record you received”): “The authors hold the key, so an anchor printed today would match a rewritten log too — what detects a rewrite is an anchor published *earlier*: a git tag, the submitted manuscript, a mail.” Tail truncation leaves a valid prefix; retained anchor differs.
+L08: anchor CHANGED relative to retained baseline.
+L09: anchor CHANGED relative to retained baseline.
+L10: anchor CHANGED relative to retained baseline.
+L11: anchor CHANGED relative to retained baseline.
+L11 LIMIT (README, “Verifying a record you received”): “The authors hold the key, so an anchor printed today would match a rewritten log too — what detects a rewrite is an anchor published *earlier*: a git tag, the submitted manuscript, a mail.” Reviewer uses substituted key; retained original anchor must change.
+L12: anchor CHANGED relative to retained baseline.
+L13: anchor CHANGED relative to retained baseline (CLI refused CRLF before printing an anchor).
+L14: anchor CHANGED relative to retained baseline.
+L15: anchor CHANGED relative to retained baseline.
+L16: anchor CHANGED relative to retained baseline.
+L17: anchor unchanged relative to retained baseline.
+L18: anchor CHANGED relative to retained baseline.
+L19: anchor CHANGED relative to retained baseline.
+L20: anchor CHANGED relative to retained baseline.
+L20 LIMIT (README, “Verifying a record you received”): “The authors hold the key, so an anchor printed today would match a rewritten log too — what detects a rewrite is an anchor published *earlier*: a git tag, the submitted manuscript, a mail.” A complete valid branch survives; only an anchor retained from the discarded branch establishes its loss.
+L20: surviving anchor equals ours before merge and differs from the discarded theirs anchor.
+L21: anchor CHANGED relative to retained baseline.
+L22: anchor CHANGED relative to retained baseline.
+L22 CLI: Merged: their log up to #12, then ours as #11→#13, #12→#14; MERGE entry #15.
+C01: anchor CHANGED relative to retained baseline.
+C01: CLI exits=0,0; matching bodies=1,1; duplicate seq=0; total entries=12. Logged #12 DISCOVERY 3.1, sealed 4167ac3931c5f0b8. / Logged #11 DISCOVERY 3.1, sealed 502394e89ea792f0.
+C02: anchor CHANGED relative to retained baseline.
+C02: CLI exits=0,0; matching bodies=1,1; duplicate seq=0; total entries=12. Logged #11 DISCOVERY 3.1, sealed 3fcd3ab953b8dc55. / Logged #12 DISCOVERY 3.1, sealed ca53097067cf8d67.
+C03: anchor CHANGED relative to retained baseline.
+C03: CLI exits=0,0; matching bodies=1,1; duplicate seq=1; total entries=12. Logged #11 DISCOVERY 3.1, sealed eaa621f1b447cd9c. / Logged #11 DISCOVERY 3.1, sealed c8590a997a97225e.
+C04: anchor CHANGED relative to retained baseline.
+C04: CLI exits=0,0; matching bodies=1,1; duplicate seq=1; total entries=12. Logged #11 DISCOVERY 3.1, sealed e7e0ed6bf0919134. / Logged #11 DISCOVERY 3.1, sealed e9b94ce9bb52298b.
+C05: anchor CHANGED relative to retained baseline.
+C05: CLI exits=0,0; matching bodies=1,1; duplicate seq=1; total entries=12. Logged #11 DISCOVERY 3.1, sealed 17947709abd8ed26. / Logged #11 DISCOVERY 3.1, sealed 1347e8bf3505d920.
+C06: anchor CHANGED relative to retained baseline.
+C06: CLI exits=0,0; matching bodies=1,1; duplicate seq=0; total entries=12. Logged #12 DISCOVERY 3.1, sealed c7f8738dc63c6011. / Logged #11 DISCOVERY 3.1, sealed 589ba77bc116807c.
+C07: anchor CHANGED relative to retained baseline.
+C07: CLI exits=0,0; matching bodies=1,1; duplicate seq=1; total entries=12. Logged #11 DISCOVERY 3.1, sealed 1536f3a1f5edb7dc. / Logged #11 DISCOVERY 3.1, sealed c1e34e804c61c105.
+C08: anchor CHANGED relative to retained baseline.
+C08: CLI exits=0,0; matching bodies=1,1; duplicate seq=1; total entries=12. Logged #11 DISCOVERY 3.1, sealed 4a16fd22c6d8f629. / Logged #11 DISCOVERY 3.1, sealed ce7faf4ed787920f.
+C09: anchor CHANGED relative to retained baseline.
+C09: CLI exits=0,0; matching bodies=1,1; duplicate seq=1; total entries=12. Logged #11 DISCOVERY 3.1, sealed 4b8a3d6fa8a7b53b. / Logged #11 DISCOVERY 3.1, sealed 0615aa789fdfa68a.
+C10: anchor CHANGED relative to retained baseline.
+C10: CLI exits=0,0; matching bodies=1,1; duplicate seq=0; total entries=12. Logged #12 DISCOVERY 3.1, sealed cf5249cd0e459cde. / Logged #11 DISCOVERY 3.1, sealed f11f94ab686eb77e.
+C11: anchor CHANGED relative to retained baseline.
+C11: CLI exits=0,0; matching bodies=1,1; duplicate seq=0; total entries=12. Logged #11 DISCOVERY 3.1, sealed f0a1268e49b00869. / Logged #12 DISCOVERY 3.1, sealed 47f620fe88343420.
+C12: anchor CHANGED relative to retained baseline.
+C12: CLI exits=0,0; matching bodies=1,1; duplicate seq=1; total entries=12. Logged #11 DISCOVERY 3.1, sealed af610c4a430dbca6. / Logged #11 DISCOVERY 3.1, sealed 8b30dd06f6458377.
+C13: anchor CHANGED relative to retained baseline.
+C13: CLI exits=0,0; matching bodies=1,1; duplicate seq=1; total entries=12. Logged #11 DISCOVERY 3.1, sealed bb52ba499ccec169. / Logged #11 DISCOVERY 3.1, sealed 70692b9162c3e8b6.
+C14: anchor CHANGED relative to retained baseline.
+C14: CLI exits=0,0; matching bodies=1,1; duplicate seq=0; total entries=12. Logged #12 DISCOVERY 3.1, sealed b37f002c3a77e991. / Logged #11 DISCOVERY 3.1, sealed 64aedf3dd21e5950.
+C15: anchor CHANGED relative to retained baseline.
+C15: CLI exits=0,0; matching bodies=1,1; duplicate seq=1; total entries=12. Logged #11 DISCOVERY 3.1, sealed 01ae271038692ba8. / Logged #11 DISCOVERY 3.1, sealed 4f9310e1d71fe65d.
+C16: anchor CHANGED relative to retained baseline.
+C16: CLI exits=0,0; matching bodies=1,1; duplicate seq=0; total entries=12. Logged #11 DISCOVERY 3.1, sealed 3964cddc8198698c. / Logged #12 DISCOVERY 3.1, sealed e0e8085900ce87a1.
+C17: anchor CHANGED relative to retained baseline.
+C17: CLI exits=0,0; matching bodies=1,1; duplicate seq=0; total entries=12. Logged #12 DISCOVERY 3.1, sealed fdbd2aab7b11117f. / Logged #11 DISCOVERY 3.1, sealed 94690db633cab366.
+C18: anchor CHANGED relative to retained baseline.
+C18: CLI exits=0,0; matching bodies=1,1; duplicate seq=0; total entries=12. Logged #12 DISCOVERY 3.1, sealed 51bccbdbb888c04c. / Logged #11 DISCOVERY 3.1, sealed 535acea682f755bd.
+C19: anchor CHANGED relative to retained baseline.
+C19: CLI exits=0,0; matching bodies=1,1; duplicate seq=1; total entries=12. Logged #11 DISCOVERY 3.1, sealed fcc976f345e2674c. / Logged #11 DISCOVERY 3.1, sealed 74a3cbc374f9d6a9.
+C20: anchor CHANGED relative to retained baseline.
+C20: CLI exits=0,0; matching bodies=1,1; duplicate seq=1; total entries=12. Logged #11 DISCOVERY 3.1, sealed cbb543a76cfb8d97. / Logged #11 DISCOVERY 3.1, sealed 47e96abe7c4bed3f.
+Concurrency (20 rounds, at most two CLI writers): missing/nonunique body occurrences=0; duplicate seq=11; nonverified rounds=11; CLI refusals=0.
+Completed: 43 rows; 12 FINDING rows; 3 LIMIT rows. Findings do not change exit status.
+Not attempted: process crash recovery, hostile modification of the local secret, or automated comparison to an external published anchor.
+Raw per-case review/status output and fixture projects are retained in the fresh log-tamper-* evidence directory under RESEARCH_HARNESS_PROBE_DIR (OS temp by default).

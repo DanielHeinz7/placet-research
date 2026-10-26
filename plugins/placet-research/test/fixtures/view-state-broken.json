@@ -1,0 +1,2665 @@
+{
+  "version": "0.4.3",
+  "project": "voice-uptake",
+  "frontmatter": {
+    "project": "voice-uptake",
+    "outlet": "",
+    "profile": "is-qualitative",
+    "created": "2026-10-02",
+    "mode": "seed",
+    "canvas-schema": "2"
+  },
+  "graph": {
+    "1": [],
+    "2": [
+      1,
+      3
+    ],
+    "3": [
+      1
+    ],
+    "4": [
+      2,
+      7
+    ],
+    "5": [
+      3,
+      9
+    ],
+    "6": [
+      5
+    ],
+    "7": [
+      6
+    ],
+    "8": [
+      2,
+      4,
+      7
+    ],
+    "9": [
+      1,
+      3
+    ]
+  },
+  "elements": [
+    {
+      "number": 1,
+      "title": "Puzzle",
+      "questions": [
+        {
+          "id": "1.1",
+          "text": "What is the broad question this project speaks to?",
+          "statements": [
+            {
+              "text": "When do members' suggestions in organizational meetings receive serious consideration rather than polite acknowledgement?",
+              "marker": "proposed",
+              "tags": [
+                "unverified"
+              ],
+              "raw": "When do members' suggestions in organizational meetings receive serious consideration rather than polite acknowledgement? [proposed, unverified]",
+              "line": 14,
+              "hidden": null,
+              "hash": "db929961"
+            }
+          ],
+          "line": 12,
+          "openChecks": []
+        },
+        {
+          "id": "1.2",
+          "text": "What is it that you cannot yet explain, and what do you already know?",
+          "statements": [
+            {
+              "text": "Speaking frequency is well documented; whether a proposal is taken up is not.",
+              "marker": "tentative",
+              "tags": [
+                "unverified"
+              ],
+              "raw": "Speaking frequency is well documented; whether a proposal is taken up is not. [tentative, unverified]",
+              "line": 18,
+              "hidden": null,
+              "hash": "ed84af0f"
+            }
+          ],
+          "line": 16,
+          "openChecks": [
+            {
+              "seq": 1,
+              "body": "Does the twelve-meeting corpus hold enough proposals to tell uptake from acknowledgement?\n**By:** A. Researcher"
+            },
+            {
+              "seq": 2,
+              "body": "Which source says speaking frequency is \"well documented\" for meetings like these?\n**By:** A. Researcher"
+            }
+          ]
+        },
+        {
+          "id": "1.3",
+          "text": "Why does this matter — for practice, for theory, or both?",
+          "statements": [
+            {
+              "text": "Teams lose good ideas without anyone deciding to drop them.",
+              "marker": "proposed",
+              "tags": [
+                "unverified"
+              ],
+              "raw": "Teams lose good ideas without anyone deciding to drop them. [proposed, unverified]",
+              "line": 22,
+              "hidden": null,
+              "hash": "502238f1"
+            }
+          ],
+          "line": 20,
+          "openChecks": []
+        }
+      ],
+      "line": 10,
+      "status": {
+        "status": "open",
+        "open": 3
+      }
+    },
+    {
+      "number": 2,
+      "title": "Audience and Prior Research",
+      "questions": [
+        {
+          "id": "2.1",
+          "text": "Who are the ten to twenty scholars whose conversation this joins?",
+          "statements": [],
+          "line": 26,
+          "openChecks": []
+        },
+        {
+          "id": "2.2",
+          "text": "What has that conversation been about lately, and on what assumptions does it rest?",
+          "statements": [],
+          "line": 30,
+          "openChecks": []
+        },
+        {
+          "id": "2.3",
+          "text": "How has prior work handled this puzzle, and where is it inconsistent or silent?",
+          "statements": [],
+          "line": 34,
+          "openChecks": []
+        },
+        {
+          "id": "2.4",
+          "text": "Which assumption of that work do you challenge, and on what grounds?",
+          "statements": [
+            {
+              "text": "Work on voice treats speaking as influence and overlooks who is permitted to be heard.",
+              "marker": "proposed",
+              "tags": [
+                "unverified"
+              ],
+              "raw": "Work on voice treats speaking as influence and overlooks who is permitted to be heard. [proposed, unverified]",
+              "line": 40,
+              "hidden": null,
+              "hash": "c56d7322"
+            }
+          ],
+          "line": 38,
+          "openChecks": []
+        }
+      ],
+      "line": 24,
+      "status": {
+        "status": "open",
+        "open": 1
+      }
+    },
+    {
+      "number": 3,
+      "title": "Research Question",
+      "questions": [
+        {
+          "id": "3.1",
+          "text": "In one sentence: what does this study answer?",
+          "statements": [
+            {
+              "text": "How does a speaker's rank shape whether a proposal is taken up?",
+              "marker": "proposed",
+              "tags": [
+                "unverified"
+              ],
+              "raw": "How does a speaker's rank shape whether a proposal is taken up? [proposed, unverified]",
+              "line": 46,
+              "hidden": null,
+              "hash": "f3324cba"
+            }
+          ],
+          "line": 44,
+          "openChecks": []
+        },
+        {
+          "id": "3.2",
+          "text": "What would a well-informed person answer intuitively, and why is that not enough?",
+          "statements": [],
+          "line": 48,
+          "openChecks": []
+        },
+        {
+          "id": "3.3",
+          "text": "How does answering it move the puzzle forward?",
+          "statements": [],
+          "line": 52,
+          "openChecks": []
+        }
+      ],
+      "line": 42,
+      "status": {
+        "status": "open",
+        "open": 1
+      }
+    },
+    {
+      "number": 4,
+      "title": "Theoretical Constructs and Relationships",
+      "questions": [
+        {
+          "id": "4.1",
+          "text": "What are the core concepts, and where does each definition come from?",
+          "statements": [
+            {
+              "text": "Rank, deference and uptake.",
+              "marker": "tentative",
+              "tags": [
+                "unverified"
+              ],
+              "raw": "Rank, deference and uptake. [tentative, unverified]",
+              "line": 60,
+              "hidden": null,
+              "hash": "9564805f"
+            }
+          ],
+          "line": 58,
+          "openChecks": []
+        },
+        {
+          "id": "4.2",
+          "text": "How do they relate — and is that relationship given in advance or emerging from the material?",
+          "statements": [],
+          "line": 62,
+          "openChecks": []
+        },
+        {
+          "id": "4.3",
+          "text": "What mechanism explains the relationship?",
+          "statements": [],
+          "line": 66,
+          "openChecks": []
+        }
+      ],
+      "line": 56,
+      "status": {
+        "status": "open",
+        "open": 1
+      }
+    },
+    {
+      "number": 5,
+      "title": "Research Setting",
+      "questions": [
+        {
+          "id": "5.1",
+          "text": "Where is the study conducted, and how did you gain access?",
+          "statements": [
+            {
+              "text": "Twelve recorded meetings of one product team over a quarter.",
+              "marker": "tentative",
+              "tags": [
+                "unverified"
+              ],
+              "raw": "Twelve recorded meetings of one product team over a quarter. [tentative, unverified]",
+              "line": 74,
+              "hidden": null,
+              "hash": "67e7da87"
+            }
+          ],
+          "line": 72,
+          "openChecks": []
+        },
+        {
+          "id": "5.2",
+          "text": "Why is this setting the right one for the question — what does it make visible?",
+          "statements": [],
+          "line": 76,
+          "openChecks": []
+        },
+        {
+          "id": "5.3",
+          "text": "What would a more suitable setting be, and why are you not there?",
+          "statements": [],
+          "line": 80,
+          "openChecks": []
+        }
+      ],
+      "line": 70,
+      "status": {
+        "status": "open",
+        "open": 1
+      }
+    },
+    {
+      "number": 6,
+      "title": "Research Design and Analysis",
+      "questions": [
+        {
+          "id": "6.1",
+          "text": "What data, from where, collected how?",
+          "statements": [
+            {
+              "text": "Code every proposal for its proposer's rank and for whether the next speaker built on it.",
+              "marker": "proposed",
+              "tags": [
+                "unverified"
+              ],
+              "raw": "Code every proposal for its proposer's rank and for whether the next speaker built on it. [proposed, unverified]",
+              "line": 88,
+              "hidden": null,
+              "hash": "945d4d5d"
+            }
+          ],
+          "line": 86,
+          "openChecks": []
+        },
+        {
+          "id": "6.2",
+          "text": "How is the data analysed, and how does the procedure earn trust?",
+          "statements": [],
+          "line": 90,
+          "openChecks": []
+        },
+        {
+          "id": "6.3",
+          "text": "Which choices in design or analysis would a sceptical reviewer challenge first?",
+          "statements": [],
+          "line": 94,
+          "openChecks": []
+        }
+      ],
+      "line": 84,
+      "status": {
+        "status": "open",
+        "open": 1
+      }
+    },
+    {
+      "number": 7,
+      "title": "Findings",
+      "questions": [
+        {
+          "id": "7.1",
+          "text": "What does the material show — separated from what you make of it?",
+          "statements": [],
+          "line": 100,
+          "openChecks": []
+        },
+        {
+          "id": "7.2",
+          "text": "Which instances run counter to the pattern, and what happens to them?",
+          "statements": [],
+          "line": 104,
+          "openChecks": []
+        }
+      ],
+      "line": 98,
+      "status": {
+        "status": "empty",
+        "open": 0
+      }
+    },
+    {
+      "number": 8,
+      "title": "Contributions",
+      "questions": [
+        {
+          "id": "8.1",
+          "text": "What does the field know now that it did not before?",
+          "statements": [],
+          "line": 110,
+          "openChecks": []
+        },
+        {
+          "id": "8.2",
+          "text": "Which assumption in prior work does this change, and how?",
+          "statements": [],
+          "line": 114,
+          "openChecks": []
+        },
+        {
+          "id": "8.3",
+          "text": "What follows for practice?",
+          "statements": [],
+          "line": 118,
+          "openChecks": []
+        }
+      ],
+      "line": 108,
+      "status": {
+        "status": "empty",
+        "open": 0
+      }
+    },
+    {
+      "number": 9,
+      "title": "Boundary Conditions and Limitations",
+      "questions": [
+        {
+          "id": "9.1",
+          "text": "Where does the claim stop applying, and why?",
+          "statements": [],
+          "line": 124,
+          "openChecks": []
+        },
+        {
+          "id": "9.2",
+          "text": "Which limitations follow from design choices, and which from the setting?",
+          "statements": [],
+          "line": 128,
+          "openChecks": []
+        },
+        {
+          "id": "9.3",
+          "text": "What would refute the contribution?",
+          "statements": [],
+          "line": 132,
+          "openChecks": []
+        }
+      ],
+      "line": 122,
+      "status": {
+        "status": "empty",
+        "open": 0
+      }
+    }
+  ],
+  "violations": [],
+  "review": {
+    "statuses": {
+      "1": {
+        "status": "open",
+        "open": 3
+      },
+      "2": {
+        "status": "open",
+        "open": 1
+      },
+      "3": {
+        "status": "open",
+        "open": 1
+      },
+      "4": {
+        "status": "open",
+        "open": 1
+      },
+      "5": {
+        "status": "open",
+        "open": 1
+      },
+      "6": {
+        "status": "open",
+        "open": 1
+      },
+      "7": {
+        "status": "empty",
+        "open": 0
+      },
+      "8": {
+        "status": "empty",
+        "open": 0
+      },
+      "9": {
+        "status": "empty",
+        "open": 0
+      }
+    },
+    "empty": [
+      7,
+      8,
+      9
+    ],
+    "open": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "violations": [],
+    "unmarked": [],
+    "untagged": [],
+    "invisibleCommitments": [],
+    "conversationalStated": [],
+    "staleAcceptances": [],
+    "unloggedAcceptances": [],
+    "unverifiedDecisions": [
+      {
+        "seq": 3,
+        "ref": "framing chosen: power",
+        "hash": "f8c1dcc6",
+        "line": 11,
+        "state": "broken"
+      }
+    ],
+    "ledger": {
+      "status": "broken",
+      "reason": null,
+      "legacy": [],
+      "broken": {
+        "seq": 3,
+        "line": 11,
+        "why": "content"
+      },
+      "verified": [
+        1,
+        2
+      ]
+    },
+    "problems": [],
+    "findingsBeforeHypotheses": []
+  },
+  "decisions": [
+    {
+      "seq": 1,
+      "date": "2026-10-02",
+      "kind": "DISCOVERY",
+      "ref": "1.2 check",
+      "hash": null,
+      "seal": "19a4f4bfa9f91bc4",
+      "line": 3,
+      "offset": 31,
+      "body": "Does the twelve-meeting corpus hold enough proposals to tell uptake from acknowledgement?\n**By:** A. Researcher",
+      "by": "A. Researcher",
+      "why": null,
+      "explained": null,
+      "rejected": null,
+      "openAtAccept": [],
+      "supersedes": null,
+      "sealStatus": "verified"
+    },
+    {
+      "seq": 2,
+      "date": "2026-10-02",
+      "kind": "DISCOVERY",
+      "ref": "1.2 check",
+      "hash": null,
+      "seal": "7c0cf2f0ec6fca01",
+      "line": 7,
+      "offset": 211,
+      "body": "Which source says speaking frequency is \"well documented\" for meetings like these?\n**By:** A. Researcher",
+      "by": "A. Researcher",
+      "why": null,
+      "explained": null,
+      "rejected": null,
+      "openAtAccept": [],
+      "supersedes": null,
+      "sealStatus": "verified"
+    },
+    {
+      "seq": 3,
+      "date": "2026-10-02",
+      "kind": "DECISION",
+      "ref": "framing chosen: power",
+      "hash": "f8c1dcc6",
+      "seal": "31839ab092a5f014",
+      "line": 11,
+      "offset": 384,
+      "body": "Framing power (lens: power and hierarchy) chosen; its statements are copied into the main canvas.\n**By:** A. Researcher\n**Why:** Every one of the twelve meetings records rank, so the researcher prefers it.\n**Rejected:** rituals (lens: meeting routines and turn-taking); sense-making (lens: collective sense-making: \"who hears whom\")",
+      "by": "A. Researcher",
+      "why": "Every one of the twelve meetings records rank, so the researcher prefers it.",
+      "explained": null,
+      "rejected": "rituals (lens: meeting routines and turn-taking); sense-making (lens: collective sense-making: \"who hears whom\")",
+      "openAtAccept": [],
+      "supersedes": null,
+      "sealStatus": "broken"
+    }
+  ],
+  "profileError": null,
+  "keyError": null,
+  "agenda": {
+    "fields": [
+      {
+        "number": 1,
+        "question": "What puzzles us?",
+        "findings": [
+          {
+            "seq": 1,
+            "ref": "1.2 check",
+            "date": "2026-10-02",
+            "body": "Does the twelve-meeting corpus hold enough proposals to tell uptake from acknowledgement?\n**By:** A. Researcher",
+            "by": "A. Researcher",
+            "why": null
+          },
+          {
+            "seq": 2,
+            "ref": "1.2 check",
+            "date": "2026-10-02",
+            "body": "Which source says speaking frequency is \"well documented\" for meetings like these?\n**By:** A. Researcher",
+            "by": "A. Researcher",
+            "why": null
+          }
+        ]
+      }
+    ],
+    "gaps": [
+      {
+        "number": 2,
+        "question": "Who cares, and what do they already know?",
+        "questionId": "2.1",
+        "text": "Who are the ten to twenty scholars whose conversation this joins?"
+      },
+      {
+        "number": 2,
+        "question": "Who cares, and what do they already know?",
+        "questionId": "2.2",
+        "text": "What has that conversation been about lately, and on what assumptions does it rest?"
+      },
+      {
+        "number": 2,
+        "question": "Who cares, and what do they already know?",
+        "questionId": "2.3",
+        "text": "How has prior work handled this puzzle, and where is it inconsistent or silent?"
+      },
+      {
+        "number": 3,
+        "question": "What exactly do we ask?",
+        "questionId": "3.2",
+        "text": "What would a well-informed person answer intuitively, and why is that not enough?"
+      },
+      {
+        "number": 3,
+        "question": "What exactly do we ask?",
+        "questionId": "3.3",
+        "text": "How does answering it move the puzzle forward?"
+      },
+      {
+        "number": 4,
+        "question": "What is it made of?",
+        "questionId": "4.2",
+        "text": "How do they relate — and is that relationship given in advance or emerging from the material?"
+      },
+      {
+        "number": 4,
+        "question": "What is it made of?",
+        "questionId": "4.3",
+        "text": "What mechanism explains the relationship?"
+      },
+      {
+        "number": 5,
+        "question": "Where do we look?",
+        "questionId": "5.2",
+        "text": "Why is this setting the right one for the question — what does it make visible?"
+      },
+      {
+        "number": 5,
+        "question": "Where do we look?",
+        "questionId": "5.3",
+        "text": "What would a more suitable setting be, and why are you not there?"
+      },
+      {
+        "number": 6,
+        "question": "How do we look?",
+        "questionId": "6.2",
+        "text": "How is the data analysed, and how does the procedure earn trust?"
+      },
+      {
+        "number": 6,
+        "question": "How do we look?",
+        "questionId": "6.3",
+        "text": "Which choices in design or analysis would a sceptical reviewer challenge first?"
+      },
+      {
+        "number": 7,
+        "question": "What did we find?",
+        "questionId": "7.1",
+        "text": "What does the material show — separated from what you make of it?"
+      },
+      {
+        "number": 7,
+        "question": "What did we find?",
+        "questionId": "7.2",
+        "text": "Which instances run counter to the pattern, and what happens to them?"
+      },
+      {
+        "number": 8,
+        "question": "What does it change?",
+        "questionId": "8.1",
+        "text": "What does the field know now that it did not before?"
+      },
+      {
+        "number": 8,
+        "question": "What does it change?",
+        "questionId": "8.2",
+        "text": "Which assumption in prior work does this change, and how?"
+      },
+      {
+        "number": 8,
+        "question": "What does it change?",
+        "questionId": "8.3",
+        "text": "What follows for practice?"
+      },
+      {
+        "number": 9,
+        "question": "Where does it stop?",
+        "questionId": "9.1",
+        "text": "Where does the claim stop applying, and why?"
+      },
+      {
+        "number": 9,
+        "question": "Where does it stop?",
+        "questionId": "9.2",
+        "text": "Which limitations follow from design choices, and which from the setting?"
+      },
+      {
+        "number": 9,
+        "question": "Where does it stop?",
+        "questionId": "9.3",
+        "text": "What would refute the contribution?"
+      }
+    ]
+  },
+  "humanQuestions": {
+    "1": "What puzzles us?",
+    "2": "Who cares, and what do they already know?",
+    "3": "What exactly do we ask?",
+    "4": "What is it made of?",
+    "5": "Where do we look?",
+    "6": "How do we look?",
+    "7": "What did we find?",
+    "8": "What does it change?",
+    "9": "Where does it stop?"
+  },
+  "variants": [
+    {
+      "name": "power",
+      "lens": "power and hierarchy",
+      "state": {
+        "version": "0.4.3",
+        "project": "voice-uptake",
+        "frontmatter": {
+          "project": "voice-uptake",
+          "variant": "power",
+          "lens": "power and hierarchy",
+          "profile": "is-qualitative",
+          "created": "2026-10-02",
+          "mode": "seed",
+          "canvas-schema": "2"
+        },
+        "graph": {
+          "1": [],
+          "2": [
+            1,
+            3
+          ],
+          "3": [
+            1
+          ],
+          "4": [
+            2,
+            7
+          ],
+          "5": [
+            3,
+            9
+          ],
+          "6": [
+            5
+          ],
+          "7": [
+            6
+          ],
+          "8": [
+            2,
+            4,
+            7
+          ],
+          "9": [
+            1,
+            3
+          ]
+        },
+        "elements": [
+          {
+            "number": 1,
+            "title": "Puzzle",
+            "questions": [
+              {
+                "id": "1.1",
+                "text": "What is the broad question this project speaks to?",
+                "statements": [
+                  {
+                    "text": "When do members' suggestions in organizational meetings receive serious consideration rather than polite acknowledgement?",
+                    "marker": "proposed",
+                    "tags": [
+                      "unverified"
+                    ],
+                    "raw": "When do members' suggestions in organizational meetings receive serious consideration rather than polite acknowledgement? [proposed, unverified]",
+                    "line": 15,
+                    "hidden": null,
+                    "hash": "db929961"
+                  }
+                ],
+                "line": 13,
+                "openChecks": []
+              },
+              {
+                "id": "1.2",
+                "text": "What is it that you cannot yet explain, and what do you already know?",
+                "statements": [
+                  {
+                    "text": "Speaking frequency is well documented; whether a proposal is taken up is not.",
+                    "marker": "tentative",
+                    "tags": [
+                      "unverified"
+                    ],
+                    "raw": "Speaking frequency is well documented; whether a proposal is taken up is not. [tentative, unverified]",
+                    "line": 19,
+                    "hidden": null,
+                    "hash": "ed84af0f"
+                  }
+                ],
+                "line": 17,
+                "openChecks": []
+              },
+              {
+                "id": "1.3",
+                "text": "Why does this matter — for practice, for theory, or both?",
+                "statements": [
+                  {
+                    "text": "Teams lose good ideas without anyone deciding to drop them.",
+                    "marker": "proposed",
+                    "tags": [
+                      "unverified"
+                    ],
+                    "raw": "Teams lose good ideas without anyone deciding to drop them. [proposed, unverified]",
+                    "line": 23,
+                    "hidden": null,
+                    "hash": "502238f1"
+                  }
+                ],
+                "line": 21,
+                "openChecks": []
+              }
+            ],
+            "line": 11,
+            "status": {
+              "status": "open",
+              "open": 3
+            }
+          },
+          {
+            "number": 2,
+            "title": "Audience and Prior Research",
+            "questions": [
+              {
+                "id": "2.1",
+                "text": "Who are the ten to twenty scholars whose conversation this joins?",
+                "statements": [],
+                "line": 27,
+                "openChecks": []
+              },
+              {
+                "id": "2.2",
+                "text": "What has that conversation been about lately, and on what assumptions does it rest?",
+                "statements": [],
+                "line": 31,
+                "openChecks": []
+              },
+              {
+                "id": "2.3",
+                "text": "How has prior work handled this puzzle, and where is it inconsistent or silent?",
+                "statements": [],
+                "line": 35,
+                "openChecks": []
+              },
+              {
+                "id": "2.4",
+                "text": "Which assumption of that work do you challenge, and on what grounds?",
+                "statements": [
+                  {
+                    "text": "Work on voice treats speaking as influence and overlooks who is permitted to be heard.",
+                    "marker": "proposed",
+                    "tags": [
+                      "unverified"
+                    ],
+                    "raw": "Work on voice treats speaking as influence and overlooks who is permitted to be heard. [proposed, unverified]",
+                    "line": 41,
+                    "hidden": null,
+                    "hash": "c56d7322"
+                  }
+                ],
+                "line": 39,
+                "openChecks": []
+              }
+            ],
+            "line": 25,
+            "status": {
+              "status": "open",
+              "open": 1
+            }
+          },
+          {
+            "number": 3,
+            "title": "Research Question",
+            "questions": [
+              {
+                "id": "3.1",
+                "text": "In one sentence: what does this study answer?",
+                "statements": [
+                  {
+                    "text": "How does a speaker's rank shape whether a proposal is taken up?",
+                    "marker": "proposed",
+                    "tags": [
+                      "unverified"
+                    ],
+                    "raw": "How does a speaker's rank shape whether a proposal is taken up? [proposed, unverified]",
+                    "line": 47,
+                    "hidden": null,
+                    "hash": "f3324cba"
+                  }
+                ],
+                "line": 45,
+                "openChecks": []
+              },
+              {
+                "id": "3.2",
+                "text": "What would a well-informed person answer intuitively, and why is that not enough?",
+                "statements": [],
+                "line": 49,
+                "openChecks": []
+              },
+              {
+                "id": "3.3",
+                "text": "How does answering it move the puzzle forward?",
+                "statements": [],
+                "line": 53,
+                "openChecks": []
+              }
+            ],
+            "line": 43,
+            "status": {
+              "status": "open",
+              "open": 1
+            }
+          },
+          {
+            "number": 4,
+            "title": "Theoretical Constructs and Relationships",
+            "questions": [
+              {
+                "id": "4.1",
+                "text": "What are the core concepts, and where does each definition come from?",
+                "statements": [
+                  {
+                    "text": "Rank, deference and uptake.",
+                    "marker": "tentative",
+                    "tags": [
+                      "unverified"
+                    ],
+                    "raw": "Rank, deference and uptake. [tentative, unverified]",
+                    "line": 61,
+                    "hidden": null,
+                    "hash": "9564805f"
+                  }
+                ],
+                "line": 59,
+                "openChecks": []
+              },
+              {
+                "id": "4.2",
+                "text": "How do they relate — and is that relationship given in advance or emerging from the material?",
+                "statements": [],
+                "line": 63,
+                "openChecks": []
+              },
+              {
+                "id": "4.3",
+                "text": "What mechanism explains the relationship?",
+                "statements": [],
+                "line": 67,
+                "openChecks": []
+              }
+            ],
+            "line": 57,
+            "status": {
+              "status": "open",
+              "open": 1
+            }
+          },
+          {
+            "number": 5,
+            "title": "Research Setting",
+            "questions": [
+              {
+                "id": "5.1",
+                "text": "Where is the study conducted, and how did you gain access?",
+                "statements": [
+                  {
+                    "text": "Twelve recorded meetings of one product team over a quarter.",
+                    "marker": "tentative",
+                    "tags": [
+                      "unverified"
+                    ],
+                    "raw": "Twelve recorded meetings of one product team over a quarter. [tentative, unverified]",
+                    "line": 75,
+                    "hidden": null,
+                    "hash": "67e7da87"
+                  }
+                ],
+                "line": 73,
+                "openChecks": []
+              },
+              {
+                "id": "5.2",
+                "text": "Why is this setting the right one for the question — what does it make visible?",
+                "statements": [],
+                "line": 77,
+                "openChecks": []
+              },
+              {
+                "id": "5.3",
+                "text": "What would a more suitable setting be, and why are you not there?",
+                "statements": [],
+                "line": 81,
+                "openChecks": []
+              }
+            ],
+            "line": 71,
+            "status": {
+              "status": "open",
+              "open": 1
+            }
+          },
+          {
+            "number": 6,
+            "title": "Research Design and Analysis",
+            "questions": [
+              {
+                "id": "6.1",
+                "text": "What data, from where, collected how?",
+                "statements": [
+                  {
+                    "text": "Code every proposal for its proposer's rank and for whether the next speaker built on it.",
+                    "marker": "proposed",
+                    "tags": [
+                      "unverified"
+                    ],
+                    "raw": "Code every proposal for its proposer's rank and for whether the next speaker built on it. [proposed, unverified]",
+                    "line": 89,
+                    "hidden": null,
+                    "hash": "945d4d5d"
+                  }
+                ],
+                "line": 87,
+                "openChecks": []
+              },
+              {
+                "id": "6.2",
+                "text": "How is the data analysed, and how does the procedure earn trust?",
+                "statements": [],
+                "line": 91,
+                "openChecks": []
+              },
+              {
+                "id": "6.3",
+                "text": "Which choices in design or analysis would a sceptical reviewer challenge first?",
+                "statements": [],
+                "line": 95,
+                "openChecks": []
+              }
+            ],
+            "line": 85,
+            "status": {
+              "status": "open",
+              "open": 1
+            }
+          },
+          {
+            "number": 7,
+            "title": "Findings",
+            "questions": [
+              {
+                "id": "7.1",
+                "text": "What does the material show — separated from what you make of it?",
+                "statements": [],
+                "line": 101,
+                "openChecks": []
+              },
+              {
+                "id": "7.2",
+                "text": "Which instances run counter to the pattern, and what happens to them?",
+                "statements": [],
+                "line": 105,
+                "openChecks": []
+              }
+            ],
+            "line": 99,
+            "status": {
+              "status": "empty",
+              "open": 0
+            }
+          },
+          {
+            "number": 8,
+            "title": "Contributions",
+            "questions": [
+              {
+                "id": "8.1",
+                "text": "What does the field know now that it did not before?",
+                "statements": [],
+                "line": 111,
+                "openChecks": []
+              },
+              {
+                "id": "8.2",
+                "text": "Which assumption in prior work does this change, and how?",
+                "statements": [],
+                "line": 115,
+                "openChecks": []
+              },
+              {
+                "id": "8.3",
+                "text": "What follows for practice?",
+                "statements": [],
+                "line": 119,
+                "openChecks": []
+              }
+            ],
+            "line": 109,
+            "status": {
+              "status": "empty",
+              "open": 0
+            }
+          },
+          {
+            "number": 9,
+            "title": "Boundary Conditions and Limitations",
+            "questions": [
+              {
+                "id": "9.1",
+                "text": "Where does the claim stop applying, and why?",
+                "statements": [],
+                "line": 125,
+                "openChecks": []
+              },
+              {
+                "id": "9.2",
+                "text": "Which limitations follow from design choices, and which from the setting?",
+                "statements": [],
+                "line": 129,
+                "openChecks": []
+              },
+              {
+                "id": "9.3",
+                "text": "What would refute the contribution?",
+                "statements": [],
+                "line": 133,
+                "openChecks": []
+              }
+            ],
+            "line": 123,
+            "status": {
+              "status": "empty",
+              "open": 0
+            }
+          }
+        ],
+        "violations": [],
+        "review": {
+          "statuses": {
+            "1": {
+              "status": "open",
+              "open": 3
+            },
+            "2": {
+              "status": "open",
+              "open": 1
+            },
+            "3": {
+              "status": "open",
+              "open": 1
+            },
+            "4": {
+              "status": "open",
+              "open": 1
+            },
+            "5": {
+              "status": "open",
+              "open": 1
+            },
+            "6": {
+              "status": "open",
+              "open": 1
+            },
+            "7": {
+              "status": "empty",
+              "open": 0
+            },
+            "8": {
+              "status": "empty",
+              "open": 0
+            },
+            "9": {
+              "status": "empty",
+              "open": 0
+            }
+          },
+          "empty": [
+            7,
+            8,
+            9
+          ],
+          "open": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "violations": [],
+          "unmarked": [],
+          "untagged": [],
+          "invisibleCommitments": [],
+          "conversationalStated": [],
+          "staleAcceptances": [],
+          "unloggedAcceptances": [],
+          "unverifiedDecisions": [],
+          "ledger": {
+            "status": "verified",
+            "reason": null,
+            "legacy": [],
+            "broken": null,
+            "verified": []
+          },
+          "problems": [],
+          "findingsBeforeHypotheses": []
+        },
+        "decisions": [],
+        "profileError": null,
+        "keyError": null,
+        "agenda": {
+          "fields": [],
+          "gaps": [
+            {
+              "number": 2,
+              "question": "Who cares, and what do they already know?",
+              "questionId": "2.1",
+              "text": "Who are the ten to twenty scholars whose conversation this joins?"
+            },
+            {
+              "number": 2,
+              "question": "Who cares, and what do they already know?",
+              "questionId": "2.2",
+              "text": "What has that conversation been about lately, and on what assumptions does it rest?"
+            },
+            {
+              "number": 2,
+              "question": "Who cares, and what do they already know?",
+              "questionId": "2.3",
+              "text": "How has prior work handled this puzzle, and where is it inconsistent or silent?"
+            },
+            {
+              "number": 3,
+              "question": "What exactly do we ask?",
+              "questionId": "3.2",
+              "text": "What would a well-informed person answer intuitively, and why is that not enough?"
+            },
+            {
+              "number": 3,
+              "question": "What exactly do we ask?",
+              "questionId": "3.3",
+              "text": "How does answering it move the puzzle forward?"
+            },
+            {
+              "number": 4,
+              "question": "What is it made of?",
+              "questionId": "4.2",
+              "text": "How do they relate — and is that relationship given in advance or emerging from the material?"
+            },
+            {
+              "number": 4,
+              "question": "What is it made of?",
+              "questionId": "4.3",
+              "text": "What mechanism explains the relationship?"
+            },
+            {
+              "number": 5,
+              "question": "Where do we look?",
+              "questionId": "5.2",
+              "text": "Why is this setting the right one for the question — what does it make visible?"
+            },
+            {
+              "number": 5,
+              "question": "Where do we look?",
+              "questionId": "5.3",
+              "text": "What would a more suitable setting be, and why are you not there?"
+            },
+            {
+              "number": 6,
+              "question": "How do we look?",
+              "questionId": "6.2",
+              "text": "How is the data analysed, and how does the procedure earn trust?"
+            },
+            {
+              "number": 6,
+              "question": "How do we look?",
+              "questionId": "6.3",
+              "text": "Which choices in design or analysis would a sceptical reviewer challenge first?"
+            },
+            {
+              "number": 7,
+              "question": "What did we find?",
+              "questionId": "7.1",
+              "text": "What does the material show — separated from what you make of it?"
+            },
+            {
+              "number": 7,
+              "question": "What did we find?",
+              "questionId": "7.2",
+              "text": "Which instances run counter to the pattern, and what happens to them?"
+            },
+            {
+              "number": 8,
+              "question": "What does it change?",
+              "questionId": "8.1",
+              "text": "What does the field know now that it did not before?"
+            },
+            {
+              "number": 8,
+              "question": "What does it change?",
+              "questionId": "8.2",
+              "text": "Which assumption in prior work does this change, and how?"
+            },
+            {
+              "number": 8,
+              "question": "What does it change?",
+              "questionId": "8.3",
+              "text": "What follows for practice?"
+            },
+            {
+              "number": 9,
+              "question": "Where does it stop?",
+              "questionId": "9.1",
+              "text": "Where does the claim stop applying, and why?"
+            },
+            {
+              "number": 9,
+              "question": "Where does it stop?",
+              "questionId": "9.2",
+              "text": "Which limitations follow from design choices, and which from the setting?"
+            },
+            {
+              "number": 9,
+              "question": "Where does it stop?",
+              "questionId": "9.3",
+              "text": "What would refute the contribution?"
+            }
+          ]
+        },
+        "humanQuestions": {
+          "1": "What puzzles us?",
+          "2": "Who cares, and what do they already know?",
+          "3": "What exactly do we ask?",
+          "4": "What is it made of?",
+          "5": "Where do we look?",
+          "6": "How do we look?",
+          "7": "What did we find?",
+          "8": "What does it change?",
+          "9": "Where does it stop?"
+        }
+      }
+    },
+    {
+      "name": "rituals",
+      "lens": "meeting routines and turn-taking",
+      "state": {
+        "version": "0.4.3",
+        "project": "voice-uptake",
+        "frontmatter": {
+          "project": "voice-uptake",
+          "variant": "rituals",
+          "lens": "meeting routines and turn-taking",
+          "profile": "is-qualitative",
+          "created": "2026-10-02",
+          "mode": "seed",
+          "canvas-schema": "2"
+        },
+        "graph": {
+          "1": [],
+          "2": [
+            1,
+            3
+          ],
+          "3": [
+            1
+          ],
+          "4": [
+            2,
+            7
+          ],
+          "5": [
+            3,
+            9
+          ],
+          "6": [
+            5
+          ],
+          "7": [
+            6
+          ],
+          "8": [
+            2,
+            4,
+            7
+          ],
+          "9": [
+            1,
+            3
+          ]
+        },
+        "elements": [
+          {
+            "number": 1,
+            "title": "Puzzle",
+            "questions": [
+              {
+                "id": "1.1",
+                "text": "What is the broad question this project speaks to?",
+                "statements": [
+                  {
+                    "text": "When do members' suggestions in organizational meetings receive serious consideration rather than polite acknowledgement?",
+                    "marker": "proposed",
+                    "tags": [
+                      "unverified"
+                    ],
+                    "raw": "When do members' suggestions in organizational meetings receive serious consideration rather than polite acknowledgement? [proposed, unverified]",
+                    "line": 15,
+                    "hidden": null,
+                    "hash": "db929961"
+                  }
+                ],
+                "line": 13,
+                "openChecks": []
+              },
+              {
+                "id": "1.2",
+                "text": "What is it that you cannot yet explain, and what do you already know?",
+                "statements": [
+                  {
+                    "text": "Speaking frequency is well documented; whether a proposal is taken up is not.",
+                    "marker": "tentative",
+                    "tags": [
+                      "unverified"
+                    ],
+                    "raw": "Speaking frequency is well documented; whether a proposal is taken up is not. [tentative, unverified]",
+                    "line": 19,
+                    "hidden": null,
+                    "hash": "ed84af0f"
+                  }
+                ],
+                "line": 17,
+                "openChecks": []
+              },
+              {
+                "id": "1.3",
+                "text": "Why does this matter — for practice, for theory, or both?",
+                "statements": [
+                  {
+                    "text": "Teams lose good ideas without anyone deciding to drop them.",
+                    "marker": "proposed",
+                    "tags": [
+                      "unverified"
+                    ],
+                    "raw": "Teams lose good ideas without anyone deciding to drop them. [proposed, unverified]",
+                    "line": 23,
+                    "hidden": null,
+                    "hash": "502238f1"
+                  }
+                ],
+                "line": 21,
+                "openChecks": []
+              }
+            ],
+            "line": 11,
+            "status": {
+              "status": "open",
+              "open": 3
+            }
+          },
+          {
+            "number": 2,
+            "title": "Audience and Prior Research",
+            "questions": [
+              {
+                "id": "2.1",
+                "text": "Who are the ten to twenty scholars whose conversation this joins?",
+                "statements": [],
+                "line": 27,
+                "openChecks": []
+              },
+              {
+                "id": "2.2",
+                "text": "What has that conversation been about lately, and on what assumptions does it rest?",
+                "statements": [],
+                "line": 31,
+                "openChecks": []
+              },
+              {
+                "id": "2.3",
+                "text": "How has prior work handled this puzzle, and where is it inconsistent or silent?",
+                "statements": [],
+                "line": 35,
+                "openChecks": []
+              },
+              {
+                "id": "2.4",
+                "text": "Which assumption of that work do you challenge, and on what grounds?",
+                "statements": [
+                  {
+                    "text": "Work on voice treats the meeting as a neutral container; its routines may decide who can propose at all.",
+                    "marker": "proposed",
+                    "tags": [
+                      "unverified"
+                    ],
+                    "raw": "Work on voice treats the meeting as a neutral container; its routines may decide who can propose at all. [proposed, unverified]",
+                    "line": 41,
+                    "hidden": null,
+                    "hash": "2882e25b"
+                  }
+                ],
+                "line": 39,
+                "openChecks": []
+              }
+            ],
+            "line": 25,
+            "status": {
+              "status": "open",
+              "open": 1
+            }
+          },
+          {
+            "number": 3,
+            "title": "Research Question",
+            "questions": [
+              {
+                "id": "3.1",
+                "text": "In one sentence: what does this study answer?",
+                "statements": [
+                  {
+                    "text": "Which meeting routines make a proposal available for uptake?",
+                    "marker": "proposed",
+                    "tags": [
+                      "unverified"
+                    ],
+                    "raw": "Which meeting routines make a proposal available for uptake? [proposed, unverified]",
+                    "line": 47,
+                    "hidden": null,
+                    "hash": "5a1db780"
+                  }
+                ],
+                "line": 45,
+                "openChecks": []
+              },
+              {
+                "id": "3.2",
+                "text": "What would a well-informed person answer intuitively, and why is that not enough?",
+                "statements": [],
+                "line": 49,
+                "openChecks": []
+              },
+              {
+                "id": "3.3",
+                "text": "How does answering it move the puzzle forward?",
+                "statements": [],
+                "line": 53,
+                "openChecks": []
+              }
+            ],
+            "line": 43,
+            "status": {
+              "status": "open",
+              "open": 1
+            }
+          },
+          {
+            "number": 4,
+            "title": "Theoretical Constructs and Relationships",
+            "questions": [
+              {
+                "id": "4.1",
+                "text": "What are the core concepts, and where does each definition come from?",
+                "statements": [
+                  {
+                    "text": "Routine, opening, uptake.",
+                    "marker": "tentative",
+                    "tags": [
+                      "unverified"
+                    ],
+                    "raw": "Routine, opening, uptake. [tentative, unverified]",
+                    "line": 61,
+                    "hidden": null,
+                    "hash": "79a44e66"
+                  }
+                ],
+                "line": 59,
+                "openChecks": []
+              },
+              {
+                "id": "4.2",
+                "text": "How do they relate — and is that relationship given in advance or emerging from the material?",
+                "statements": [],
+                "line": 63,
+                "openChecks": []
+              },
+              {
+                "id": "4.3",
+                "text": "What mechanism explains the relationship?",
+                "statements": [],
+                "line": 67,
+                "openChecks": []
+              }
+            ],
+            "line": 57,
+            "status": {
+              "status": "open",
+              "open": 1
+            }
+          },
+          {
+            "number": 5,
+            "title": "Research Setting",
+            "questions": [
+              {
+                "id": "5.1",
+                "text": "Where is the study conducted, and how did you gain access?",
+                "statements": [
+                  {
+                    "text": "Twelve recorded meetings of one product team over a quarter.",
+                    "marker": "tentative",
+                    "tags": [
+                      "unverified"
+                    ],
+                    "raw": "Twelve recorded meetings of one product team over a quarter. [tentative, unverified]",
+                    "line": 75,
+                    "hidden": null,
+                    "hash": "67e7da87"
+                  }
+                ],
+                "line": 73,
+                "openChecks": []
+              },
+              {
+                "id": "5.2",
+                "text": "Why is this setting the right one for the question — what does it make visible?",
+                "statements": [],
+                "line": 77,
+                "openChecks": []
+              },
+              {
+                "id": "5.3",
+                "text": "What would a more suitable setting be, and why are you not there?",
+                "statements": [],
+                "line": 81,
+                "openChecks": []
+              }
+            ],
+            "line": 71,
+            "status": {
+              "status": "open",
+              "open": 1
+            }
+          },
+          {
+            "number": 6,
+            "title": "Research Design and Analysis",
+            "questions": [
+              {
+                "id": "6.1",
+                "text": "What data, from where, collected how?",
+                "statements": [
+                  {
+                    "text": "Code each meeting for its agenda routine and for the points where a proposal can enter.",
+                    "marker": "proposed",
+                    "tags": [
+                      "unverified"
+                    ],
+                    "raw": "Code each meeting for its agenda routine and for the points where a proposal can enter. [proposed, unverified]",
+                    "line": 89,
+                    "hidden": null,
+                    "hash": "8a1b596f"
+                  }
+                ],
+                "line": 87,
+                "openChecks": []
+              },
+              {
+                "id": "6.2",
+                "text": "How is the data analysed, and how does the procedure earn trust?",
+                "statements": [],
+                "line": 91,
+                "openChecks": []
+              },
+              {
+                "id": "6.3",
+                "text": "Which choices in design or analysis would a sceptical reviewer challenge first?",
+                "statements": [],
+                "line": 95,
+                "openChecks": []
+              }
+            ],
+            "line": 85,
+            "status": {
+              "status": "open",
+              "open": 1
+            }
+          },
+          {
+            "number": 7,
+            "title": "Findings",
+            "questions": [
+              {
+                "id": "7.1",
+                "text": "What does the material show — separated from what you make of it?",
+                "statements": [],
+                "line": 101,
+                "openChecks": []
+              },
+              {
+                "id": "7.2",
+                "text": "Which instances run counter to the pattern, and what happens to them?",
+                "statements": [],
+                "line": 105,
+                "openChecks": []
+              }
+            ],
+            "line": 99,
+            "status": {
+              "status": "empty",
+              "open": 0
+            }
+          },
+          {
+            "number": 8,
+            "title": "Contributions",
+            "questions": [
+              {
+                "id": "8.1",
+                "text": "What does the field know now that it did not before?",
+                "statements": [],
+                "line": 111,
+                "openChecks": []
+              },
+              {
+                "id": "8.2",
+                "text": "Which assumption in prior work does this change, and how?",
+                "statements": [],
+                "line": 115,
+                "openChecks": []
+              },
+              {
+                "id": "8.3",
+                "text": "What follows for practice?",
+                "statements": [],
+                "line": 119,
+                "openChecks": []
+              }
+            ],
+            "line": 109,
+            "status": {
+              "status": "empty",
+              "open": 0
+            }
+          },
+          {
+            "number": 9,
+            "title": "Boundary Conditions and Limitations",
+            "questions": [
+              {
+                "id": "9.1",
+                "text": "Where does the claim stop applying, and why?",
+                "statements": [],
+                "line": 125,
+                "openChecks": []
+              },
+              {
+                "id": "9.2",
+                "text": "Which limitations follow from design choices, and which from the setting?",
+                "statements": [],
+                "line": 129,
+                "openChecks": []
+              },
+              {
+                "id": "9.3",
+                "text": "What would refute the contribution?",
+                "statements": [],
+                "line": 133,
+                "openChecks": []
+              }
+            ],
+            "line": 123,
+            "status": {
+              "status": "empty",
+              "open": 0
+            }
+          }
+        ],
+        "violations": [],
+        "review": {
+          "statuses": {
+            "1": {
+              "status": "open",
+              "open": 3
+            },
+            "2": {
+              "status": "open",
+              "open": 1
+            },
+            "3": {
+              "status": "open",
+              "open": 1
+            },
+            "4": {
+              "status": "open",
+              "open": 1
+            },
+            "5": {
+              "status": "open",
+              "open": 1
+            },
+            "6": {
+              "status": "open",
+              "open": 1
+            },
+            "7": {
+              "status": "empty",
+              "open": 0
+            },
+            "8": {
+              "status": "empty",
+              "open": 0
+            },
+            "9": {
+              "status": "empty",
+              "open": 0
+            }
+          },
+          "empty": [
+            7,
+            8,
+            9
+          ],
+          "open": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "violations": [],
+          "unmarked": [],
+          "untagged": [],
+          "invisibleCommitments": [],
+          "conversationalStated": [],
+          "staleAcceptances": [],
+          "unloggedAcceptances": [],
+          "unverifiedDecisions": [],
+          "ledger": {
+            "status": "verified",
+            "reason": null,
+            "legacy": [],
+            "broken": null,
+            "verified": []
+          },
+          "problems": [],
+          "findingsBeforeHypotheses": []
+        },
+        "decisions": [],
+        "profileError": null,
+        "keyError": null,
+        "agenda": {
+          "fields": [],
+          "gaps": [
+            {
+              "number": 2,
+              "question": "Who cares, and what do they already know?",
+              "questionId": "2.1",
+              "text": "Who are the ten to twenty scholars whose conversation this joins?"
+            },
+            {
+              "number": 2,
+              "question": "Who cares, and what do they already know?",
+              "questionId": "2.2",
+              "text": "What has that conversation been about lately, and on what assumptions does it rest?"
+            },
+            {
+              "number": 2,
+              "question": "Who cares, and what do they already know?",
+              "questionId": "2.3",
+              "text": "How has prior work handled this puzzle, and where is it inconsistent or silent?"
+            },
+            {
+              "number": 3,
+              "question": "What exactly do we ask?",
+              "questionId": "3.2",
+              "text": "What would a well-informed person answer intuitively, and why is that not enough?"
+            },
+            {
+              "number": 3,
+              "question": "What exactly do we ask?",
+              "questionId": "3.3",
+              "text": "How does answering it move the puzzle forward?"
+            },
+            {
+              "number": 4,
+              "question": "What is it made of?",
+              "questionId": "4.2",
+              "text": "How do they relate — and is that relationship given in advance or emerging from the material?"
+            },
+            {
+              "number": 4,
+              "question": "What is it made of?",
+              "questionId": "4.3",
+              "text": "What mechanism explains the relationship?"
+            },
+            {
+              "number": 5,
+              "question": "Where do we look?",
+              "questionId": "5.2",
+              "text": "Why is this setting the right one for the question — what does it make visible?"
+            },
+            {
+              "number": 5,
+              "question": "Where do we look?",
+              "questionId": "5.3",
+              "text": "What would a more suitable setting be, and why are you not there?"
+            },
+            {
+              "number": 6,
+              "question": "How do we look?",
+              "questionId": "6.2",
+              "text": "How is the data analysed, and how does the procedure earn trust?"
+            },
+            {
+              "number": 6,
+              "question": "How do we look?",
+              "questionId": "6.3",
+              "text": "Which choices in design or analysis would a sceptical reviewer challenge first?"
+            },
+            {
+              "number": 7,
+              "question": "What did we find?",
+              "questionId": "7.1",
+              "text": "What does the material show — separated from what you make of it?"
+            },
+            {
+              "number": 7,
+              "question": "What did we find?",
+              "questionId": "7.2",
+              "text": "Which instances run counter to the pattern, and what happens to them?"
+            },
+            {
+              "number": 8,
+              "question": "What does it change?",
+              "questionId": "8.1",
+              "text": "What does the field know now that it did not before?"
+            },
+            {
+              "number": 8,
+              "question": "What does it change?",
+              "questionId": "8.2",
+              "text": "Which assumption in prior work does this change, and how?"
+            },
+            {
+              "number": 8,
+              "question": "What does it change?",
+              "questionId": "8.3",
+              "text": "What follows for practice?"
+            },
+            {
+              "number": 9,
+              "question": "Where does it stop?",
+              "questionId": "9.1",
+              "text": "Where does the claim stop applying, and why?"
+            },
+            {
+              "number": 9,
+              "question": "Where does it stop?",
+              "questionId": "9.2",
+              "text": "Which limitations follow from design choices, and which from the setting?"
+            },
+            {
+              "number": 9,
+              "question": "Where does it stop?",
+              "questionId": "9.3",
+              "text": "What would refute the contribution?"
+            }
+          ]
+        },
+        "humanQuestions": {
+          "1": "What puzzles us?",
+          "2": "Who cares, and what do they already know?",
+          "3": "What exactly do we ask?",
+          "4": "What is it made of?",
+          "5": "Where do we look?",
+          "6": "How do we look?",
+          "7": "What did we find?",
+          "8": "What does it change?",
+          "9": "Where does it stop?"
+        }
+      }
+    },
+    {
+      "name": "sense-making",
+      "lens": "collective sense-making: \"who hears whom\"",
+      "state": {
+        "version": "0.4.3",
+        "project": "voice-uptake",
+        "frontmatter": {
+          "project": "voice-uptake",
+          "variant": "sense-making",
+          "lens": "collective sense-making: \"who hears whom\"",
+          "profile": "is-qualitative",
+          "created": "2026-10-02",
+          "mode": "seed",
+          "canvas-schema": "2"
+        },
+        "graph": {
+          "1": [],
+          "2": [
+            1,
+            3
+          ],
+          "3": [
+            1
+          ],
+          "4": [
+            2,
+            7
+          ],
+          "5": [
+            3,
+            9
+          ],
+          "6": [
+            5
+          ],
+          "7": [
+            6
+          ],
+          "8": [
+            2,
+            4,
+            7
+          ],
+          "9": [
+            1,
+            3
+          ]
+        },
+        "elements": [
+          {
+            "number": 1,
+            "title": "Puzzle",
+            "questions": [
+              {
+                "id": "1.1",
+                "text": "What is the broad question this project speaks to?",
+                "statements": [
+                  {
+                    "text": "When do members' suggestions in organizational meetings receive serious consideration rather than polite acknowledgement?",
+                    "marker": "proposed",
+                    "tags": [
+                      "unverified"
+                    ],
+                    "raw": "When do members' suggestions in organizational meetings receive serious consideration rather than polite acknowledgement? [proposed, unverified]",
+                    "line": 15,
+                    "hidden": null,
+                    "hash": "db929961"
+                  }
+                ],
+                "line": 13,
+                "openChecks": []
+              },
+              {
+                "id": "1.2",
+                "text": "What is it that you cannot yet explain, and what do you already know?",
+                "statements": [
+                  {
+                    "text": "Speaking frequency is well documented; whether a proposal is taken up is not.",
+                    "marker": "tentative",
+                    "tags": [
+                      "unverified"
+                    ],
+                    "raw": "Speaking frequency is well documented; whether a proposal is taken up is not. [tentative, unverified]",
+                    "line": 19,
+                    "hidden": null,
+                    "hash": "ed84af0f"
+                  }
+                ],
+                "line": 17,
+                "openChecks": []
+              },
+              {
+                "id": "1.3",
+                "text": "Why does this matter — for practice, for theory, or both?",
+                "statements": [
+                  {
+                    "text": "Teams lose good ideas without anyone deciding to drop them.",
+                    "marker": "proposed",
+                    "tags": [
+                      "unverified"
+                    ],
+                    "raw": "Teams lose good ideas without anyone deciding to drop them. [proposed, unverified]",
+                    "line": 23,
+                    "hidden": null,
+                    "hash": "502238f1"
+                  }
+                ],
+                "line": 21,
+                "openChecks": []
+              }
+            ],
+            "line": 11,
+            "status": {
+              "status": "open",
+              "open": 3
+            }
+          },
+          {
+            "number": 2,
+            "title": "Audience and Prior Research",
+            "questions": [
+              {
+                "id": "2.1",
+                "text": "Who are the ten to twenty scholars whose conversation this joins?",
+                "statements": [],
+                "line": 27,
+                "openChecks": []
+              },
+              {
+                "id": "2.2",
+                "text": "What has that conversation been about lately, and on what assumptions does it rest?",
+                "statements": [],
+                "line": 31,
+                "openChecks": []
+              },
+              {
+                "id": "2.3",
+                "text": "How has prior work handled this puzzle, and where is it inconsistent or silent?",
+                "statements": [],
+                "line": 35,
+                "openChecks": []
+              },
+              {
+                "id": "2.4",
+                "text": "Which assumption of that work do you challenge, and on what grounds?",
+                "statements": [
+                  {
+                    "text": "Work on voice assumes a proposal carries its own force; uptake may depend on the frame the room already shares.",
+                    "marker": "proposed",
+                    "tags": [
+                      "unverified"
+                    ],
+                    "raw": "Work on voice assumes a proposal carries its own force; uptake may depend on the frame the room already shares. [proposed, unverified]",
+                    "line": 41,
+                    "hidden": null,
+                    "hash": "88dd9102"
+                  }
+                ],
+                "line": 39,
+                "openChecks": []
+              }
+            ],
+            "line": 25,
+            "status": {
+              "status": "open",
+              "open": 1
+            }
+          },
+          {
+            "number": 3,
+            "title": "Research Question",
+            "questions": [
+              {
+                "id": "3.1",
+                "text": "In one sentence: what does this study answer?",
+                "statements": [
+                  {
+                    "text": "How does a proposal's fit with the room's shared frame shape whether it is taken up?",
+                    "marker": "proposed",
+                    "tags": [
+                      "unverified"
+                    ],
+                    "raw": "How does a proposal's fit with the room's shared frame shape whether it is taken up? [proposed, unverified]",
+                    "line": 47,
+                    "hidden": null,
+                    "hash": "e68db889"
+                  }
+                ],
+                "line": 45,
+                "openChecks": []
+              },
+              {
+                "id": "3.2",
+                "text": "What would a well-informed person answer intuitively, and why is that not enough?",
+                "statements": [],
+                "line": 49,
+                "openChecks": []
+              },
+              {
+                "id": "3.3",
+                "text": "How does answering it move the puzzle forward?",
+                "statements": [],
+                "line": 53,
+                "openChecks": []
+              }
+            ],
+            "line": 43,
+            "status": {
+              "status": "open",
+              "open": 1
+            }
+          },
+          {
+            "number": 4,
+            "title": "Theoretical Constructs and Relationships",
+            "questions": [
+              {
+                "id": "4.1",
+                "text": "What are the core concepts, and where does each definition come from?",
+                "statements": [
+                  {
+                    "text": "Shared frame, fit, uptake.",
+                    "marker": "tentative",
+                    "tags": [
+                      "unverified"
+                    ],
+                    "raw": "Shared frame, fit, uptake. [tentative, unverified]",
+                    "line": 61,
+                    "hidden": null,
+                    "hash": "ffd52abc"
+                  }
+                ],
+                "line": 59,
+                "openChecks": []
+              },
+              {
+                "id": "4.2",
+                "text": "How do they relate — and is that relationship given in advance or emerging from the material?",
+                "statements": [],
+                "line": 63,
+                "openChecks": []
+              },
+              {
+                "id": "4.3",
+                "text": "What mechanism explains the relationship?",
+                "statements": [],
+                "line": 67,
+                "openChecks": []
+              }
+            ],
+            "line": 57,
+            "status": {
+              "status": "open",
+              "open": 1
+            }
+          },
+          {
+            "number": 5,
+            "title": "Research Setting",
+            "questions": [
+              {
+                "id": "5.1",
+                "text": "Where is the study conducted, and how did you gain access?",
+                "statements": [
+                  {
+                    "text": "Twelve recorded meetings of one product team over a quarter.",
+                    "marker": "tentative",
+                    "tags": [
+                      "unverified"
+                    ],
+                    "raw": "Twelve recorded meetings of one product team over a quarter. [tentative, unverified]",
+                    "line": 75,
+                    "hidden": null,
+                    "hash": "67e7da87"
+                  }
+                ],
+                "line": 73,
+                "openChecks": []
+              },
+              {
+                "id": "5.2",
+                "text": "Why is this setting the right one for the question — what does it make visible?",
+                "statements": [],
+                "line": 77,
+                "openChecks": []
+              },
+              {
+                "id": "5.3",
+                "text": "What would a more suitable setting be, and why are you not there?",
+                "statements": [],
+                "line": 81,
+                "openChecks": []
+              }
+            ],
+            "line": 71,
+            "status": {
+              "status": "open",
+              "open": 1
+            }
+          },
+          {
+            "number": 6,
+            "title": "Research Design and Analysis",
+            "questions": [
+              {
+                "id": "6.1",
+                "text": "What data, from where, collected how?",
+                "statements": [
+                  {
+                    "text": "Code each proposal for the frame it invokes and whether the next turn extends it.",
+                    "marker": "proposed",
+                    "tags": [
+                      "unverified"
+                    ],
+                    "raw": "Code each proposal for the frame it invokes and whether the next turn extends it. [proposed, unverified]",
+                    "line": 89,
+                    "hidden": null,
+                    "hash": "c6ade101"
+                  }
+                ],
+                "line": 87,
+                "openChecks": []
+              },
+              {
+                "id": "6.2",
+                "text": "How is the data analysed, and how does the procedure earn trust?",
+                "statements": [],
+                "line": 91,
+                "openChecks": []
+              },
+              {
+                "id": "6.3",
+                "text": "Which choices in design or analysis would a sceptical reviewer challenge first?",
+                "statements": [],
+                "line": 95,
+                "openChecks": []
+              }
+            ],
+            "line": 85,
+            "status": {
+              "status": "open",
+              "open": 1
+            }
+          },
+          {
+            "number": 7,
+            "title": "Findings",
+            "questions": [
+              {
+                "id": "7.1",
+                "text": "What does the material show — separated from what you make of it?",
+                "statements": [
+                  {
+                    "text": "A proposal that fits the frame is taken up within two turns.",
+                    "marker": "tentative",
+                    "tags": [
+                      "unverified"
+                    ],
+                    "raw": "A proposal that fits the frame is taken up within two turns. [tentative, unverified]",
+                    "line": 103,
+                    "hidden": null,
+                    "hash": "ed67dd63"
+                  }
+                ],
+                "line": 101,
+                "openChecks": []
+              },
+              {
+                "id": "7.2",
+                "text": "Which instances run counter to the pattern, and what happens to them?",
+                "statements": [],
+                "line": 105,
+                "openChecks": []
+              }
+            ],
+            "line": 99,
+            "status": {
+              "status": "open",
+              "open": 1
+            }
+          },
+          {
+            "number": 8,
+            "title": "Contributions",
+            "questions": [
+              {
+                "id": "8.1",
+                "text": "What does the field know now that it did not before?",
+                "statements": [],
+                "line": 111,
+                "openChecks": []
+              },
+              {
+                "id": "8.2",
+                "text": "Which assumption in prior work does this change, and how?",
+                "statements": [],
+                "line": 115,
+                "openChecks": []
+              },
+              {
+                "id": "8.3",
+                "text": "What follows for practice?",
+                "statements": [],
+                "line": 119,
+                "openChecks": []
+              }
+            ],
+            "line": 109,
+            "status": {
+              "status": "empty",
+              "open": 0
+            }
+          },
+          {
+            "number": 9,
+            "title": "Boundary Conditions and Limitations",
+            "questions": [
+              {
+                "id": "9.1",
+                "text": "Where does the claim stop applying, and why?",
+                "statements": [],
+                "line": 125,
+                "openChecks": []
+              },
+              {
+                "id": "9.2",
+                "text": "Which limitations follow from design choices, and which from the setting?",
+                "statements": [],
+                "line": 129,
+                "openChecks": []
+              },
+              {
+                "id": "9.3",
+                "text": "What would refute the contribution?",
+                "statements": [],
+                "line": 133,
+                "openChecks": []
+              }
+            ],
+            "line": 123,
+            "status": {
+              "status": "empty",
+              "open": 0
+            }
+          }
+        ],
+        "violations": [],
+        "review": {
+          "statuses": {
+            "1": {
+              "status": "open",
+              "open": 3
+            },
+            "2": {
+              "status": "open",
+              "open": 1
+            },
+            "3": {
+              "status": "open",
+              "open": 1
+            },
+            "4": {
+              "status": "open",
+              "open": 1
+            },
+            "5": {
+              "status": "open",
+              "open": 1
+            },
+            "6": {
+              "status": "open",
+              "open": 1
+            },
+            "7": {
+              "status": "open",
+              "open": 1
+            },
+            "8": {
+              "status": "empty",
+              "open": 0
+            },
+            "9": {
+              "status": "empty",
+              "open": 0
+            }
+          },
+          "empty": [
+            8,
+            9
+          ],
+          "open": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "violations": [],
+          "unmarked": [],
+          "untagged": [],
+          "invisibleCommitments": [],
+          "conversationalStated": [],
+          "staleAcceptances": [],
+          "unloggedAcceptances": [],
+          "unverifiedDecisions": [],
+          "ledger": {
+            "status": "verified",
+            "reason": null,
+            "legacy": [],
+            "broken": null,
+            "verified": []
+          },
+          "problems": [],
+          "findingsBeforeHypotheses": []
+        },
+        "decisions": [],
+        "profileError": null,
+        "keyError": null,
+        "agenda": {
+          "fields": [],
+          "gaps": [
+            {
+              "number": 2,
+              "question": "Who cares, and what do they already know?",
+              "questionId": "2.1",
+              "text": "Who are the ten to twenty scholars whose conversation this joins?"
+            },
+            {
+              "number": 2,
+              "question": "Who cares, and what do they already know?",
+              "questionId": "2.2",
+              "text": "What has that conversation been about lately, and on what assumptions does it rest?"
+            },
+            {
+              "number": 2,
+              "question": "Who cares, and what do they already know?",
+              "questionId": "2.3",
+              "text": "How has prior work handled this puzzle, and where is it inconsistent or silent?"
+            },
+            {
+              "number": 3,
+              "question": "What exactly do we ask?",
+              "questionId": "3.2",
+              "text": "What would a well-informed person answer intuitively, and why is that not enough?"
+            },
+            {
+              "number": 3,
+              "question": "What exactly do we ask?",
+              "questionId": "3.3",
+              "text": "How does answering it move the puzzle forward?"
+            },
+            {
+              "number": 4,
+              "question": "What is it made of?",
+              "questionId": "4.2",
+              "text": "How do they relate — and is that relationship given in advance or emerging from the material?"
+            },
+            {
+              "number": 4,
+              "question": "What is it made of?",
+              "questionId": "4.3",
+              "text": "What mechanism explains the relationship?"
+            },
+            {
+              "number": 5,
+              "question": "Where do we look?",
+              "questionId": "5.2",
+              "text": "Why is this setting the right one for the question — what does it make visible?"
+            },
+            {
+              "number": 5,
+              "question": "Where do we look?",
+              "questionId": "5.3",
+              "text": "What would a more suitable setting be, and why are you not there?"
+            },
+            {
+              "number": 6,
+              "question": "How do we look?",
+              "questionId": "6.2",
+              "text": "How is the data analysed, and how does the procedure earn trust?"
+            },
+            {
+              "number": 6,
+              "question": "How do we look?",
+              "questionId": "6.3",
+              "text": "Which choices in design or analysis would a sceptical reviewer challenge first?"
+            },
+            {
+              "number": 7,
+              "question": "What did we find?",
+              "questionId": "7.2",
+              "text": "Which instances run counter to the pattern, and what happens to them?"
+            },
+            {
+              "number": 8,
+              "question": "What does it change?",
+              "questionId": "8.1",
+              "text": "What does the field know now that it did not before?"
+            },
+            {
+              "number": 8,
+              "question": "What does it change?",
+              "questionId": "8.2",
+              "text": "Which assumption in prior work does this change, and how?"
+            },
+            {
+              "number": 8,
+              "question": "What does it change?",
+              "questionId": "8.3",
+              "text": "What follows for practice?"
+            },
+            {
+              "number": 9,
+              "question": "Where does it stop?",
+              "questionId": "9.1",
+              "text": "Where does the claim stop applying, and why?"
+            },
+            {
+              "number": 9,
+              "question": "Where does it stop?",
+              "questionId": "9.2",
+              "text": "Which limitations follow from design choices, and which from the setting?"
+            },
+            {
+              "number": 9,
+              "question": "Where does it stop?",
+              "questionId": "9.3",
+              "text": "What would refute the contribution?"
+            }
+          ]
+        },
+        "humanQuestions": {
+          "1": "What puzzles us?",
+          "2": "Who cares, and what do they already know?",
+          "3": "What exactly do we ask?",
+          "4": "What is it made of?",
+          "5": "Where do we look?",
+          "6": "How do we look?",
+          "7": "What did we find?",
+          "8": "What does it change?",
+          "9": "Where does it stop?"
+        }
+      }
+    }
+  ]
+}

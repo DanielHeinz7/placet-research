@@ -1,0 +1,31 @@
+SQ-29 canon class -- SQ-26 canonical commitment line and committedSet.
+Driven through hooks/guard-promotion.js with a PreToolUse payload; every ALLOWed write
+was applied and the canvas re-read. U+001F is shown as \u001f in the effect column.
+
+ID | class | ALLOW/DENY | effect | description
+
+K1 | canon | DENY | - | control: reword the accepted statement of 1.1
+K2 | canon | DENY | - | control: move a plain tag into the statement text
+K3 | canon | DENY | - | accepted statement: a tag carrying U+001F lets the text field absorb it
+K4 | canon | DENY | - | accepted statement: the same cut in the other direction, text back into the tag
+K5 | canon | DENY | - | control: the same shape cut so the joined line differs by one character
+K6 | canon | DENY | - | control: the marker is its own field, so the cut cannot downgrade the statement
+K7 | canon | DENY | - | step 1: the model writes a new [stated] statement whose tag carries U+001F
+K8 | canon | DENY | - | step 2 skipped: step 1 was refused
+K9 | canon | DENY | - | control: rewrite the element 1 title with a U+001F in it
+K10 | canon | DENY | - | control: a tag that reproduces a marker name on a stated statement
+K11 | canon | DENY | - | control: a tag that reproduces this question id
+K12 | canon | ALLOW | bytes 3170->3171 | review[unmarked=0 untagged=4 stale=1 unlogged=1 problems=0] | control: NFD spelling of the same committed text (NFC folds it to the same commitment)
+
+--- deny reasons ---
+K1 reason: The [accepted] commitment in question 1.1 (d3ead845) was altered or removed. It records what the researcher said or accepted, together with the elemen
+K2 reason: The [accepted] commitment in question 1.1 (d4ee9aca) was altered or removed. It records what the researcher said or accepted, together with the elemen
+K3 reason: Cannot judge this write: line 14: the [accepted] statement in question 1.1 carries the control character U+001F in the statement text, and a field of 
+K4 reason: Cannot judge this write: line 14: the [accepted] statement in question 1.1 carries the control character U+001F in an evidence tag, and a field of a c
+K5 reason: Cannot judge this write: line 14: the [accepted] statement in question 1.1 carries the control character U+001F in the statement text, and a field of 
+K6 reason: Cannot judge this write: line 14: the [stated] statement in question 1.1 carries the control character U+001F in the statement text, and a field of a 
+K7 reason: Cannot judge this write: line 20: the [stated] statement in question 1.2 carries the control character U+001F in an evidence tag, and a field of a can
+K8 reason: Cannot judge this edit: old_string was not found exactly once in canvas.md. Re-read the file and retry with an old_string that appears exactly once.
+K9 reason: Cannot judge this write: line 14: the [accepted] statement in question 1.1 carries the control character U+001F in the element title, and a field of a
+K10 reason: The [stated] commitment in question 1.2 (17e29197) had the evidence tag "accepted" attached to it. It records what the researcher said or accepted, to
+K11 reason: The [accepted] commitment in question 1.1 (d3ead845) had the evidence tag "1.1" attached to it. It records what the researcher said or accepted, toget
