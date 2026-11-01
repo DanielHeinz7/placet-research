@@ -2,6 +2,14 @@
 
 Release notes for researchers using placet-research in Claude Code. Releases before 0.7.0 were called research-harness, and their notes keep that name.
 
+## 1.0.1 (2026-11-01)
+
+A patch release that fixes a name left over from the 0.7.0 rename. Research projects, file formats and commands are unchanged.
+
+### Fixed
+
+- The session view and the app page are headed Placet. The bar of the session view read “Research harness / Canvas” and the browser tab or desktop window read “Research harness”; the bar now reads “Placet / Canvas”, the session view’s title is “Placet — canvas”, and the app page and the two placeholder pages of `serve` are titled “Placet”.
+
 ## 1.0.0 (2026-11-01)
 
 This is 1.0. It adds no research capability. It says in writing which parts of placet-research stay stable for every 1.x release, and it checks for one upgrade mistake. Projects created with a 0.x release are not covered by that promise: set them up anew with 1.0.

@@ -12,6 +12,10 @@
 // neither turn the guard on nor off. A hook_response does not say whose hook
 // it was, so an answer that does not carry our context counts as ours only by
 // elimination: once no SessionStart hook that started is still running.
+// That assumes every SessionStart hook has started before the first answers,
+// which is not checked against the bundled Claude Code. If another hook answers
+// with a failure before ours starts, the guard reads off (SQ-317): the
+// conversation ends without need, but a missing guard is never read as on.
 // The version for the header line comes from the bundled manifest, not from
 // reloadPlugins().
 const fs = require('node:fs');

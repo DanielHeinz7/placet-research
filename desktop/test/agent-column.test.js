@@ -128,3 +128,16 @@ test('the page cannot reach the network', { skip, timeout: 60000 }, async (t) =>
   assert.equal(blocked, true);
   assert.match(await page.locator('meta[http-equiv="Content-Security-Policy"]').getAttribute('content'), /connect-src 'none'/);
 });
+
+test('the first state loads Hanken Grotesk and Source Serif 4 from the plugin fonts the state names', { skip, timeout: 60000 }, async (t) => {
+  const page = await open(t, 'light');
+  const fontUrl = pathToFileURL(path.join(__dirname, '..', '..', 'plugins', 'placet-research', 'dashboard', 'fonts')).href + '/';
+  await page.evaluate((s) => window.__emit('state', s), { ...BASE, phase: 'missing', version: null, plan: null, fontUrl });
+  const loaded = await page.waitForFunction(() => {
+    const families = new Set([...document.fonts].filter((f) => f.status === 'loaded').map((f) => f.family.replace(/"/g, '')));
+    return families.has('Hanken Grotesk') && families.has('Source Serif 4');
+  }, null, { timeout: 5000 }).then(() => true, () => false);
+  assert.equal(loaded, true, 'both faces load from the folder in fontUrl');
+  assert.deepEqual(await page.evaluate(() => [...document.fonts].filter((f) => f.status === 'error').map((f) => f.family)), []);
+  assert.equal(await page.evaluate(() => document.fonts.check('700 16px "Hanken Grotesk"')), true, 'the heading weight is covered by the variable face');
+});

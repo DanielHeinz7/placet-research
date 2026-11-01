@@ -24,6 +24,15 @@ test('canvas.html reads a single-use code from location.hash and trades it for t
   assert.match(html, /This session link was already used\. Stop `serve` and start it again\./);
 });
 
+test('the pages carry the product name Placet, not the old name', () => {
+  const appHtml = fs.readFileSync(path.join(__dirname, '..', 'dashboard', 'app.html'), 'utf8');
+  const serve = fs.readFileSync(path.join(__dirname, '..', 'bin', 'canvas-serve.js'), 'utf8');
+  assert.match(html, /<title>Placet — canvas<\/title>/);
+  assert.match(html, /<span class="brand-text">Placet <span class="brand-sep">\/<\/span> Canvas<\/span>/);
+  assert.match(appHtml, /<title>Placet<\/title>/);
+  for (const text of [html, appHtml, serve]) assert.doesNotMatch(text, /Research harness/);
+});
+
 test('canvas.html keeps the token in memory only', () => {
   assert.doesNotMatch(html, /localStorage|sessionStorage|indexedDB|document\.cookie/);
 });

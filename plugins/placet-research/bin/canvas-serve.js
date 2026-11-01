@@ -34,9 +34,9 @@ const CODE_TTL_MS = 60 * 1000;
 const SESSION = '/api/session';
 const APP_PREFIX = '/api/app/';
 
-const PLACEHOLDER = '<!doctype html><meta charset="utf-8"><title>Research harness</title>'
+const PLACEHOLDER = '<!doctype html><meta charset="utf-8"><title>Placet</title>'
   + '<p>The session view (dashboard/canvas.html) is not installed. The API is at <code>/api/state</code>.</p>\n';
-const APP_PLACEHOLDER = '<!doctype html><meta charset="utf-8"><title>Research harness</title>'
+const APP_PLACEHOLDER = '<!doctype html><meta charset="utf-8"><title>Placet</title>'
   + '<p>The app page (dashboard/app.html) is not installed. The app routes are under <code>/api/app/</code>.</p>\n';
 
 function readPage(pluginRoot, name, fallback) {

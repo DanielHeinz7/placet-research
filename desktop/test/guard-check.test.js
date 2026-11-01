@@ -92,6 +92,14 @@ test('another source’s failed SessionStart hook does not turn the guard off', 
   assert.deepEqual(trace([started, otherStarted, otherFailed, ours]), [null, null, null, 'on']);
 });
 
+// SQ-317: the elimination assumes every SessionStart hook has started before the
+// first one answers. If another source's hook fails before ours has started,
+// the failure counts as ours and the guard reads off for good. That ends the
+// conversation for nothing, but it never turns a missing guard on.
+test('another source’s hook failing before ours has started reads as off, never as on', () => {
+  assert.deepEqual(trace([otherStarted, otherFailed, started, ours]), [null, 'The placet-research start hook failed.', 'The placet-research start hook failed.', 'The placet-research start hook failed.']);
+});
+
 test('our failed hook is named even when another source’s hook succeeded', () => {
   const oursFailed = { ...ours, output: 'boom', stdout: '', stderr: 'boom', exit_code: 1, outcome: 'error' };
   assert.deepEqual(trace([started, otherStarted, other, oursFailed]), [null, null, null, 'The placet-research start hook failed.']);

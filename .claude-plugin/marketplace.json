@@ -4,13 +4,13 @@
     "name": "The Placet authors"
   },
   "description": "Claude Code plugins for steering paper projects.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "plugins": [
     {
       "name": "placet-research",
       "source": "./plugins/placet-research",
       "description": "A research harness for paper projects: the AMJ research canvas as version-controlled project state, with an enforced line between what an agent proposed and what the researcher accepted.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "author": {
         "name": "The Placet authors"
       },
