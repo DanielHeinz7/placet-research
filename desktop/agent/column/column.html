@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src file:; style-src file: 'unsafe-inline'; font-src file:; img-src 'none'; connect-src 'none'">
+<title>Agent</title>
+<link rel="stylesheet" href="../../node_modules/@xterm/xterm/css/xterm.css">
+<link rel="stylesheet" href="column.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-guard" viewBox="0 0 16 16"><path d="M8 1.5 2.5 3.5v4c0 3.2 2.3 5.9 5.5 7 3.2-1.1 5.5-3.8 5.5-7v-4z" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="m5.5 8 1.8 1.8L10.8 6" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 16 16"><path d="M8 1.5 15 14H1z" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 6v4M8 11.5v1" stroke="currentColor" stroke-width="1.4"/></symbol>
+  <symbol id="i-done" viewBox="0 0 16 16"><rect x="1.5" y="1.5" width="13" height="13" rx="2" fill="currentColor"/><path d="m4.5 8 2.3 2.3 4.7-4.6" fill="none" stroke="var(--paper)" stroke-width="1.6"/></symbol>
+</svg>
+<header>
+  <h1>Agent</h1>
+  <p class="uses">Uses Claude Code with your Claude plan<span id="plan"></span></p>
+  <p id="guard" class="guard" hidden></p>
+</header>
+<main id="panel" aria-live="polite"></main>
+<div id="term-wrap" hidden><div id="term" aria-label="Claude Code terminal"></div></div>
+<div id="tip" role="tooltip" hidden></div>
+<script src="../statement-links.js"></script>
+<script src="../../node_modules/@xterm/xterm/lib/xterm.js"></script>
+<script src="../../node_modules/@xterm/addon-fit/lib/addon-fit.js"></script>
+<script src="column.js"></script>
+</body>
+</html>

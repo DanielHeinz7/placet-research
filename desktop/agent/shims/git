@@ -1,0 +1,7 @@
+#!/bin/sh
+# The git the app bundles (dugite), with the paths it needs to find its helpers.
+if [ -z "$RH_GIT" ]; then
+  echo "git: this shim belongs to the placet-research app, which did not set RH_GIT" >&2
+  exit 127
+fi
+GIT_EXEC_PATH="$RH_GIT_EXEC_PATH" GIT_CONFIG_SYSTEM="$RH_GIT_CONFIG_SYSTEM" GIT_TEMPLATE_DIR="$RH_GIT_TEMPLATE_DIR" exec "$RH_GIT" "$@"

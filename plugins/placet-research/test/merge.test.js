@@ -179,3 +179,13 @@ test('ours without a seal and a theirs without entries: refused, no text', () =>
   assert.match(r.error, /no seal that verifies/);
   assert.deepEqual(mergeLogs(base, HEADER, KEY, { by: 'A', theirsCommit: 'abc1234' }), { ok: true, text: base, merged: false, kept: 'ours' }, 'a sealed ours with an entry-less theirs is still kept unchanged');
 });
+
+test('a framing choice that moves in a merge keeps its Discarded record under the new seal', () => {
+  const discarded = `power sha256:${'a'.repeat(64)}; rituals missing`;
+  const o = append(base, [{ kind: 'DECISION', ref: 'framing chosen: sense-making', hash: '9c18603d', body: 'Framing sense-making chosen; its statements are copied into the main canvas.', by: 'A. Researcher', why: 'fits', rejected: 'power', discarded }]);
+  const r = mergeLogs(o, theirs, KEY, { by: 'A', theirsCommit: 'abc1234' });
+  assert.equal(r.ok, true, r.error);
+  const moved = decisions.parseDecisions(r.text).entries.find((e) => e.ref === 'framing chosen: sense-making');
+  assert.deepEqual([moved.seq, moved.rejected, moved.discarded], [4, 'power', discarded]);
+  assert.equal(seal.verifyChain(r.text, KEY).status, 'verified');
+});

@@ -16,7 +16,7 @@ const profileLib = require('../hooks/lib/profile');
 const seal = require('../hooks/lib/seal');
 const stateLib = require('../hooks/lib/state');
 const { acceptStatement, acceptGlossaryEntry } = require('../hooks/lib/accept');
-const { chooseFraming } = require('../hooks/lib/choose');
+const { chooseFraming, discardedReport } = require('../hooks/lib/choose');
 const { appendLog } = require('../hooks/lib/log');
 const { mergeLogs } = require('../hooks/lib/merge');
 const { startSession } = require('../hooks/lib/session');
@@ -435,7 +435,7 @@ function review(flags) {
   // The head of the record as one line (SQ-124): the reviewer compares it with
   // the anchor the authors published, which is what catches a rewrite after the
   // fact. It needs no key of its own, so it prints on every run.
-  lines.push('## Anchor', `Anchor: ${seal.logAnchor(state.decisionsText)}`, '');
+  lines.push('## Anchor', `Anchor: ${seal.logAnchor(state.decisionsText)}`, '', ...discardedReport(state.root, state.decisionsText));
   lines.push('## Stale acceptances', ...(report.staleAcceptances.length ? report.staleAcceptances.map((s) => `#${s.seq} ${s.ref} — text ${s.hash} no longer matches any accepted statement`) : ['none']), '');
   lines.push('## Unlogged acceptances', '(no verified DECISION entry accounts for these)', ...(report.unloggedAcceptances.length ? report.unloggedAcceptances.map((s) => `${s.question} (line ${s.line}): ${s.text}${coverNote(s.coveredBy)}`) : ['none']), '');
   lines.push('## Unverified decisions', '(DECISION entries that give no cover)', ...(report.unverifiedDecisions.length ? report.unverifiedDecisions.map((d) => `#${d.seq} ${d.ref} — ${COVER_STATE[d.state]}`) : ['none']), '');

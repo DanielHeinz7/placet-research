@@ -52,10 +52,11 @@ const FIELDS = [
   ['why', 'Why'],
   ['explained', 'Explained'],
   ['rejected', 'Rejected'],
+  ['discarded', 'Discarded'],
   ['openAtAccept', 'Open at acceptance'],
   ['supersedes', 'Supersedes'],
 ];
-const FIELD_RE = /^\*\*(By|Why|Explained|Rejected|Open at acceptance|Supersedes):\*\* ?(.*)$/;
+const FIELD_RE = /^\*\*(By|Why|Explained|Rejected|Discarded|Open at acceptance|Supersedes):\*\* ?(.*)$/;
 
 // The label a value opens a line with, or null. A line that reads as one of the
 // fields is not free text wherever it sits in a body, so every write refuses
@@ -96,12 +97,13 @@ function bodyFields(body) {
     why: value('why'),
     explained: value('explained'),
     rejected: value('rejected'),
+    discarded: value('discarded'),
     openAtAccept: open ? open.split(',').map((s) => Number(s.trim().replace(/^#/, ''))).filter(Number.isInteger) : [],
     supersedes: supersedes ? Number(supersedes[1]) : null,
   };
 }
 
-function formatEntry({ seq, date, kind, ref, hash, seal, body, by, why, explained, rejected, openAtAccept, supersedes }) {
+function formatEntry({ seq, date, kind, ref, hash, seal, body, by, why, explained, rejected, discarded, openAtAccept, supersedes }) {
   if (!KINDS.includes(kind)) throw new Error(`unknown decision kind: ${kind}`);
   const heading = `## [#${seq}] ${date} · ${kind} · ${ref}${hash ? ` · text ${hash}` : ''}${seal ? ` · seal ${seal}` : ''}`;
   const lines = [heading, String(body).trim()];
@@ -109,6 +111,7 @@ function formatEntry({ seq, date, kind, ref, hash, seal, body, by, why, explaine
   if (why) lines.push(`**Why:** ${why}`);
   if (explained) lines.push(`**Explained:** ${explained}`);
   if (rejected) lines.push(`**Rejected:** ${rejected}`);
+  if (discarded) lines.push(`**Discarded:** ${discarded}`);
   if (openAtAccept && openAtAccept.length) lines.push(`**Open at acceptance:** ${openAtAccept.map((n) => `#${n}`).join(', ')}`);
   if (supersedes) lines.push(`**Supersedes:** #${supersedes}`);
   return `${lines.join('\n')}\n`;

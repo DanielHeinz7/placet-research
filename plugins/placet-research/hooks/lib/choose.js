@@ -1,11 +1,13 @@
 'use strict';
 
+const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 
 const canvas = require('./canvas');
 const project = require('./project');
 const seal = require('./seal');
+const { parseDecisions } = require('./decisions');
 const { textHash } = require('./hash');
 const { loadState, ledgerRefusal } = require('./state');
 const { headingRefusal, labelRefusal, today, refuse } = require('./log');
@@ -51,14 +53,63 @@ function namedStatement(s) {
   return `${s.question} "${text}"`;
 }
 
+// The SHA-256 of a variant canvas's bytes, the digest `shasum -a 256` prints,
+// or null when the file is not there. Bytes, not the normalized text the
+// `text` hash binds: the record is for a reader asking whether the file
+// changed, and any changed byte is a change to that reader.
+function canvasDigest(root, name) {
+  const bytes = project.readIfExists(project.canvasPath(root, name), null);
+  return bytes === null ? null : crypto.createHash('sha256').update(bytes).digest('hex');
+}
+
+// What the framing entry seals about every other variant directory as it is at
+// the moment of the choice: `<name> sha256:<hex>`, or `<name> missing` for a
+// directory whose canvas is gone, which is recorded rather than refused so it
+// cannot block the choice. `none` when there is no other variant, so a new
+// entry is never mistaken for one written before the field existed. Unlike
+// Rejected it is not the researcher's to word.
+function discardedRecord(root, chosen) {
+  const items = project.variantDirNames(root).filter((n) => n !== chosen).map((n) => {
+    const digest = canvasDigest(root, n);
+    return digest === null ? `${n} missing` : `${n} sha256:${digest}`;
+  });
+  return items.length ? items.join('; ') : 'none';
+}
+
+const DISCARDED_ITEM_RE = /^([a-z0-9][a-z0-9-]{0,39}) (?:sha256:([0-9a-f]{64})|missing)$/;
+
+function driftText(recorded, now) {
+  if (recorded === now) return now === null ? 'missing at the choice, still missing' : 'unchanged since the choice';
+  if (recorded === null) return `missing at the choice, present now (sha256:${now})`;
+  return now === null ? `canvas missing now — recorded sha256:${recorded}` : `CHANGED since the choice — recorded sha256:${recorded}, now sha256:${now}`;
+}
+
+function driftLine(root, seq, item) {
+  const m = DISCARDED_ITEM_RE.exec(item);
+  if (!m) return `#${seq}: unreadable Discarded item "${item}"`;
+  return `#${seq} ${m[1]}: ${driftText(m[2] || null, canvasDigest(root, m[1]))}`;
+}
+
+// The review section that compares each recorded discarded canvas with the
+// file there now, or nothing when no entry records one: a log written before
+// the field existed reads exactly as it did.
+function discardedReport(root, decisionsText) {
+  const lines = parseDecisions(decisionsText).entries
+    .filter((e) => e.kind === 'DECISION' && e.discarded && e.discarded !== 'none')
+    .flatMap((e) => e.discarded.split('; ').map((item) => driftLine(root, e.seq, item)));
+  if (!lines.length) return [];
+  return ['## Discarded framings', '(each discarded variant canvas now, against the SHA-256 its framing choice sealed; reported, never enforced)', ...lines, ''];
+}
+
 // Choosing a framing is the researcher's act, like an acceptance: the model
 // generates the variants and never picks one. The chosen variant's statements
 // become research/canvas.md as they are — proposed, tentative or stated — under
 // the main canvas's own frontmatter, and a sealed DECISION in the MAIN log
 // records the choice, the reason, what was rejected, and the text hash of the
 // variant canvas that was copied. The variants stay where they are as the
-// record of what was compared. The CLI and the session view both come through
-// here.
+// record of what was compared, and the entry seals the SHA-256 of each of them
+// as it stood, so a later change to one shows. The CLI and the session view
+// both come through here.
 function chooseFraming({ root, name, why, rejected, pluginRoot } = {}) {
   if (!project.isVariantName(name)) return refuse('invalid', 'choose needs a variant name: lowercase letters, digits and hyphens.', true);
   const reason = typeof why === 'string' ? why.trim() : '';
@@ -115,6 +166,7 @@ function chooseFraming({ root, name, why, rejected, pluginRoot } = {}) {
   const refusal = ledgerRefusal(main);
   if (refusal) return refuse(refusal.code, `Cannot choose ${name}: ${refusal.error}`);
 
+  const discarded = discardedRecord(root, name);
   const { head } = splitFrontmatter(main.canvasText);
   const { body: variantBody } = splitFrontmatter(variant.canvasText);
   fs.writeFileSync(main.paths.canvas, [...head, ...variantBody].join('\n'));
@@ -129,6 +181,7 @@ function chooseFraming({ root, name, why, rejected, pluginRoot } = {}) {
     by: main.by,
     why: reason,
     rejected: rejectedText,
+    discarded,
   }, main.key, { decision: true });
   return {
     ok: true,
@@ -143,4 +196,4 @@ function chooseFraming({ root, name, why, rejected, pluginRoot } = {}) {
   };
 }
 
-module.exports = { chooseFraming };
+module.exports = { chooseFraming, discardedReport };

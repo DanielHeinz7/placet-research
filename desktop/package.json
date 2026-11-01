@@ -1,0 +1,32 @@
+{
+  "name": "research-harness-desktop",
+  "private": true,
+  "version": "0.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test --test-concurrency=1 test/*.test.js",
+    "check-git": "node scripts/check-git.js",
+    "check-agent-sdk": "node scripts/check-agent-sdk.js",
+    "bundle": "node scripts/bundle-plugin.js",
+    "dist": "node scripts/dist.js",
+    "verify-app": "node scripts/verify-app.js",
+    "postinstall": "node -e \"const fs=require('fs');const p='node_modules/node-pty/prebuilds/'+process.platform+'-'+process.arch+'/spawn-helper';if(fs.existsSync(p))fs.chmodSync(p,0o755)\""
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "0.3.295",
+    "@xterm/addon-fit": "0.11.0",
+    "@xterm/xterm": "6.0.0",
+    "dugite": "3.2.3",
+    "electron-updater": "6.8.10",
+    "node-pty": "1.1.0"
+  },
+  "devDependencies": {
+    "electron": "44.5.1",
+    "electron-builder": "26.17.0"
+  },
+  "allowScripts": {
+    "dugite@3.2.3": true,
+    "node-pty@1.1.0": true
+  }
+}

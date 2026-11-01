@@ -99,7 +99,7 @@ function fixture(t) {
   return { dir: dir, repo: repo, remote: remote, bin: bin, claudeLog: claudeLog, ghLog: ghLog, ghNotes: ghNotes };
 }
 
-const SIGNED = { signing: "developer-id", identity: "Developer ID Application: A. Researcher (AB12CD34EF)", teamId: "AB12CD34EF", notaryProfile: "research-harness-notary" };
+const SIGNED = { signing: "developer-id", identity: "Developer ID Application: A. Researcher (AB12CD34EF)", teamId: "AB12CD34EF", notaryProfile: "research-harness-notary", releases: "example-owner/placet-research" };
 
 // Adds desktop/ with the switch and the stubs a desktop release calls:
 // security and xcrun answer the preflight, npm "builds" four release files.

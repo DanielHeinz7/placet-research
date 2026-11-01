@@ -1,0 +1,9 @@
+#!/bin/sh
+# The app's own Electron binary, run as Node, so the guard, the session hook
+# and placet-research work on a Mac without Node. ELECTRON_RUN_AS_NODE is set
+# here only, never in the agent's environment.
+if [ -z "$RH_ELECTRON" ]; then
+  echo "node: this shim belongs to the placet-research app, which did not set RH_ELECTRON" >&2
+  exit 127
+fi
+ELECTRON_RUN_AS_NODE=1 exec "$RH_ELECTRON" "$@"

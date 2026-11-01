@@ -61,9 +61,9 @@ function glossaryPath(projectRoot, variant) {
   return path.join(stateDirOf(projectRoot, variant), GLOSSARY_FILE);
 }
 
-// The variants that exist: a directory under variants/ with a valid name and a
-// canvas.md in it, sorted so every caller lists them in one order.
-function variantNames(projectRoot) {
+// Every directory under variants/ with a valid name, whether or not its
+// canvas.md is still there, sorted so every caller lists them in one order.
+function variantDirNames(projectRoot) {
   let entries;
   try {
     entries = fs.readdirSync(variantsDir(projectRoot), { withFileTypes: true });
@@ -71,10 +71,12 @@ function variantNames(projectRoot) {
     if (err && (err.code === 'ENOENT' || err.code === 'ENOTDIR')) return [];
     throw err;
   }
-  return entries
-    .filter((e) => e.isDirectory() && isVariantName(e.name) && fs.existsSync(canvasPath(projectRoot, e.name)))
-    .map((e) => e.name)
-    .sort();
+  return entries.filter((e) => e.isDirectory() && isVariantName(e.name)).map((e) => e.name).sort();
+}
+
+// The variants that exist: a variant directory with a canvas.md in it.
+function variantNames(projectRoot) {
+  return variantDirNames(projectRoot).filter((name) => fs.existsSync(canvasPath(projectRoot, name)));
 }
 
 // "Absent" and "unreadable" are different answers and only the first one is
@@ -83,9 +85,9 @@ function variantNames(projectRoot) {
 // ENOENT — including a dangling symlink, which reports the same — is absence;
 // EACCES, EPERM, EISDIR, ELOOP and the rest propagate to a caller that must
 // decide what an unreadable file means for it.
-function readIfExists(file) {
+function readIfExists(file, encoding = 'utf8') {
   try {
-    return fs.readFileSync(file, 'utf8');
+    return fs.readFileSync(file, encoding);
   } catch (err) {
     if (err && err.code === 'ENOENT') return null;
     throw err;
@@ -102,6 +104,7 @@ module.exports = {
   stateDirOf,
   variantsDir,
   isVariantName,
+  variantDirNames,
   variantNames,
   canvasPath,
   decisionsPath,

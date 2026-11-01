@@ -649,7 +649,7 @@
 
   // A log entry body is the entry's text followed by optional labelled lines
   // that hooks/lib/decisions.js writes as `**By:** …`, `**Why:** …`,
-  // `**Explained:** …`, `**Rejected:** …`, `**Open at acceptance:** #a, #b` and
+  // `**Explained:** …`, `**Rejected:** …`, `**Discarded:** …`, `**Open at acceptance:** #a, #b` and
   // `**Supersedes:** #n`. Split those off first, so the main text ends at its
   // own trailing "[marker, src: …]" annotation (the same free-text convention
   // canvas.md uses for statements). That annotation becomes a visible status label and the
@@ -658,7 +658,7 @@
   // pattern is the library's (FIELD_RE in hooks/lib/decisions.js), and like the
   // library the page never reads an entry's first line as a label: that line
   // is the researcher's text, whatever it looks like.
-  var ENTRY_LABEL = /^\*\*(By|Why|Explained|Rejected|Open at acceptance|Supersedes):\*\* ?(.*)$/;
+  var ENTRY_LABEL = /^\*\*(By|Why|Explained|Rejected|Discarded|Open at acceptance|Supersedes):\*\* ?(.*)$/;
   function parseFindingBody(raw) {
     var main = [];
     var notes = [];

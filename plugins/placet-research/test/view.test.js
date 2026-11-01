@@ -112,6 +112,13 @@ test('a DISCOVERY with a why renders its text and a quiet Why line, no asterisks
   assert.equal(visibleText(markup).split(' Why:')[0], 'Ask whether the twelve meetings cover more than one team.');
 });
 
+test('a Discarded line reads as its own quiet note, not as more of the Rejected text', () => {
+  const markup = renderEntryBody(`Framing power chosen.\n**Rejected:** rituals\n**Discarded:** rituals sha256:${'a'.repeat(64)}; sense-making missing`);
+  assert.match(markup, /<span class="entry-note">Rejected: rituals<\/span>/);
+  assert.match(markup, new RegExp(`<span class="entry-note">Discarded: rituals sha256:${'a'.repeat(64)}; sense-making missing</span>`));
+  assert.doesNotMatch(visibleText(markup), /\*\*/);
+});
+
 test('no fixture entry renders a raw label or an accepted marker, and Rejected and Supersedes read as quiet lines too', () => {
   for (const d of viewState.decisions) {
     const text = visibleText(renderEntryBody(d.body));

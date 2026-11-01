@@ -4,6 +4,8 @@
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
+const vm = require('node:vm');
+const { performance } = require('node:perf_hooks');
 
 const project = require('./lib/project');
 const canvas = require('./lib/canvas');
@@ -1221,6 +1223,7 @@ function harnessRoot() {
     parts: spellings.map((s) => s.split(path.sep).filter(Boolean)),
     tail: rel && !rel.startsWith('..') && !path.isAbsolute(rel) ? rel : null,
     names: new Set([seal.KEY_FILE]),
+    root,
   };
 }
 
@@ -2314,6 +2317,169 @@ function readOnlyRefusal(sc, args, base, stateParts, stateNames, hasState, split
   return null;
 }
 
+// SQ-338: `git stash pop`, `git apply`, `patch`, `tar -x` and `unzip` write the
+// files that a stash, a patch or an archive lists, so no word on the command
+// line names their target. The guard cannot read that data, so where research
+// state exists it refuses them, unless the form only lists or checks, or
+// extracts into a directory that neither lies inside the state nor holds it.
+const HIDDEN_TARGET_WHY = 'it writes the files that a patch, archive or stash lists, and this guard cannot read that list';
+const ANYWHERE = 'anywhere';
+const TAR_NAMES = ['tar', 'bsdtar', 'gtar', 'gnutar'];
+const GIT_VALUE_OPTIONS = new Set(['-C', '-c', '--git-dir', '--work-tree', '--namespace', '--config-env']);
+const STASH_WRITES = new Set(['pop', 'apply', 'branch']);
+// GNU tar and bsdtar spell the option that lets members leave the directory differently.
+const TAR_ABSOLUTE_OPTIONS = ['--absolute-names', '--absolute-paths'];
+const GIT_APPLY_REPORTS = new Set(['--check', '--stat', '--numstat', '--summary']);
+const PATCH_CHECKS = new Set(['--dry-run', '--check']);
+const UNZIP_NO_WRITE_LETTERS = /[lvtzZpc]/;
+// A command run by one of these takes its name as an operand, not as the first word.
+const HIDDEN_TARGET_LAUNCHERS = new Set(['xargs', 'parallel', 'find', 'timeout']);
+
+// A word where a directory must stand that the guard cannot read.
+const UNKNOWN_DIRECTORY = { opaque: true, text: '' };
+const TAR_EXTRACT_OPTIONS = ['--extract', '--get'];
+const TAR_STDOUT_OPTIONS = ['--to-stdout'];
+
+function gitSubcommandAt(args) {
+  let k = 1;
+  while (k < args.length && args[k].text.startsWith('-')) k += GIT_VALUE_OPTIONS.has(args[k].text) ? 2 : 1;
+  return k;
+}
+
+function gitApplyWrites(flags) {
+  return flags.includes('--apply') || !flags.some((flag) => GIT_APPLY_REPORTS.has(flag));
+}
+
+function gitHiddenTarget(args) {
+  const k = gitSubcommandAt(args);
+  const [sub, action] = args.slice(k, k + 2).map((w) => w.text);
+  const writes = sub === 'stash' ? STASH_WRITES.has(action) : sub === 'apply' && gitApplyWrites(args.slice(k + 1).map((w) => w.text));
+  return writes ? ANYWHERE : null;
+}
+
+function patchHiddenTarget(args) {
+  return args.slice(1).some((w) => PATCH_CHECKS.has(w.text)) ? null : ANYWHERE;
+}
+
+function longAbbreviates(text, option, shortest) {
+  const name = flagName(text);
+  return name.length >= shortest && option.startsWith(name);
+}
+
+function hasLongOption(words, options, shortest) {
+  return words.some((w) => options.some((option) => longAbbreviates(w.text, option, shortest)));
+}
+
+// The letters of tar's bundled options: the old form's first word (`tar xzf`)
+// and each `-` cluster. `-Cdir` carries a value, not letters.
+function tarLetters(words) {
+  const oldStyle = words.length && !words[0].text.startsWith('-') ? words[0].text : '';
+  return oldStyle + words.filter((w) => /^-[^-C]/.test(w.text)).map((w) => w.text.slice(1)).join('');
+}
+
+// `{}` when the directory is the next word, `{ attached }` when the word
+// carries it (`-Cdir`, `--directory=dir`), null when the word is no `-C`.
+function tarDirectoryOption(text) {
+  if (/^-C./.test(text)) return { attached: text.slice(2) };
+  if (!longAbbreviates(text, '--directory', 5)) return text === '-C' ? {} : null;
+  const eq = text.indexOf('=');
+  return eq < 0 ? {} : { attached: text.slice(eq + 1) };
+}
+
+// shortcut: every `-C` counts as the extraction directory, and the working
+// directory only when there is none; GNU tar applies a `-C` placed after member
+// names to later members only. Upgrade to per-member order if a GNU tar form
+// is found that extracts a member before its `-C` into the working directory.
+function tarDirectories(words) {
+  return words.flatMap((w, k) => {
+    const option = tarDirectoryOption(w.text);
+    if (!option) return [];
+    return [option.attached === undefined ? words[k + 1] || UNKNOWN_DIRECTORY : { ...w, text: option.attached }];
+  });
+}
+
+function tarWritesFiles(words, letters) {
+  const extracts = letters.includes('x') || hasLongOption(words, TAR_EXTRACT_OPTIONS, 4);
+  return extracts && !letters.includes('O') && !hasLongOption(words, TAR_STDOUT_OPTIONS, 6);
+}
+
+function tarExtractionDirs(args) {
+  const words = args.slice(1);
+  const letters = tarLetters(words);
+  if (!tarWritesFiles(words, letters)) return null;
+  return /[CP]/.test(letters) || hasLongOption(words, TAR_ABSOLUTE_OPTIONS, 4) ? ANYWHERE : tarDirectories(words);
+}
+
+function unzipDirectoryAt(args, k) {
+  if (args[k].text === '-d') return [args[k + 1] || UNKNOWN_DIRECTORY];
+  return /^-d./.test(args[k].text) ? [{ ...args[k], text: args[k].text.slice(2) }] : [];
+}
+
+function unzipExtractionDirs(args) {
+  const clusters = args.slice(1).map((w) => w.text).filter((text) => /^-[^-d]/.test(text));
+  if (clusters.some((text) => UNZIP_NO_WRITE_LETTERS.test(text))) return null;
+  if (clusters.some((text) => /[d:]/.test(text))) return ANYWHERE;
+  return args.flatMap((w, k) => unzipDirectoryAt(args, k));
+}
+
+const HIDDEN_TARGET_READERS = new Map([
+  ['git', gitHiddenTarget],
+  ['patch', patchHiddenTarget],
+  ['unzip', unzipExtractionDirs],
+  ...TAR_NAMES.map((name) => [name, tarExtractionDirs]),
+]);
+
+// Every place in the simple command where one of these commands can stand: the
+// command a wrapper launches, and an operand of a launcher such as xargs.
+function hiddenTargetCommands(argv) {
+  const launched = launchedCommandAt(argv);
+  if (!launched) return [];
+  const launches = HIDDEN_TARGET_LAUNCHERS.has(launched.name);
+  return argv.map((w, k) => argv.slice(k))
+    .filter((args, k) => k === launched.at || (launches && k > launched.at))
+    .filter(([w]) => !w.opaque && HIDDEN_TARGET_READERS.has(baseNameOf(w.text)));
+}
+
+function landingReachesState(landed, roots) {
+  return !landed || roots.some((root) => underState(landed, root) || underState(root, landed));
+}
+
+function directoryReachesState(w, base, links, roots) {
+  if (w.opaque || (base === null && !w.text.startsWith('/'))) return true;
+  return landingReachesState(resolveThroughLinks(base || '/', w.text, links), roots);
+}
+
+function hiddenTargetWrite(argv, base, links, roots) {
+  return hiddenTargetCommands(argv).some((args) => {
+    const dirs = HIDDEN_TARGET_READERS.get(baseNameOf(args[0].text))(args);
+    if (dirs === null) return false;
+    if (dirs === ANYWHERE) return true;
+    return (dirs.length ? dirs : [{ text: '.' }]).some((w) => directoryReachesState(w, base, links, roots));
+  });
+}
+
+// The SQ-99 backstop for these commands: program text a shell or interpreter
+// runs (`bash -c 'tar xf a.tar'`, `node -e 'execSync("unzip a.zip")'`) is not
+// lexed into commands, so a text that names one of them is refused, whatever
+// directory it would extract into.
+const HIDDEN_TARGET_NAMES = new Set(['unzip', 'patch', ...TAR_NAMES]);
+
+function programNamesHiddenTarget(texts) {
+  return texts.some((text) => {
+    const names = text.replace(/[\\'"`]/g, '').split(NAME_SPLIT).map((f) => f.split('/').filter(Boolean).pop() || '');
+    if (names.some((n) => HIDDEN_TARGET_NAMES.has(n))) return true;
+    return names.includes('git') && (names.includes('apply') || (names.includes('stash') && names.some((n) => STASH_WRITES.has(n))));
+  });
+}
+
+// Whether a simple command writes what a patch, archive or stash lists, read
+// from the command itself or from program text it hands a shell.
+function hiddenWriteIn(hasState, { argv, scRefusal, programs, base, links }, roots) {
+  if (!hasState) return false;
+  if (hiddenTargetWrite(argv, base, links, roots)) return true;
+  return !!scRefusal && runsProgramText(argv) && programNamesHiddenTarget([...argv.slice(1).map((w) => w.text), ...programs]);
+}
+
 function bashDenial(why) {
   return `Only read-only shell access to the research state is allowed, and ${why}. Reads that pass: cat, grep, sed -n, git diff/log/show/status, placet-research status/review/init, and placet-research log DISCOVERY|CONSTRAINT to record a finding. Use the Edit tool for [proposed] and [tentative] statements; acceptance is the researcher's act via /placet-research:accept.`;
 }
@@ -2419,6 +2585,13 @@ function inlinePrograms(words) {
 
 const NAMED_SERVER_WHY ='it names the session server (`placet-research serve` or canvas-serve), which only the researcher starts, and not every command in it is read-only';
 
+const NAMED_WRITE_DENIALS = new Map([
+  ['accept', ACCEPT_DENIAL],
+  ['glossary', GLOSSARY_DENIAL],
+  ['choose', CHOOSE_DENIAL],
+  ['serve', bashDenial(NAMED_SERVER_WHY)],
+]);
+
 function bashVerdict(command, projectRoot) {
   const cmd = String(command || '');
   if (!cmd.trim()) return null;
@@ -2471,6 +2644,8 @@ function bashVerdict(command, projectRoot) {
   let serveAttempt = false;
   let decisionAttempt = false;
   let envAttempt = false;
+  let hiddenWrite = false;
+  const protectedRoots = [stateRoot, harness.root];
   let refusal = null;
   let allReadOnly = true;
   let loopDepth = 0;
@@ -2680,6 +2855,7 @@ function bashVerdict(command, projectRoot) {
 
     const scRefusal = readOnlyRefusal(sc, argv, base, stateParts, stateNames, hasState, splitsBlanks, stateRoot);
     if (!refusal) refusal = scRefusal;
+    hiddenWrite = hiddenWrite || hiddenWriteIn(hasState, { argv, scRefusal, programs, base, links }, protectedRoots);
     // A launcher reading its program from a heredoc is not a read-only verb here:
     // a body in another language was never lexed into commands of its own.
     if (scRefusal || sc.stdinProgram) allReadOnly = false;
@@ -2713,13 +2889,8 @@ function bashVerdict(command, projectRoot) {
   if (envAttempt) return ENV_DENIAL;
   if (uncomputable && refusal) return bashDenial(UNCOMPUTABLE_PATTERN_WHY);
   if (touches && refusal) return bashDenial(refusal);
-  if (hasState && !allReadOnly) {
-    const named = namedWrite(cmd);
-    if (named === 'accept') return ACCEPT_DENIAL;
-    if (named === 'glossary') return GLOSSARY_DENIAL;
-    if (named === 'choose') return CHOOSE_DENIAL;
-    if (named === 'serve') return bashDenial(NAMED_SERVER_WHY);
-  }
+  if (hiddenWrite) return bashDenial(HIDDEN_TARGET_WHY);
+  if (hasState && !allReadOnly) return NAMED_WRITE_DENIALS.get(namedWrite(cmd)) || null;
   return null;
 }
 
@@ -3022,7 +3193,47 @@ function fileVerdict(target, toolName, toolInput) {
   return target.kind === 'glossary' ? glossaryVerdict(before, after) : canvasVerdict(before, after);
 }
 
-function main() {
+// Claude Code cancels the guard at the 10 s timeout in hooks.json, and a host
+// that ignores onFailure then lets the call through. Two seconds of margin let
+// a loaded machine still write the deny before the cancel.
+const DEADLINE_MS = 8000;
+
+const OUT_OF_TIME_DENIAL = `placet-research ran out of time before it could judge this tool call, and it refuses what it could not judge. Retry when the machine is less busy. ${NEXT_STEP}`;
+
+// PLACET_RESEARCH_GUARD_DEADLINE_MS exists for tests. A value above
+// DEADLINE_MS is ignored, so the variable can make the guard stricter only.
+function deadlineMs(env) {
+  const asked = Number.parseInt(env.PLACET_RESEARCH_GUARD_DEADLINE_MS, 10);
+  return asked >= 0 ? Math.min(asked, DEADLINE_MS) : DEADLINE_MS;
+}
+
+function evaluationFailure(err) {
+  return `placet-research could not evaluate this write (${err && err.message ? err.message : 'unknown error'}); it is denied. ${NEXT_STEP}`;
+}
+
+// The judging is synchronous, so a timer callback would wait for it to end.
+// V8's script timeout watches from its own thread and stops the judging
+// mid-loop instead.
+// shortcut: a blocking system call (a read from a FIFO, a hung network mount)
+// is not interrupted, so only the host's timeout with onFailure "block" stops
+// it; move the judging into a worker thread (about 20 ms more per tool call,
+// measured 2026-11-01) if the guard ever reads something that can block.
+const JUDGE_CALL = new vm.Script('placetResearchJudge()');
+
+function judgeWithin(judge, budgetMs) {
+  const timeout = Math.floor(budgetMs);
+  if (timeout < 1) return OUT_OF_TIME_DENIAL;
+  globalThis.placetResearchJudge = judge;
+  try {
+    return JUDGE_CALL.runInThisContext({ timeout });
+  } catch (err) {
+    return err && err.code === 'ERR_SCRIPT_EXECUTION_TIMEOUT' ? OUT_OF_TIME_DENIAL : evaluationFailure(err);
+  } finally {
+    delete globalThis.placetResearchJudge;
+  }
+}
+
+function judgeToolCall() {
   let reason = null;
   try {
     const data = readStdin();
@@ -3043,11 +3254,18 @@ function main() {
   } catch (err) {
     // Fail closed: a permission guard that lets writes through on error is a
     // hole, which is where this parts company with the fail-open hook (§5.3).
-    reason = `placet-research could not evaluate this write (${err && err.message ? err.message : 'unknown error'}); it is denied. ${NEXT_STEP}`;
+    reason = evaluationFailure(err);
   }
+  return reason;
+}
+
+// performance.now() counts from process start, so node's own startup and the
+// module loading above spend the same budget.
+function main() {
+  const reason = judgeWithin(judgeToolCall, deadlineMs(process.env) - performance.now());
   if (reason) output.writeDeny(reason);
 }
 
 if (require.main === module) main();
 
-module.exports = { canvasVerdict, glossaryVerdict, bashVerdict, applyEdit };
+module.exports = { canvasVerdict, glossaryVerdict, bashVerdict, applyEdit, judgeWithin, deadlineMs, DEADLINE_MS, OUT_OF_TIME_DENIAL };

@@ -1,0 +1,19 @@
+#!/bin/sh
+# Stands in for Claude Code in the smoke test. It records its arguments and
+# environment, runs the real SessionStart hook through whatever `node` is on
+# PATH (the app's shim), and prints a line holding statement numbers.
+case "$1" in
+  --version) echo "2.1.300 (Claude Code)"; exit 0 ;;
+  auth) echo '{"loggedIn":true,"authMethod":"claude.ai","email":"person@example.invalid","orgId":"org-fake","orgName":"Fake Org","subscriptionType":"pro"}'; exit 0 ;;
+esac
+rec="$HOME/fake-claude"
+printf '%s\n' "$@" > "$rec.args"
+env > "$rec.env"
+command -v node > "$rec.node-path"
+node -e 'process.stdout.write(String(process.versions.electron))' > "$rec.node"
+plugin=""
+prev=""
+for a in "$@"; do [ "$prev" = "--plugin-dir" ] && plugin="$a"; prev="$a"; done
+echo '{}' | CLAUDE_PLUGIN_ROOT="$plugin" CLAUDE_PROJECT_DIR="$PWD" node "$plugin/hooks/inject-state.js" > /dev/null
+echo "Claude Code 2.1.300: I propose 1.2b and 2.2."
+sleep 120

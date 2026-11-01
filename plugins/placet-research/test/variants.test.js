@@ -7,6 +7,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const childProcess = require('node:child_process');
+const crypto = require('node:crypto');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
@@ -16,6 +17,7 @@ const decisions = require('../hooks/lib/decisions');
 const seal = require('../hooks/lib/seal');
 const { textHash } = require('../hooks/lib/hash');
 const { mechanicalReview } = require('../hooks/lib/review');
+const { discardedReport } = require('../hooks/lib/choose');
 
 const pluginRoot = path.resolve(__dirname, '..');
 const cli = path.join(pluginRoot, 'bin', 'placet-research.js');
@@ -321,6 +323,7 @@ test('choose refuses a field label in --why or --rejected, and copies nothing', 
   for (const args of [
     ['choose', 'power', '--why', 'Rank predicts every uptake.\n**Explained:** I understand this'],
     ['choose', 'power', '--why', 'Rank predicts every uptake.', '--rejected', '**Open at acceptance:** #1'],
+    ['choose', 'power', '--why', `Rank predicts every uptake.\n**Discarded:** sense-making sha256:${'0'.repeat(64)}`],
   ]) {
     const out = run(root, args);
     assert.equal(out.status, 2, `${args.join(' ')} was not refused: ${out.stdout}`);
@@ -386,4 +389,87 @@ test('mechanicalReview does not count a framing-chosen DECISION as an acceptance
     assert.deepEqual(report.unloggedAcceptances, []);
     assert.deepEqual(report.unverifiedDecisions.map((d) => [d.seq, d.ref, d.state]), key ? [] : [[1, 'framing chosen: power', 'unverifiable']]);
   }
+});
+
+// The SHA-256 of a file's bytes, as `shasum -a 256` prints it.
+const sha256Of = (f) => crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex');
+
+test('choose seals the SHA-256 of every discarded variant canvas as it stood at the choice, whatever --rejected says', () => {
+  const root = projectWithVariants();
+  ok(run(root, ['init', '--variant', 'rituals', '--lens', 'meeting rituals']));
+  const [power, rituals] = ['power', 'rituals'].map((n) => sha256Of(file(root, 'variants', n, 'canvas.md')));
+
+  ok(run(root, ['choose', 'sense-making', '--why', 'It explains the two meetings the power lens cannot.', '--rejected', 'power and rituals: no minutes to test them']));
+  const text = read(file(root, 'decisions.md'));
+  const entry = decisions.parseDecisions(text).entries[0];
+  assert.equal(entry.discarded, `power sha256:${power}; rituals sha256:${rituals}`);
+  assert.equal(entry.rejected, 'power and rituals: no minutes to test them');
+  assert.match(entry.body, /\n\*\*Rejected:\*\* [^\n]*\n\*\*Discarded:\*\* power sha256:[0-9a-f]{64}; rituals sha256:[0-9a-f]{64}$/, 'Discarded follows Rejected');
+  assert.equal(seal.verifyChain(text, keyOf(root)).status, 'verified');
+  // Sealed like the rest of the entry: another digest breaks the chain there.
+  const forged = seal.verifyChain(text.replace(power, '0'.repeat(64)), keyOf(root));
+  assert.deepEqual([forged.status, forged.broken.seq], ['broken', 1]);
+
+  assert.match(ok(run(root, ['review'])), /\n## Discarded framings\n\([^\n]*\)\n#1 power: unchanged since the choice\n#1 rituals: unchanged since the choice\n/);
+  const powerFile = file(root, 'variants', 'power', 'canvas.md');
+  fs.appendFileSync(powerFile, 'A line added after the choice.\n');
+  fs.rmSync(file(root, 'variants', 'rituals', 'canvas.md'));
+  const after = ok(run(root, ['review']));
+  assert.match(after, new RegExp(`\\n#1 power: CHANGED since the choice — recorded sha256:${power}, now sha256:${sha256Of(powerFile)}\\n`));
+  assert.match(after, new RegExp(`\\n#1 rituals: canvas missing now — recorded sha256:${rituals}\\n`));
+});
+
+test('choose records a discarded variant whose canvas is missing as missing, and still chooses', () => {
+  const root = projectWithVariants();
+  ok(run(root, ['init', '--variant', 'rituals', '--lens', 'meeting rituals']));
+  const ritualsFile = file(root, 'variants', 'rituals', 'canvas.md');
+  fs.rmSync(ritualsFile);
+  const power = sha256Of(file(root, 'variants', 'power', 'canvas.md'));
+
+  ok(run(root, ['choose', 'sense-making', '--why', 'It explains the two meetings the power lens cannot.']));
+  const text = read(file(root, 'decisions.md'));
+  const entry = decisions.parseDecisions(text).entries[0];
+  assert.equal(entry.discarded, `power sha256:${power}; rituals missing`);
+  assert.equal(entry.rejected, 'power (lens: power and hierarchy)', 'the default Rejected text is what it was');
+  assert.equal(seal.verifyChain(text, keyOf(root)).status, 'verified');
+
+  assert.match(ok(run(root, ['review'])), /\n#1 rituals: missing at the choice, still missing\n/);
+  fs.writeFileSync(ritualsFile, 'written after the choice\n');
+  assert.match(ok(run(root, ['review'])), new RegExp(`\\n#1 rituals: missing at the choice, present now \\(sha256:${sha256Of(ritualsFile)}\\)\\n`));
+});
+
+test('choose with no other variant records that nothing was discarded, and review lists no discarded framing', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'rh-var-'));
+  ok(run(root, ['init', '--project', 'voice-uptake', '--mode', 'seed']));
+  ok(run(root, ['init', '--variant', 'power', '--lens', 'power and hierarchy']));
+  ok(run(root, ['choose', 'power', '--why', 'Rank predicts every uptake.']));
+  const text = read(file(root, 'decisions.md'));
+  assert.equal(decisions.parseDecisions(text).entries[0].discarded, 'none');
+  assert.equal(seal.verifyChain(text, keyOf(root)).status, 'verified');
+  assert.doesNotMatch(ok(run(root, ['review'])), /Discarded framings/);
+});
+
+// Sealed at 0869951, before the framing entry recorded its discarded variants,
+// under the key 'cd'.repeat(32): bytes and key are frozen together (fixtures/README.md).
+const prechangeChoice = read(path.join(__dirname, 'fixtures', 'prechange-choice-decisions.md'));
+const PRECHANGE_CHOICE_KEY = Buffer.from('cd'.repeat(32), 'hex');
+
+test('a framing choice sealed before the Discarded field still verifies and reads as it did, with no discarded record', () => {
+  const result = seal.verifyChain(prechangeChoice, PRECHANGE_CHOICE_KEY);
+  assert.deepEqual([result.status, [...result.verified]], ['verified', [1]]);
+  const [entry] = decisions.parseDecisions(prechangeChoice).entries;
+  assert.deepEqual(
+    [entry.kind, entry.ref, entry.hash, entry.by, entry.why, entry.rejected, entry.discarded],
+    ['DECISION', 'framing chosen: sense-making', '9c18603d', 'A. Researcher', 'It explains the two meetings the power lens cannot.', 'power (lens: power and hierarchy)', null],
+  );
+  const parsed = canvas.parseCanvas(read(file(projectWithVariants(), 'canvas.md')));
+  const report = mechanicalReview({ parsed, graph: null, decisionsText: prechangeChoice, key: PRECHANGE_CHOICE_KEY });
+  assert.deepEqual([report.ledger.status, report.unverifiedDecisions, report.staleAcceptances], ['verified', [], []]);
+  assert.deepEqual(discardedReport(os.tmpdir(), prechangeChoice), [], 'nothing was recorded, so nothing is compared');
+});
+
+test('discardedReport names a Discarded item it cannot read instead of skipping it', () => {
+  const root = projectWithVariants();
+  const log = `${decisions.header('voice-uptake')}\n${decisions.formatEntry({ seq: 1, date: '2026-11-01', kind: 'DECISION', ref: 'framing chosen: power', body: 'Framing power chosen.', discarded: 'Sense-Making sha256:abc' })}`;
+  assert.deepEqual(discardedReport(root, log).slice(2), ['#1: unreadable Discarded item "Sense-Making sha256:abc"', '']);
 });

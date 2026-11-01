@@ -51,3 +51,11 @@ refusal (SQ-133). It is sealed with the key `Buffer.from('ab'.repeat(32), 'hex')
 `seal.test.js` keeps beside its assertions. Its point is to stay frozen: a test proves the current
 code still verifies these bytes and parses the same fields out of them, so the seal and the label
 grammar have to face a log that this code did not write.
+
+## prechange-choice-decisions.md
+
+`prechange-choice-decisions.md` is the main decision log of a scratch project right after `choose
+sense-making`, written by the CLI at revision `0869951`, before a framing choice recorded the SHA-256
+of each discarded variant canvas. It is sealed with the key `Buffer.from('cd'.repeat(32), 'hex')`,
+which `variants.test.js` keeps beside its assertions. Like `prechange-decisions.md` it stays frozen:
+a test proves the current code still verifies it and reads it with no discarded record.

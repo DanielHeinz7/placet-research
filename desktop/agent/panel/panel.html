@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent</title>
+<link rel="stylesheet" href="panel.css">
+</head>
+<body>
+<svg class="sprite" width="0" height="0" aria-hidden="true">
+  <symbol id="i-guard" viewBox="0 0 16 16"><path d="M8 1.5 2.5 3.5v4c0 3.2 2.3 5.9 5.5 7 3.2-1.1 5.5-3.8 5.5-7v-4z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="m5.5 8 1.8 1.8L10.8 6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-problem" viewBox="0 0 16 16"><path d="M8 1.6l6.6 11.9H1.4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 6.2v3.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="11.5" r=".9" fill="currentColor"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 16 16"><rect x="2.5" y="7" width="11" height="7.5" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5 7V5a3 3 0 016 0v2" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+</svg>
+
+<header class="head">
+  <h1>Agent</h1>
+  <p id="h-model" class="meta"></p>
+  <p id="h-state" class="meta" aria-live="polite"></p>
+</header>
+
+<section id="v-choose" class="view" hidden aria-labelledby="choose-h">
+  <h2 id="choose-h">How should the agent connect?</h2>
+  <button id="way-cc" class="choice"><strong>Claude Code, with your Claude plan</strong><span>Pro, Max or Team. Uses Claude Code on this Mac.</span></button>
+  <button id="way-sdk" class="choice"><strong>Pay per use</strong><span>An Anthropic API key, your institution’s gateway, or Amazon Bedrock / Google Vertex.</span></button>
+  <button id="way-later" class="quiet">Not now</button>
+</section>
+
+<section id="v-connect" class="view" hidden aria-labelledby="connect-h">
+  <h2 id="connect-h">Connect a model</h2>
+  <fieldset>
+    <legend>Connection</legend>
+    <label class="opt"><input type="radio" name="kind" value="anthropic" checked><span>Anthropic API key <span class="hint">A key from the Anthropic Console. Billed per token to that account.</span></span></label>
+    <label class="opt"><input type="radio" name="kind" value="gateway"><span>Institute gateway <span class="hint">An address and a token from your institution.</span></span></label>
+    <label class="opt"><input type="radio" name="kind" value="cloud"><span>Amazon Bedrock or Google Vertex <span class="hint">Your organisation’s cloud account.</span></span></label>
+  </fieldset>
+  <fieldset id="f-cloud" hidden>
+    <legend>Cloud provider</legend>
+    <label class="opt"><input type="radio" name="cloud" value="bedrock" checked><span>Amazon Bedrock</span></label>
+    <label class="opt"><input type="radio" name="cloud" value="vertex"><span>Google Vertex</span></label>
+  </fieldset>
+  <label id="l-url" class="field" hidden>Gateway address <input id="f-url" type="url" autocomplete="off" spellcheck="false"></label>
+  <label id="l-region" class="field" hidden>Region <input id="f-region" autocomplete="off" spellcheck="false"></label>
+  <fieldset id="f-bedrock-auth" hidden>
+    <legend>Sign in with</legend>
+    <label class="opt"><input type="radio" name="bauth" value="profile" checked><span>AWS profile on this Mac</span></label>
+    <label class="field sub">AWS profile name <input id="f-profile" autocomplete="off" spellcheck="false"></label>
+    <label class="opt"><input type="radio" name="bauth" value="key"><span>Bedrock API key</span></label>
+  </fieldset>
+  <label id="l-project" class="field" hidden>Google Cloud project ID <input id="f-project" autocomplete="off" spellcheck="false"></label>
+  <label id="l-secret" class="field">Key or token <input id="f-secret" type="password" autocomplete="off" spellcheck="false"></label>
+  <p><button id="get-key" class="quiet">Get a key</button></p>
+  <label class="field">Model <input id="f-model" list="models" autocomplete="off" spellcheck="false"><datalist id="models"></datalist></label>
+  <p class="note">Stored in the macOS Keychain, never in the project. Usage is billed per token to the account behind the key. A Claude Pro plan does not cover it; Max and Team plans include monthly API credits.</p>
+  <p id="connect-error" class="problem" role="alert" hidden><svg class="i" aria-hidden="true"><use href="#i-problem"/></svg><span id="connect-error-text"></span></p>
+  <button id="connect-go" class="primary">Test connection and continue</button>
+</section>
+
+<section id="v-thread" class="view thread-view" hidden aria-label="Conversation">
+  <div id="resume" class="resume" hidden><button id="resume-go">Continue last conversation</button> <button id="new-go" class="quiet">New conversation</button></div>
+  <div id="log-wrap" class="log-wrap">
+    <ol id="thread" role="log" aria-live="polite" aria-relevant="additions" aria-label="Conversation with the agent"></ol>
+    <p id="pending" class="pending" aria-hidden="true"></p>
+  </div>
+  <p id="h-guard" class="guard" hidden><svg class="i" aria-hidden="true"><use id="h-guard-icon" href="#i-guard"/></svg><span id="h-guard-text"></span></p>
+  <p class="rule"><svg class="i" aria-hidden="true"><use href="#i-lock"/></svg><span>The agent proposes. Accepting, choosing a framing, starting a session and handing over the project key stay with you.</span></p>
+  <div class="quick">
+    <button data-cmd="/placet-research:canvas">Continue canvas</button>
+    <button data-cmd="/placet-research:canvas-review">Review canvas</button>
+    <button id="q-note">Literature note…</button>
+  </div>
+  <form id="compose">
+    <label for="msg" class="sr">Message to the agent</label>
+    <textarea id="msg" rows="3"></textarea>
+    <div class="send-row">
+      <button id="send" class="primary" type="submit">Send</button>
+      <button id="stop" type="button" hidden>Stop</button>
+    </div>
+  </form>
+  <p id="usage" class="meta"></p>
+</section>
+
+<section id="v-settings" class="view" hidden aria-labelledby="settings-h">
+  <h2 id="settings-h">Agent settings</h2>
+  <p id="s-current"></p>
+  <p id="s-error" class="problem" role="alert" hidden><svg class="i" aria-hidden="true"><use href="#i-problem"/></svg><span id="s-error-text"></span></p>
+  <div class="stack">
+    <button id="s-change">Change connection…</button>
+    <button id="s-remove">Remove connection</button>
+    <button id="s-way">Use Claude Code instead…</button>
+    <button id="s-back" class="quiet">Back</button>
+  </div>
+</section>
+
+<dialog id="dlg" class="dlg" aria-labelledby="dlg-title">
+  <form method="dialog">
+    <h2 id="dlg-title">End the conversation?</h2>
+    <p id="dlg-text"></p>
+    <div class="dlg-actions">
+      <button id="dlg-ok" class="primary" value="ok">End conversation</button>
+      <button id="dlg-cancel" value="cancel">Cancel</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="../statement-links.js"></script>
+<script src="render.js"></script>
+<script src="panel.js"></script>
+</body>
+</html>

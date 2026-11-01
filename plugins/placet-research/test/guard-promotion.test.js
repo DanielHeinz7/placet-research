@@ -2913,3 +2913,159 @@ test('Bash tilde: denies bare home tilde when HOME is the state directory', (t) 
   const { root } = tildeProject(t);
   assert.equal(run(root, 'Bash', { command: 'rm -rf ~' }, { HOME: path.join(root, 'research') })?.permissionDecision, 'deny');
 });
+
+// ---------- SQ-338: writes whose target is in a patch, archive or stash ----------
+
+// `git stash pop`, `git apply`, `patch`, `tar -x` and `unzip` name no protected
+// path on the command line: the files they write are listed in data the guard
+// cannot read. Where research state exists they are refused, unless the form
+// only lists or checks, or extracts into a directory that neither lies inside
+// the state directory nor holds it.
+const SQ338_DENIED = [
+  'git stash pop',
+  'git stash apply',
+  'git stash apply stash@{1}',
+  'git stash branch scratch',
+  'git -C . stash pop',
+  'git apply attack.patch',
+  'git apply --index attack.patch',
+  'patch -p1 < attack.patch',
+  'patch -p1 -i attack.patch',
+  'tar -xf attack.tar',
+  'tar xf attack.tar',
+  'tar xzvf attack.tgz',
+  'tar -xzf attack.tgz',
+  'tar -x -f attack.tar',
+  'tar --extract -f attack.tar',
+  'tar --get -f attack.tar',
+  'bsdtar -xf attack.tar',
+  'unzip attack.zip',
+  'unzip -o attack.zip',
+  'env tar -xf attack.tar',
+  'sudo unzip attack.zip',
+  'xargs -n1 tar -xf < archives.txt',
+  "find . -name '*.zip' -exec unzip {} \;",
+  'tar -xf attack.tar -C .',
+  'tar -xf attack.tar -C out/..',
+  'tar -xf attack.tar -C /',
+  'tar -xf attack.tar --directory=.',
+  'cd research && tar -xf ../attack.tar',
+  'tar -xPf attack.tar -C out',
+  'tar -xf attack.tar --absolute-paths -C out',
+  'tar -xf attack.tar --absolute-names -C out',
+  'unzip attack.zip -d .',
+  'unzip -: attack.zip -d out',
+  'unzip -d. attack.zip',
+  'unzip attack.zip -d',
+  'unzip -qd out attack.zip',
+  'tar -xf attack.tar -C',
+  'tar -xf attack.tar -C.',
+  'tar -xf attack.tar --directory .',
+  'gtar -xf attack.tar',
+  'git -c core.quotepath=off stash pop',
+  'git apply --check --apply attack.patch',
+];
+
+test('SQ-338: a write whose target hides in a patch, archive or stash is refused where state exists', () => {
+  const root = makeProject();
+  for (const command of SQ338_DENIED) {
+    const out = run(root, 'Bash', { command });
+    assert.equal(out?.permissionDecision, 'deny', command);
+    if (!/^cd /.test(command)) assert.match(out.permissionDecisionReason, /read-only shell access/, command);
+  }
+});
+
+test('SQ-338: the refusal names why the target cannot be judged', () => {
+  const root = makeProject();
+  assert.match(run(root, 'Bash', { command: 'git stash pop' }).permissionDecisionReason, /patch, archive or stash/);
+  assert.match(run(root, 'Bash', { command: 'unzip attack.zip' }).permissionDecisionReason, /patch, archive or stash/);
+});
+
+const SQ338_ALLOWED = [
+  'git stash list',
+  'git stash show -p',
+  'git apply --check attack.patch',
+  'git apply --stat attack.patch',
+  'patch --dry-run -p1 < attack.patch',
+  'tar -tf attack.tar',
+  'tar tvf attack.tar',
+  'tar -czf notes.tgz notes',
+  'tar -xOf attack.tar notes.md',
+  'tar -xf attack.tar -C out',
+  'tar -xzf attack.tgz --directory=vendor/lib',
+  'unzip -l attack.zip',
+  'unzip -t attack.zip',
+  'unzip -p attack.zip notes.md',
+  'unzip attack.zip -d vendor',
+  'unzip -q attack.zip -d /tmp/sq338-out',
+  'unzip -dvendor attack.zip',
+  'tar -xf attack.tar -Cout',
+  'tar -xf attack.tar --to-stdout',
+  'tar --get -f attack.tar --directory out',
+];
+
+test('SQ-338: listing, checking and extracting clear of the state stay allowed', () => {
+  const root = makeProject();
+  for (const command of SQ338_ALLOWED) assert.equal(run(root, 'Bash', { command }), null, command);
+});
+
+test('SQ-338: the exported bashVerdict gives the hook\'s verdicts in-process', () => {
+  const root = makeProject();
+  for (const command of SQ338_DENIED) assert.match(guard.bashVerdict(command, root) || '', /read-only shell access/, command);
+  for (const command of SQ338_ALLOWED) assert.equal(guard.bashVerdict(command, root), null, command);
+});
+
+test('SQ-338: a project without research state is not the guard\'s business', () => {
+  const root = makeBareProject();
+  for (const command of ['git stash pop', 'git apply attack.patch', 'patch -p1 < attack.patch', 'tar -xf attack.tar', 'unzip attack.zip']) {
+    assert.equal(run(root, 'Bash', { command }), null, command);
+  }
+});
+
+test('SQ-338: a project holding only a variant is guarded the same way', () => {
+  const root = makeBareProject();
+  fs.mkdirSync(path.join(root, 'research', 'variants', 'alpha'), { recursive: true });
+  fs.writeFileSync(path.join(root, 'research', 'variants', 'alpha', 'canvas.md'), canvasText);
+  assert.equal(run(root, 'Bash', { command: 'tar -xf attack.tar' })?.permissionDecision, 'deny');
+});
+
+test('SQ-338: extracting into a directory that holds the harness state is refused', (t) => {
+  const root = makeProject();
+  // The parent holds the harness state and nothing of the project.
+  const stateParent = fs.mkdtempSync(path.join(os.tmpdir(), 'rh-state-parent-'));
+  t.after(() => fs.rmSync(stateParent, { recursive: true, force: true }));
+  const env = { PLACET_RESEARCH_STATE_DIR: path.join(stateParent, 'state') };
+  for (const command of [`tar -xf attack.tar -C ${stateParent}`, `unzip attack.zip -d ${stateParent}`]) {
+    assert.equal(run(root, 'Bash', { command }, env)?.permissionDecision, 'deny', command);
+  }
+});
+
+test('SQ-338: extracting into a symlink that leads into the state is refused', (t) => {
+  const root = makeProject();
+  fs.symlinkSync('research', path.join(root, 'shortcut'));
+  assert.equal(run(root, 'Bash', { command: 'tar -xf attack.tar -C shortcut' })?.permissionDecision, 'deny');
+  assert.equal(run(root, 'Bash', { command: 'ln -s research link && unzip attack.zip -d link' })?.permissionDecision, 'deny');
+});
+
+test('SQ-338: program text that names one of these commands is refused; a read that names one is not', () => {
+  const root = makeProject();
+  for (const command of [
+    "bash -c 'tar xf attack.tar'",
+    'sh -c "unzip attack.zip"',
+    "eval 'git stash pop'",
+    "xargs sh -c 'patch -p1 < attack.patch'",
+    `node -e 'require("child_process").execSync("tar xf attack.tar")'`,
+  ]) {
+    assert.equal(run(root, 'Bash', { command })?.permissionDecision, 'deny', command);
+    assert.match(guard.bashVerdict(command, root) || '', /patch, archive or stash/, command);
+  }
+  for (const command of [
+    'grep -r unzip .',
+    'git log --grep patch',
+    'echo tar xf attack.tar',
+    "bash -c 'echo hi'",
+  ]) {
+    assert.equal(run(root, 'Bash', { command }), null, command);
+    assert.equal(guard.bashVerdict(command, root), null, command);
+  }
+});

@@ -10,11 +10,18 @@ This is 1.0. It adds no research capability. It says in writing which parts of p
 
 - A page on the file formats, `docs/formats.md`. It describes `research/canvas.md`, `research/decisions.md` and `research/glossary.md`, where a variant keeps its files, and the sealing key, from the code as it is. It also says what 1.x keeps: these formats, the seal and its key file, the 18 commands with their flags (new flags may come, none will go), the three `PLACET_RESEARCH_` variables, and what the guard refuses today. It names what 1.0 does not promise, among them verified identity, the known guard limits, the desktop app and agent hosts other than Claude Code.
 - `placet-research doctor` fails with a check named `old plugin` when `research-harness@research-harness` is still enabled beside placet-research, because then two guards run. The line names the settings file that enables it and the command that removes it. On a machine without the old plugin, the output is unchanged.
+- The source of the desktop app, Placet, under `desktop/`. There is no signed build yet, so there is nothing to download, and the app is not covered by the 1.x promise.
 
 ### Changed
 
 - The command table in the plugin README lists all 18 commands, including `glossary`, `profile`, `name`, `key`, `join`, `merge-log`, `session` and `agenda`, and says which ones only you may run.
 - The documentation now matches the code in three places: a statement’s marker stands after the statement, as in `… an answer. [proposed]`; the file list names `glossary.md` and all five kinds of log entry; and a glossary entry is accepted in the main framing only.
+
+### Fixed
+
+- The guard refuses `git stash pop` and `git stash apply`, `git apply`, `patch`, `tar -x` and `unzip` in a project with research state. These commands write the files named inside the stash, patch or archive, not on the command line, so the guard cannot judge them. Listings, checks and extractions into a directory away from the research state still pass. Perimeter rows P35, P36, P37, P39 and P40 are now refused.
+- The guard refuses a tool call on its own once it has been judging for 8 seconds, before Claude Code's 10-second hook timeout. The refusal no longer depends on the host honoring `onFailure: "block"`, which needs Claude Code 2.1.295 or later.
+- A framing choice seals the SHA-256 of each discarded variant's canvas, or marks it missing, in a new `Discarded` field, and `review` reports a discarded framing whose canvas changed since the choice. Choice entries without the field still verify.
 
 ## 0.7.0 (2026-10-26)
 

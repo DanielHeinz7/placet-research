@@ -55,7 +55,7 @@ what do they already know? · 3 What exactly do we ask? · 4 What is it made
 of? · 5 Where do we look? · 6 How do we look? · 7 What did we find? · 8 What
 does it change? · 9 Where does it stop?), not as "element N". Keep the body
 one paragraph of plain text. Never start a line in it with `**Why:**`,
-`**Explained:**`, `**Rejected:**`, `**Open at acceptance:**` or
+`**Explained:**`, `**Rejected:**`, `**Discarded:**`, `**Open at acceptance:**` or
 `**Supersedes:**`; those belong to the harness.
 
 ## What you never do

@@ -243,11 +243,11 @@ Logged as #1 with text <hash>, sealed <seal>. Rejected: role (lens: what the dev
 ```
 
 The trust framing's statements are now the main canvas, still `[proposed]` and
-`[tentative]`. The entry in `research/decisions.md` carries your reason and what
-you set aside, and the two other variants stay under `research/variants/` as the
-record of what was compared. `choose` refuses while the main canvas holds an
-`[accepted]` or a `[stated]` statement, so the choice comes before anything is
-accepted.
+`[tentative]`. The entry in `research/decisions.md` carries your reason, what you set aside, and
+the SHA-256 of each other variant's canvas as it stood; those variants stay under `research/variants/`
+as the record of what was compared, and `review` reports any that changed since. `choose` refuses
+while the main canvas holds an `[accepted]` or a `[stated]` statement, so the choice comes before
+anything is accepted.
 
 ### 4. Check one statement (Claude)
 
