@@ -1,6 +1,6 @@
 {
   "name": "placet-research",
-  "version": "0.7.0",
+  "version": "1.0.0",
   "description": "A research harness for paper projects: the AMJ research canvas as version-controlled project state, with an enforced line between what an agent proposed and what the researcher accepted.",
   "author": {
     "name": "The Placet authors"

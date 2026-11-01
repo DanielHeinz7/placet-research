@@ -2,6 +2,20 @@
 
 Release notes for researchers using placet-research in Claude Code. Releases before 0.7.0 were called research-harness, and their notes keep that name.
 
+## 1.0.0 (2026-11-01)
+
+This is 1.0. It adds no research capability. It says in writing which parts of placet-research stay stable for every 1.x release, and it checks for one upgrade mistake. Projects created with a 0.x release are not covered by that promise: set them up anew with 1.0.
+
+### Added
+
+- A page on the file formats, `docs/formats.md`. It describes `research/canvas.md`, `research/decisions.md` and `research/glossary.md`, where a variant keeps its files, and the sealing key, from the code as it is. It also says what 1.x keeps: these formats, the seal and its key file, the 18 commands with their flags (new flags may come, none will go), the three `PLACET_RESEARCH_` variables, and what the guard refuses today. It names what 1.0 does not promise, among them verified identity, the known guard limits, the desktop app and agent hosts other than Claude Code.
+- `placet-research doctor` fails with a check named `old plugin` when `research-harness@research-harness` is still enabled beside placet-research, because then two guards run. The line names the settings file that enables it and the command that removes it. On a machine without the old plugin, the output is unchanged.
+
+### Changed
+
+- The command table in the plugin README lists all 18 commands, including `glossary`, `profile`, `name`, `key`, `join`, `merge-log`, `session` and `agenda`, and says which ones only you may run.
+- The documentation now matches the code in three places: a statement’s marker stands after the statement, as in `… an answer. [proposed]`; the file list names `glossary.md` and all five kinds of log entry; and a glossary entry is accepted in the main framing only.
+
 ## 0.7.0 (2026-10-26)
 
 This release renames the plugin to placet-research and adds no new capability. It makes the decision log name the key it is sealed with, so a wrong key is caught even before the first entry, and it refuses research files with Windows line endings instead of misreading them. Most of the other work since 0.6.0 prepares the desktop app, Placet, which is still not distributed; those changes are listed separately at the end.
@@ -30,7 +44,7 @@ The app is not part of this release. These changes are in the repository for the
 - Messages in the app never name a terminal command, and every git failure reads as a sentence with the next step. The app uses the git it brings with it when looking up your name.
 - The window keeps a column for the agent, never gets narrower than 960 px, and moves the agent column aside while a dialog is open. The agent panel fits a 280 px column and asks before it removes a saved key. The shell page shows where an app update stands.
 - The agent starts the bundled plugin with a fixed set of options and checks that the guard started before the first message. A server error is told apart from an unreachable host.
-- The SessionStart hook writes a marker for the app when `RESEARCH_HARNESS_APP_MARKER` names a path; without the variable its output is unchanged.
+- The SessionStart hook writes a marker for the app when `PLACET_RESEARCH_APP_MARKER` names a path; without the variable its output is unchanged.
 
 ## 0.6.0 (2026-10-15)
 

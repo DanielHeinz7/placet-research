@@ -744,6 +744,109 @@ test('doctor reports the plugin as not enabled when no settings file names it', 
   assert.match(out.stdout, /plugin enabled: no enabledPlugins entry for placet-research@/);
 });
 
+// SQ-337. Since 0.7.0 the plugin is called placet-research; an upgrade that
+// leaves research-harness enabled runs two guards. The old-plugin check reports
+// only a failure, so the counts of the tests above stay as they are.
+const OLD_PLUGIN_KEY = 'research-harness@research-harness';
+
+function projectSettings(root, name, enabledPlugins) {
+  fs.mkdirSync(path.join(root, '.claude'), { recursive: true });
+  fs.writeFileSync(path.join(root, '.claude', name), JSON.stringify({ enabledPlugins }));
+}
+
+function doctorWithShim(root, configDir) {
+  const home = fakeHome();
+  const dir = path.join(home, '.local', 'bin');
+  installShim(dir);
+  return run(root, ['doctor'], { CLAUDE_CONFIG_DIR: configDir, HOME: home, PATH: `/usr/bin:/bin:${dir}` });
+}
+
+test('doctor fails when the old research-harness plugin is still enabled beside placet-research', () => {
+  const root = makeProject(false);
+  setName(root);
+  const configDir = fakeConfigDir({ 'placet-research@placet-research': true, [OLD_PLUGIN_KEY]: true });
+  const out = doctorWithShim(root, configDir);
+  assert.notEqual(out.status, 0, out.stdout + out.stderr);
+  assert.match(out.stdout, /^placet-research doctor: 1 of 5 checks failed$/m);
+  const file = path.join(configDir, 'settings.json');
+  assert.ok(out.stdout.includes(`- old plugin: ${OLD_PLUGIN_KEY} is still enabled by user settings (${file}); two guards run. Remove it with: claude plugin uninstall ${OLD_PLUGIN_KEY}`), out.stdout);
+});
+
+test('doctor does not report the old research-harness plugin when it is disabled', () => {
+  const root = makeProject(false);
+  setName(root);
+  const configDir = fakeConfigDir({ 'placet-research@placet-research': true, [OLD_PLUGIN_KEY]: false });
+  const out = doctorWithShim(root, configDir);
+  assert.equal(out.status, 0, out.stdout + out.stderr);
+  assert.match(out.stdout, /^placet-research doctor: ok \(4 checks\)$/m);
+  assert.doesNotMatch(out.stdout, /old plugin/);
+});
+
+test('doctor follows settings precedence for the old plugin: a later file that disables it wins', () => {
+  const root = makeProject(false);
+  setName(root);
+  const configDir = fakeConfigDir({ 'placet-research@placet-research': true, [OLD_PLUGIN_KEY]: true });
+  projectSettings(root, 'settings.json', { [OLD_PLUGIN_KEY]: false });
+  const out = doctorWithShim(root, configDir);
+  assert.equal(out.status, 0, out.stdout + out.stderr);
+  assert.match(out.stdout, /^placet-research doctor: ok \(4 checks\)$/m);
+  assert.doesNotMatch(out.stdout, /old plugin/);
+});
+
+// A settings file that is not what Claude Code writes. checkPluginEnabled
+// reports a file it cannot read or parse; the old-plugin check must not repeat
+// it, and a file that parses to something odd simply names no plugins.
+function writeProjectSettingsRaw(root, text) {
+  fs.mkdirSync(path.join(root, '.claude'), { recursive: true });
+  fs.writeFileSync(path.join(root, '.claude', 'settings.json'), text);
+}
+
+test('doctor reports a project settings file that does not parse once, and not as an old plugin', () => {
+  const root = makeProject(false);
+  setName(root);
+  const configDir = fakeConfigDir({ 'placet-research@placet-research': true });
+  writeProjectSettingsRaw(root, '{ not json');
+  const out = doctorWithShim(root, configDir);
+  assert.notEqual(out.status, 0, out.stdout + out.stderr);
+  assert.match(out.stdout, /^placet-research doctor: 1 of 4 checks failed$/m);
+  const file = path.join(root, '.claude', 'settings.json');
+  assert.equal(out.stdout.split(`${file} does not parse as JSON`).length - 1, 1, out.stdout);
+  assert.match(out.stdout, /^- plugin enabled: .*does not parse as JSON/m);
+  assert.doesNotMatch(out.stdout, /old plugin/);
+});
+
+test('doctor reports a project settings file it cannot read once, with the error code, and not as an old plugin', () => {
+  const root = makeProject(false);
+  setName(root);
+  const configDir = fakeConfigDir({ 'placet-research@placet-research': true });
+  // A directory where the file belongs: reading it fails with EISDIR.
+  fs.mkdirSync(path.join(root, '.claude', 'settings.json'), { recursive: true });
+  const out = doctorWithShim(root, configDir);
+  assert.notEqual(out.status, 0, out.stdout + out.stderr);
+  assert.match(out.stdout, /^placet-research doctor: 1 of 4 checks failed$/m);
+  const file = path.join(root, '.claude', 'settings.json');
+  assert.equal(out.stdout.split(`${file} cannot be read (EISDIR)`).length - 1, 1, out.stdout);
+  assert.doesNotMatch(out.stdout, /old plugin/);
+});
+
+for (const [name, text] of [
+  ['null', 'null'],
+  ['a number', '42'],
+  ['an object without enabledPlugins', '{}'],
+  ['an object whose enabledPlugins is a string', JSON.stringify({ enabledPlugins: 'research-harness@research-harness' })],
+]) {
+  test(`doctor ignores a project settings file that is ${name}`, () => {
+    const root = makeProject(false);
+    setName(root);
+    const configDir = fakeConfigDir({ 'placet-research@placet-research': true });
+    writeProjectSettingsRaw(root, text);
+    const out = doctorWithShim(root, configDir);
+    assert.equal(out.status, 0, out.stdout + out.stderr);
+    assert.match(out.stdout, /^placet-research doctor: ok \(4 checks\)$/m);
+    assert.doesNotMatch(out.stdout, /old plugin/);
+  });
+}
+
 test("doctor's guard-denies check passes on its own throwaway project, independent of the plugin-enabled check", () => {
   const root = makeProject(false);
   const configDir = fakeConfigDir({ 'placet-research@placet-research': false });

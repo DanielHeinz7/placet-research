@@ -413,10 +413,22 @@ The skills above are the normal way in. The CLI underneath them is
 | `review [--variant <name>] [--key <file>]` | the mechanical half of `canvas-review`, and the anchor of the log |
 | `choose <name> --why <text> [--rejected <text>]` | the researcher's act: makes one variant the main canvas and logs what was set aside; the model may not run it |
 | `accept <n.m> --explained <text> [--match <substring>] [--why <text>] [--rejected <text>]` | the researcher's act, with a sentence in their own words; the model may not run it |
+| `glossary show <id>` | prints a glossary entry's payload and binding digest for acceptance |
+| `glossary accept <id> --hash <64hex> --explained <text> [--why <text>] [--rejected <text>]` | accepts a glossary entry against the digest from `glossary show`, with a sentence in the researcher's own words; the model may not run it |
 | `log DISCOVERY\|CONSTRAINT <ref> --body <text> [--why <text>] [--supersedes <n>] [--variant <name>]` | appends a sealed entry — how the model records a finding or a check question |
 | `title [<text>]` | sets the paper's title in the canvas frontmatter, or prints the one it has |
+| `profile [<id>]` | prints the current research profile, or changes it and logs a CONSTRAINT |
+| `agenda` | prints the session's discussion agenda; the model may run it only without flags |
+| `agenda --out <file>` | writes the agenda to a Markdown file; the model may not run it |
+| `session start "<occasion>"` | appends a sealed session marker to the log; the model may not run it |
+| `session protocol [<n>]` | prints the latest session's protocol, or the one starting at log entry `<n>`; the model may run it only without flags |
+| `session protocol [<n>] --out <file>` | writes the session protocol to a Markdown file; the model may not run it |
+| `name [<name>]` | prints or sets the local name carried by future log entries; the model may not run it |
+| `key export --out <file>.seal.key` | exports the project's sealing key to a new file with mode `0600`, never to the terminal; the model may not run it |
+| `join --key-file <file> --name "<name>"` | checks and imports a shared project key, sets the local name and runs `doctor`; the model may not run it |
+| `merge-log [--skip-decision <n>]` | merges conflicting decision logs after `git pull --no-rebase`, optionally leaving out one decision; the model may not run it |
 | `serve [--no-open]` | opens the session view in your browser; the model may not run it |
-| `doctor` | checks that the plugin is enabled and the guard denies what it should |
+| `doctor` | checks that the plugin is enabled, that the old research-harness plugin is not running beside it, and that the guard denies what it should |
 | `install-cli [--dir <path>]` | writes the terminal shim (default `~/.local/bin`) that `serve` needs outside Claude Code |
 
 ## Session view
@@ -522,7 +534,8 @@ visible.
 
     research/
       canvas.md       nine elements, numbered questions, statements with markers
-      decisions.md    append-only log: DECISION | CONSTRAINT | DISCOVERY, each sealed
+      glossary.md     construct definitions, each proposed or accepted
+      decisions.md    append-only log: DECISION | CONSTRAINT | DISCOVERY | SESSION | MERGE, each sealed
 
 Both belong in Git. The canvas is a record of framing; it cites material with
 `src:` tags and never quotes it. The sealing key does not belong in Git and is

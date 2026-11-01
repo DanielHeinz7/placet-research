@@ -3,9 +3,10 @@
 Beside `canvas.md` and `decisions.md` in the selected state directory, a paper
 project may keep one entry per construct it uses. Element 4.1 points at those
 entries; elements 4.2 and 4.3 cite the definitions they rely on, while the
-canvas keeps the relations and mechanisms. A variant has its own glossary in
-its own state directory: copying an entry across framings is a proposal that
-needs that variant's acceptance, never a shared approval.
+canvas keeps the relations and mechanisms. A variant has its own glossary file in
+its own state directory, but `glossary show` and `glossary accept` work on the
+main glossary only: an entry is accepted after a framing is chosen, never
+shared across framings.
 
 The file is read by `hooks/lib/glossary.js`. Nothing in this format makes an
 entry accepted: acceptance is the researcher's, recorded as a sealed decision

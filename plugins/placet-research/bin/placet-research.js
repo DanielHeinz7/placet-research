@@ -989,36 +989,55 @@ function settingsSources(root) {
   ];
 }
 
-function checkPluginEnabled(root) {
+// One settings file as { data }, as { problem } when it cannot be read or does
+// not parse, or null when it does not exist. Every error readIfExists throws
+// is a filesystem error and carries a code.
+function readSettingsJson(file) {
+  let raw;
+  try {
+    raw = project.readIfExists(file);
+  } catch (err) {
+    return { problem: `${file} cannot be read (${err.code})` };
+  }
+  if (raw === null) return null;
+  try {
+    return { data: JSON.parse(raw) };
+  } catch (err) {
+    return { problem: `${file} does not parse as JSON (${err.message})` };
+  }
+}
+
+// The [key, value] pairs of enabledPlugins whose key starts with prefix.
+function enabledPluginsWith(data, prefix) {
+  const enabled = data && typeof data === 'object' ? data.enabledPlugins : null;
+  if (!enabled || typeof enabled !== 'object') return [];
+  return Object.entries(enabled).filter(([key]) => key.startsWith(prefix));
+}
+
+// The effective enabledPlugins entry for a key prefix, plus every settings
+// file that could not be read. The last file to name a key wins, which is
+// exactly Claude Code's own precedence (user, then project, then local) — so a
+// later file that disables the plugin is the answer, not the earlier one that
+// enabled it.
+function effectivePluginEntry(root, prefix) {
   let match = null;
   const problems = [];
   for (const { label, file } of settingsSources(root)) {
-    let raw;
-    try {
-      raw = project.readIfExists(file);
-    } catch (err) {
-      problems.push(`${file} cannot be read (${(err && err.code) || 'unknown error'})`);
+    const read = readSettingsJson(file);
+    if (!read) continue;
+    if (read.problem) {
+      problems.push(read.problem);
       continue;
     }
-    if (raw === null) continue;
-    let data;
-    try {
-      data = JSON.parse(raw);
-    } catch (err) {
-      problems.push(`${file} does not parse as JSON (${err.message})`);
-      continue;
-    }
-    const enabled = data && typeof data === 'object' ? data.enabledPlugins : null;
-    if (!enabled || typeof enabled !== 'object') continue;
-    // The last file to name the key wins, which is exactly Claude Code's own
-    // precedence (user, then project, then local) — so a later file that
-    // disables the plugin is the answer, not the earlier one that enabled it.
-    for (const key of Object.keys(enabled)) {
-      if (key.startsWith(`${PLUGIN_NAME}@`)) {
-        match = { label, file, key, value: !!enabled[key] };
-      }
+    for (const [key, value] of enabledPluginsWith(read.data, prefix)) {
+      match = { label, file, key, value: !!value };
     }
   }
+  return { match, problems };
+}
+
+function checkPluginEnabled(root) {
+  const { match, problems } = effectivePluginEntry(root, `${PLUGIN_NAME}@`);
   if (problems.length) return { ok: false, name: 'plugin enabled', detail: problems.join('; ') };
   if (!match) {
     const files = settingsSources(root).map((s) => s.file).join(', ');
@@ -1026,6 +1045,18 @@ function checkPluginEnabled(root) {
   }
   if (!match.value) return { ok: false, name: 'plugin enabled', detail: `${match.key} is disabled by ${match.label} (${match.file})` };
   return { ok: true, name: 'plugin enabled', detail: `${match.key} is enabled by ${match.label} (${match.file})` };
+}
+
+// Before 0.7.0 the plugin was called research-harness. Someone upgrading who
+// does not uninstall it has two guards running. Only a failure is reported,
+// so a machine without the old plugin counts one check fewer; unreadable
+// settings files are checkPluginEnabled's to report, not this one's.
+const OLD_PLUGIN_PREFIX = 'research-harness@';
+
+function checkOldPlugin(root) {
+  const { match } = effectivePluginEntry(root, OLD_PLUGIN_PREFIX);
+  if (!match || !match.value) return null;
+  return { ok: false, name: 'old plugin', detail: `${match.key} is still enabled by ${match.label} (${match.file}); two guards run. Remove it with: claude plugin uninstall ${match.key}` };
 }
 
 // Runs the guard exactly as Claude Code would: a PreToolUse payload on its
@@ -1206,7 +1237,7 @@ function checkGit() {
 
 function doctor() {
   const root = project.projectDir({});
-  const checks = [checkPluginEnabled(root), checkGuardDenies(), checkProjectState(), checkName(), checkKeyVerifies(), checkSessionMarkers(), ...checkGit(), checkTerminalCommand()].filter(Boolean);
+  const checks = [checkPluginEnabled(root), checkOldPlugin(root), checkGuardDenies(), checkProjectState(), checkName(), checkKeyVerifies(), checkSessionMarkers(), ...checkGit(), checkTerminalCommand()].filter(Boolean);
   const failed = checks.filter((c) => !c.ok);
   say(`placet-research doctor: ${failed.length === 0 ? `ok (${checks.length} checks)` : `${failed.length} of ${checks.length} checks failed`}`);
   for (const c of failed) say(`- ${c.name}: ${c.detail}`);

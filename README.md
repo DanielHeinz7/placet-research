@@ -27,9 +27,11 @@ conditions. Each element holds short statements, and each statement carries a
 marker saying where it stands:
 
 ```
-- [proposed] Developers treat assistant output as a draft to verify, not as an answer.
-- [stated] "We only interviewed people with five or more years of experience."
-- [accepted] The study asks how senior developers decide when to trust an assistant.
+Developers treat assistant output as a draft to verify, not as an answer. [proposed]
+
+"We only interviewed people with five or more years of experience." [stated]
+
+The study asks how senior developers decide when to trust an assistant. [accepted]
 ```
 
 `[proposed]` and `[tentative]` are the assistant's suggestions. `[stated]` is a
@@ -174,6 +176,8 @@ modelled on the canvas and citing it.
 
 ## Further reading
 
+- [File formats and the 1.x contract](docs/formats.md): canvas, decision log,
+  glossary, variants, seal, key handover, and the compatibility promise.
 - [Plugin reference](plugins/placet-research/README.md): install details,
   every skill and command, the session view, and the walkthrough.
 - [Technical appendix](docs/technical-appendix.md): how the log is sealed, what

@@ -370,7 +370,7 @@ Paths below are repository-relative; `P` means `plugins/placet-research/`. For s
 
 [^perimeter]: `P/hooks/guard-promotion.js:1728-1736,2117-2120,2240-2254,2361-2378`; command `node verification/SQ-29/probe-perimeter.js`, rows M1-M16, M19-M26, M29-M40 and M18. `P/test/guard-promotion.test.js`, test “SQ-145: a sed script that can write or run is refused however sed is told to run it”. Fixes are included in main: `9d840c6` (SQ-145/SQ-148 integration) and `4b382f3` (0.4.1 release).
 
-[^limits]: Command `node verification/SQ-29/probe-perimeter.js`, M27 output: `ALLOW ... chain under the session key: verified | sealed framing chosen: alpha #1`. The later-call script boundary is documented in `docs/superpowers/specs/2026-09-15-placet-research-mvp-design.md:832-844`; it was not separately re-probed for this appendix.
+[^limits]: Command `node verification/SQ-29/probe-perimeter.js`, M27 output: `ALLOW ... chain under the session key: verified | sealed framing chosen: alpha #1`. The later-call script boundary is documented in `docs/superpowers/specs/2026-09-15-research-harness-mvp-design.md:832-844`; it was not separately re-probed for this appendix.
 
 [^accept]: `P/hooks/lib/accept.js:43-57,95-109`; `P/hooks/lib/decisions.js:94-103`; `P/test/lib-write.test.js`, test “an accept without an explanation is refused as explanation-required, and nothing is written”.
 
