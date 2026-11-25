@@ -525,7 +525,11 @@ unverifiable, never as broken.
 
 What it does not enforce, because it cannot: whether a `[stated]` transcription
 is faithful, and whether a cited source actually supports a claim. The review
-lists both for you. And the model runs as the same user you do, so no purely
+lists both for you. For the second, `/placet-research:source-check <draft>`
+proposes a ledger, `research/source-check.md`, with one verdict per citation.
+It needs Joshua Holstein’s paperlib (`DSIWI4/paper-library`) with the full
+texts ingested, and a verdict stands only on a passage that paperlib’s
+`verify-quote` found in the PDF; it still only proposes. And the model runs as the same user you do, so no purely
 local secret is beyond its reach — what the seal buys is that forging an entry
 is no longer writing a line of Markdown, and that an unforged forgery is
 visible.

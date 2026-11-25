@@ -28,7 +28,7 @@ function readSkill(name) {
 const names = fs.readdirSync(skillsDir).filter((n) => fs.existsSync(path.join(skillsDir, n, 'SKILL.md')));
 
 test('the new skills exist', () => {
-  for (const n of ['canvas', 'canvas-review', 'accept', 'check', 'record-review', 'glossary-accept', 'literature-note']) {
+  for (const n of ['canvas', 'canvas-review', 'accept', 'check', 'record-review', 'glossary-accept', 'literature-note', 'source-check']) {
     assert.ok(names.includes(n), `skills/${n}/SKILL.md is missing`);
   }
 });
