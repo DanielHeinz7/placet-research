@@ -90,6 +90,15 @@ test('the ledger has one row per citation, escapes pipes and states the boundary
   assert.match(ledger, /Draft: manuscript\/draft\.md/);
 });
 
+test('each ledger row names its citekey so the ledger reads per key, and a source without one shows a dash', () => {
+  const { bin } = workspace();
+  const ledger = buildLedger(proposal, { paperlib: bin, date: '2026-11-25' });
+  assert.match(ledger, /\| # \| Citation \| Citekey \| Claim in the draft \|/);
+  const rows = ledger.split('\n').filter((line) => /^\| \d+ \|/.test(line));
+  assert.match(rows[0], /^\| 1 \| Alpha \(2020\) \| `alpha2020` \| ¶1: Alpha says so\./);
+  assert.match(rows[2], /^\| 3 \| Gamma \(2022\) \| – \|/);
+});
+
 test('the command line writes the ledger file and leaves the draft alone', () => {
   const { dir, bin } = workspace();
   const proposalFile = path.join(dir, 'proposal.json');

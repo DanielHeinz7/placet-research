@@ -56,7 +56,8 @@ function ledgerRow(row, index) {
   const pages = row.pages.length ? row.pages.join(', ') : '–';
   const passage = row.quote ? `“${row.quote}”` : '–';
   const claim = row.paragraph ? `¶${row.paragraph}: ${row.claim}` : row.claim;
-  return `| ${index + 1} | ${cell(row.citation)} | ${cell(claim)} | ${row.verdict} | ${pages} | ${cell(passage)} | ${cell(row.note)} |`;
+  const citekey = row.citekey ? `\`${row.citekey}\`` : '–';
+  return `| ${index + 1} | ${cell(row.citation)} | ${citekey} | ${cell(claim)} | ${row.verdict} | ${pages} | ${cell(passage)} | ${cell(row.note)} |`;
 }
 
 function tally(rows) {
@@ -73,8 +74,8 @@ function buildLedger(proposal, { paperlib, date }) {
     '',
     BOUNDARY,
     '',
-    '| # | Citation | Claim in the draft | Verdict | PDF page | Passage (confirmed by paperlib) | Note |',
-    '|---|---|---|---|---|---|---|',
+    '| # | Citation | Citekey | Claim in the draft | Verdict | PDF page | Passage (confirmed by paperlib) | Note |',
+    '|---|---|---|---|---|---|---|---|',
     ...rows.map(ledgerRow),
     '',
   ].join('\n');
